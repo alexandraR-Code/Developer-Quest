@@ -1,0 +1,96 @@
+.pagina-bienvenida {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background:
+    radial-gradient(circle at 1px 1px, rgba(136, 30, 128, 0.07) 1px, transparent 0) 0 0 / 22px 22px,
+    linear-gradient(160deg, #fdfbfd, var(--morado-claro));
+}
+
+.tarjeta-bienvenida {
+  background: var(--tarjeta);
+  border-radius: 24px;
+  padding: 44px 38px;
+  max-width: 380px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 24px 50px rgba(136, 30, 128, 0.18);
+}
+
+.logo-marca--grande {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 18px;
+  font-size: 26px;
+  border-radius: 18px;
+}
+
+.tarjeta-bienvenida h1 {
+  font-family: var(--fuente-titulos);
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--morado-oscuro);
+}
+
+.subtitulo-bienvenida {
+  font-size: 14px;
+  color: var(--texto-secundario);
+  margin-top: 8px;
+  margin-bottom: 28px;
+  line-height: 1.4;
+}
+
+#formularioBienvenida {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: 6px;
+}
+
+#formularioBienvenida label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--texto);
+}
+
+#formularioBienvenida input {
+  border: 2px solid var(--borde);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 15px;
+  font-family: var(--fuente-texto);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+#formularioBienvenida input:focus {
+  border-color: var(--morado);
+}
+
+.ayuda-campo {
+  font-size: 12px;
+  color: var(--texto-secundario);
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+.ayuda-campo i {
+  margin-top: 2px;
+  color: var(--morado);
+}
+
+.boton-comenzar-aventura {
+  width: 100%;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 20px;
+  font-size: 14px;
+  margin-top: 6px;
+}

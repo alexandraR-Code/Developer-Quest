@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Developer Quest - Mis Niveles</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <button class="boton-hamburguesa" id="botonHamburguesa" aria-label="Abrir menú">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+
+  <div class="contenedor-app">
+    <aside class="menu-lateral" id="menuLateral">
+      <div class="menu-lateral__logo">
+        <span class="logo-marca"><i class="fa-solid fa-code"></i></span>
+        <span class="logo-texto">Developer Quest</span>
+      </div>
+
+      <nav class="menu-lateral__nav">
+        <a href="#" class="enlace-menu" data-vista="inicio">
+          <i class="fa-solid fa-house enlace-menu__icono"></i>
+          <span>Inicio</span>
+        </a>
+        <a href="#" class="enlace-menu enlace-menu--activo" data-vista="niveles">
+          <i class="fa-solid fa-route enlace-menu__icono"></i>
+          <span>Mis Niveles</span>
+        </a>
+        <a href="#" class="enlace-menu" data-vista="medallas">
+          <i class="fa-solid fa-medal enlace-menu__icono"></i>
+          <span>Medallas</span>
+        </a>
+        <a href="#" class="enlace-menu" data-vista="perfil">
+          <i class="fa-solid fa-user enlace-menu__icono"></i>
+          <span>Perfil</span>
+        </a>
+        <a href="#" class="enlace-menu" data-vista="configuracion">
+          <i class="fa-solid fa-gear enlace-menu__icono"></i>
+          <span>Configuración</span>
+        </a>
+      </nav>
+
+      <a href="#" class="enlace-menu enlace-menu--salir" data-vista="salir">
+        <i class="fa-solid fa-right-from-bracket enlace-menu__icono"></i>
+        <span>Cerrar Sesión</span>
+      </a>
+    </aside>
+
+    <div class="fondo-menu" id="fondoMenu"></div>
+
+    <main class="contenido-principal">
+      <header class="encabezado-niveles">
+        <div>
+          <h1>Mis Niveles</h1>
+          <p class="encabezado-niveles__subtitulo" id="textoSaludoJugador">Sigue el sendero y desbloquea cada nivel</p>
+        </div>
+        <div class="campo-busqueda">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="entradaBusqueda" placeholder="Buscar nivel...">
+        </div>
+      </header>
+
+      <div class="contenedor-sendero">
+        <svg class="sendero__lineas" id="senderoLineas"></svg>
+        <div class="sendero" id="sendero"></div>
+      </div>
+    </main>
+  </div>
+
+  <div class="popover-nivel" id="popoverNivel"></div>
+
+  <script src="niveles-datos.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
