@@ -1901,4 +1901,420 @@ console.log([nombre].[propiedad2]);`,
       },
     },
   },
+
+  9: {
+    nombre: "Aplicaciones Web Dinámicas",
+    retos: {
+      1: {
+        id: 1,
+        nombre: "Lista de Tareas",
+        objetivo: "Crear una app donde el usuario escribe una tarea, hace clic en un botón y la tarea aparece en una lista.",
+        conceptoClave: '<code>document.createElement("li")</code> crea un nuevo elemento. <code>lista.appendChild(nuevoElemento)</code> lo agrega al final de la lista visible en pantalla.',
+        masInformacion: "Este es el patrón base de casi toda app web: leer un valor del usuario, crear un elemento con ese valor y añadirlo al DOM para que se vea.",
+        duracionVideo: "4:00",
+        plantilla: `<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Lista de Tareas</title>
+  </head>
+  <body>
+    <h1>Mis Tareas</h1>
+    <input id="entrada" type="text" placeholder="Escribe una tarea">
+    <button id="botonAgregar">Agregar</button>
+    <ul id="lista"></ul>
+
+    <script>
+      // 1. Selecciona el botón, el input y la lista
+      // 2. Al hacer clic en el botón:
+      //    a. Lee el valor del input
+      //    b. Crea un <li> con ese texto
+      //    c. Agrégalo a la lista
+      //    d. Limpia el input (input.value = "")
+    </script>
+  </body>
+</html>`,
+        criterios: [
+          { descripcion: "Seleccionas el botón, el input y la lista (3 selecciones)", cumple: (c) => (c.match(/document\.(getElementById|querySelector)\s*\(/g) || []).length >= 3 },
+          { descripcion: "Usas addEventListener con \"click\"", cumple: (c) => /addEventListener\s*\(\s*["']click["']/.test(c) },
+          { descripcion: "Creas un elemento con document.createElement", cumple: (c) => /document\.createElement\s*\(\s*["']li["']\s*\)/.test(c) },
+          { descripcion: "Agregas el elemento a la lista con appendChild", cumple: (c) => /\.appendChild\s*\(/.test(c) },
+        ],
+        pistaGeneral: "const boton = document.getElementById('botonAgregar'); boton.addEventListener('click', function() { const texto = entrada.value; const li = document.createElement('li'); li.textContent = texto; lista.appendChild(li); entrada.value = ''; });",
+        pistaCodigo: `const entrada = document.getElementById("entrada");
+const boton = document.getElementById("botonAgregar");
+const lista = document.getElementById("lista");
+
+boton.addEventListener("click", function () {
+  const li = document.createElement("li");
+  li.textContent = entrada.value;
+  lista.appendChild(li);
+  entrada.value = "";
+});`,
+        solucion: `<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Lista de Tareas</title>
+  </head>
+  <body>
+    <h1>Mis Tareas</h1>
+    <input id="entrada" type="text" placeholder="Escribe una tarea">
+    <button id="botonAgregar">Agregar</button>
+    <ul id="lista"></ul>
+
+    <script>
+      const entrada = document.getElementById("entrada");
+      const boton = document.getElementById("botonAgregar");
+      const lista = document.getElementById("lista");
+
+      boton.addEventListener("click", function () {
+        if (entrada.value.trim() === "") return;
+        const li = document.createElement("li");
+        li.textContent = entrada.value;
+        lista.appendChild(li);
+        entrada.value = "";
+      });
+    </script>
+  </body>
+</html>`,
+      },
+
+      2: {
+        id: 2,
+        nombre: "Calculadora",
+        objetivo: "Crear una calculadora que lea dos números, aplique la operación elegida y muestre el resultado.",
+        conceptoClave: '<code>parseFloat(input.value)</code> convierte el texto del input a número. Luego puedes operar con +, -, *, /. El resultado se muestra con <code>elemento.textContent</code>.',
+        masInformacion: "Sin parseFloat, los valores del input son texto, y 2 + 3 daría '23' en vez de 5. Siempre convierte a número antes de operar.",
+        duracionVideo: "4:00",
+        plantilla: `<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Calculadora</title>
+  </head>
+  <body>
+    <h1>Calculadora</h1>
+    <input id="num1" type="number" placeholder="Número 1">
+    <select id="operador">
+      <option value="+">+</option>
+      <option value="-">-</option>
+      <option value="*">×</option>
+      <option value="/">/</option>
+    </select>
+    <input id="num2" type="number" placeholder="Número 2">
+    <button id="calcular">Calcular</button>
+    <p id="resultado">Resultado: —</p>
+
+    <script>
+      // 1. Selecciona los inputs, el select, el botón y el párrafo de resultado
+      // 2. Al hacer clic, lee los valores, aplica la operación y muestra el resultado
+    </script>
+  </body>
+</html>`,
+        criterios: [
+          { descripcion: "Usas addEventListener con \"click\" en el botón calcular", cumple: (c) => /addEventListener\s*\(\s*["']click["']/.test(c) },
+          { descripcion: "Conviertes los valores del input a número (parseFloat o parseInt o Number)", cumple: (c) => /(parseFloat|parseInt|Number)\s*\(/.test(c) },
+          { descripcion: "Usas if, else if o switch para aplicar la operación correcta", cumple: (c) => /\bif\s*\(/.test(c) || /\bswitch\s*\(/.test(c) },
+          { descripcion: "Muestras el resultado cambiando textContent o innerHTML", cumple: (c) => /\.(textContent|innerHTML)\s*=/.test(c) },
+        ],
+        pistaGeneral: "Lee los inputs con parseFloat(document.getElementById('num1').value). Guarda el operador con operadorSelect.value. Usa if/else if para hacer la operación correcta y muestra el resultado en resultado.textContent.",
+        pistaCodigo: `const n1 = parseFloat(document.getElementById("num1").value);
+const n2 = parseFloat(document.getElementById("num2").value);
+const op = document.getElementById("operador").value;
+let res;
+
+if (op === "+") res = n1 + n2;
+else if (op === "-") res = n1 - n2;
+else if (op === "*") res = n1 * n2;
+else if (op === "/") res = n1 / n2;
+
+document.getElementById("resultado").textContent = "Resultado: " + res;`,
+        solucion: `<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Calculadora</title>
+  </head>
+  <body>
+    <h1>Calculadora</h1>
+    <input id="num1" type="number" placeholder="Número 1">
+    <select id="operador">
+      <option value="+">+</option>
+      <option value="-">-</option>
+      <option value="*">×</option>
+      <option value="/">/</option>
+    </select>
+    <input id="num2" type="number" placeholder="Número 2">
+    <button id="calcular">Calcular</button>
+    <p id="resultado">Resultado: —</p>
+
+    <script>
+      document.getElementById("calcular").addEventListener("click", function () {
+        const n1 = parseFloat(document.getElementById("num1").value);
+        const n2 = parseFloat(document.getElementById("num2").value);
+        const op = document.getElementById("operador").value;
+        let res;
+
+        if (op === "+") res = n1 + n2;
+        else if (op === "-") res = n1 - n2;
+        else if (op === "*") res = n1 * n2;
+        else if (op === "/") res = n2 !== 0 ? n1 / n2 : "No se puede dividir entre 0";
+
+        document.getElementById("resultado").textContent = "Resultado: " + res;
+      });
+    </script>
+  </body>
+</html>`,
+      },
+
+      3: {
+        id: 3,
+        nombre: "Galería Interactiva",
+        objetivo: "Crear una galería donde al hacer clic en una miniatura, la imagen principal cambia.",
+        conceptoClave: '<code>document.querySelectorAll(".miniatura")</code> selecciona todos los elementos con esa clase. <code>forEach</code> recorre cada uno y le agrega un evento <code>click</code> que actualiza el <code>src</code> de la imagen principal.',
+        masInformacion: "Dentro del addEventListener, this o evento.target te da acceso al elemento que se hizo clic, y evento.target.src tiene la URL de esa imagen.",
+        duracionVideo: "4:00",
+        plantilla: `<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Galería</title>
+    <style>
+      .miniatura { width: 80px; cursor: pointer; margin: 4px; }
+      #principal { width: 300px; display: block; margin-top: 12px; }
+    </style>
+  </head>
+  <body>
+    <h1>Mi Galería</h1>
+    <img class="miniatura" src="https://picsum.photos/id/10/80/80" alt="foto 1">
+    <img class="miniatura" src="https://picsum.photos/id/20/80/80" alt="foto 2">
+    <img class="miniatura" src="https://picsum.photos/id/30/80/80" alt="foto 3">
+    <img id="principal" src="https://picsum.photos/id/10/300/200" alt="imagen principal">
+
+    <script>
+      // 1. Selecciona todas las miniaturas con querySelectorAll
+      // 2. Recórrelas con forEach
+      // 3. En cada una, agrega un addEventListener "click" que cambie
+      //    el src de la imagen #principal
+    </script>
+  </body>
+</html>`,
+        criterios: [
+          { descripcion: "Usas document.querySelectorAll para seleccionar las miniaturas", cumple: (c) => /document\.querySelectorAll\s*\(/.test(c) },
+          { descripcion: "Recorres las miniaturas con forEach o for...of", cumple: (c) => /\.forEach\s*\(/.test(c) || /\bfor\s*\(\s*(let|const)\s+\w+\s+of\b/.test(c) },
+          { descripcion: "Usas addEventListener con \"click\" en cada miniatura", cumple: (c) => /addEventListener\s*\(\s*["']click["']/.test(c) },
+          { descripcion: "Cambias el src de la imagen principal", cumple: (c) => /\.src\s*=/.test(c) },
+        ],
+        pistaGeneral: "const miniaturas = document.querySelectorAll('.miniatura'); miniaturas.forEach(function(img) { img.addEventListener('click', function() { document.getElementById('principal').src = img.src; }); });",
+        pistaCodigo: `const miniaturas = document.querySelectorAll(".miniatura");
+const principal = document.getElementById("principal");
+
+miniaturas.forEach(function (img) {
+  img.addEventListener("click", function () {
+    principal.src = img.src;
+  });
+});`,
+        solucion: `<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Galería</title>
+    <style>
+      .miniatura { width: 80px; cursor: pointer; margin: 4px; }
+      #principal { width: 300px; display: block; margin-top: 12px; }
+    </style>
+  </head>
+  <body>
+    <h1>Mi Galería</h1>
+    <img class="miniatura" src="https://picsum.photos/id/10/80/80" alt="foto 1">
+    <img class="miniatura" src="https://picsum.photos/id/20/80/80" alt="foto 2">
+    <img class="miniatura" src="https://picsum.photos/id/30/80/80" alt="foto 3">
+    <img id="principal" src="https://picsum.photos/id/10/300/200" alt="imagen principal">
+
+    <script>
+      const miniaturas = document.querySelectorAll(".miniatura");
+      const principal = document.getElementById("principal");
+
+      miniaturas.forEach(function (img) {
+        img.addEventListener("click", function () {
+          principal.src = img.src.replace("/80/80", "/300/200");
+        });
+      });
+    </script>
+  </body>
+</html>`,
+      },
+
+      4: {
+        id: 4,
+        nombre: "Formulario Validado",
+        objetivo: "Crear un formulario que valide que los campos no estén vacíos antes de mostrarse como enviado.",
+        conceptoClave: '<code>evento.preventDefault()</code> cancela el envío real del formulario para que puedas validar primero. Si el campo está vacío, muestras un error; si está correcto, muestras un mensaje de éxito.',
+        masInformacion: "Sin preventDefault, el formulario recargaría la página al enviarse y perderías todo el estado de la app.",
+        duracionVideo: "4:00",
+        plantilla: `<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Formulario</title>
+  </head>
+  <body>
+    <h1>Formulario de Contacto</h1>
+    <form id="formulario">
+      <label>Nombre:</label>
+      <input id="nombre" type="text" placeholder="Tu nombre"><br><br>
+      <label>Correo:</label>
+      <input id="correo" type="text" placeholder="Tu correo"><br><br>
+      <button type="submit">Enviar</button>
+    </form>
+    <p id="mensaje"></p>
+
+    <script>
+      // 1. Selecciona el formulario y los inputs
+      // 2. Agrega addEventListener "submit" al formulario
+      // 3. Llama a evento.preventDefault()
+      // 4. Si los campos están vacíos, muestra un error en #mensaje
+      // 5. Si todo está completo, muestra un mensaje de éxito
+    </script>
+  </body>
+</html>`,
+        criterios: [
+          { descripcion: "Usas addEventListener con \"submit\"", cumple: (c) => /addEventListener\s*\(\s*["']submit["']/.test(c) },
+          { descripcion: "Llamas a evento.preventDefault()", cumple: (c) => /\w+\.preventDefault\s*\(\s*\)/.test(c) },
+          { descripcion: "Validas con un if que los campos no estén vacíos", cumple: (c) => /\bif\s*\(/.test(c) && /\.value/.test(c) },
+          { descripcion: "Muestras un mensaje de error o éxito en #mensaje", cumple: (c) => /getElementById\s*\(\s*["']mensaje["']\s*\)/.test(c) || /querySelector\s*\(\s*["']#mensaje["']\s*\)/.test(c) },
+        ],
+        pistaGeneral: "formulario.addEventListener('submit', function(evento) { evento.preventDefault(); if (nombre.value === '') { mensaje.textContent = 'El nombre es obligatorio'; } else { mensaje.textContent = '¡Enviado con éxito!'; } });",
+        pistaCodigo: `document.getElementById("formulario").addEventListener("submit", function (evento) {
+  evento.preventDefault();
+  const nombre = document.getElementById("nombre").value;
+  const correo = document.getElementById("correo").value;
+  const mensaje = document.getElementById("mensaje");
+
+  if (nombre === "" || correo === "") {
+    mensaje.textContent = "Por favor, completa todos los campos.";
+  } else {
+    mensaje.textContent = "¡Formulario enviado con éxito!";
+  }
+});`,
+        solucion: `<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Formulario</title>
+  </head>
+  <body>
+    <h1>Formulario de Contacto</h1>
+    <form id="formulario">
+      <label>Nombre:</label>
+      <input id="nombre" type="text" placeholder="Tu nombre"><br><br>
+      <label>Correo:</label>
+      <input id="correo" type="text" placeholder="Tu correo"><br><br>
+      <button type="submit">Enviar</button>
+    </form>
+    <p id="mensaje"></p>
+
+    <script>
+      document.getElementById("formulario").addEventListener("submit", function (evento) {
+        evento.preventDefault();
+        const nombre = document.getElementById("nombre").value;
+        const correo = document.getElementById("correo").value;
+        const mensaje = document.getElementById("mensaje");
+
+        if (nombre === "" || correo === "") {
+          mensaje.textContent = "Por favor, completa todos los campos.";
+        } else {
+          mensaje.textContent = "¡Formulario enviado con éxito!";
+        }
+      });
+    </script>
+  </body>
+</html>`,
+      },
+
+      5: {
+        id: 5,
+        nombre: "Aplicación de Notas",
+        objetivo: "Crear una app que guarde notas escritas por el usuario y las muestre en pantalla como tarjetas.",
+        conceptoClave: "Este reto combina todo lo aprendido: selección de elementos, eventos, creación dinámica de elementos con textContent y appendChild.",
+        masInformacion: "Este reto es el repaso final del nivel: leer input del usuario, crear elementos dinámicamente y añadirlos al DOM, igual que en la Lista de Tareas pero con un diseño más elaborado.",
+        duracionVideo: "4:00",
+        plantilla: `<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Notas</title>
+    <style>
+      .nota { border: 1px solid #ccc; padding: 8px; margin: 8px 0; border-radius: 4px; }
+    </style>
+  </head>
+  <body>
+    <h1>Mis Notas</h1>
+    <textarea id="textoNota" rows="3" placeholder="Escribe tu nota aquí..."></textarea><br>
+    <button id="guardar">Guardar nota</button>
+    <div id="contenedorNotas"></div>
+
+    <script>
+      // 1. Selecciona el textarea, el botón y el contenedor
+      // 2. Al hacer clic en el botón:
+      //    a. Lee el contenido del textarea (.value)
+      //    b. Crea un <div> con clase "nota" y pon el texto dentro
+      //    c. Agrégalo al contenedorNotas
+      //    d. Limpia el textarea
+    </script>
+  </body>
+</html>`,
+        criterios: [
+          { descripcion: "Seleccionas el textarea, el botón y el contenedor", cumple: (c) => (c.match(/document\.(getElementById|querySelector)\s*\(/g) || []).length >= 3 },
+          { descripcion: "Usas addEventListener con \"click\"", cumple: (c) => /addEventListener\s*\(\s*["']click["']/.test(c) },
+          { descripcion: "Lees el contenido del textarea con .value", cumple: (c) => /\w+\.value/.test(c) },
+          { descripcion: "Creas un elemento y lo agregas al contenedor con appendChild", cumple: (c) => /document\.createElement\s*\(/.test(c) && /\.appendChild\s*\(/.test(c) },
+        ],
+        pistaGeneral: "const nota = document.createElement('div'); nota.className = 'nota'; nota.textContent = textoNota.value; contenedorNotas.appendChild(nota); textoNota.value = '';",
+        pistaCodigo: `const textoNota = document.getElementById("textoNota");
+const guardar = document.getElementById("guardar");
+const contenedorNotas = document.getElementById("contenedorNotas");
+
+guardar.addEventListener("click", function () {
+  const nota = document.createElement("div");
+  nota.className = "nota";
+  nota.textContent = textoNota.value;
+  contenedorNotas.appendChild(nota);
+  textoNota.value = "";
+});`,
+        solucion: `<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Notas</title>
+    <style>
+      .nota { border: 1px solid #ccc; padding: 8px; margin: 8px 0; border-radius: 4px; }
+    </style>
+  </head>
+  <body>
+    <h1>Mis Notas</h1>
+    <textarea id="textoNota" rows="3" placeholder="Escribe tu nota aquí..."></textarea><br>
+    <button id="guardar">Guardar nota</button>
+    <div id="contenedorNotas"></div>
+
+    <script>
+      const textoNota = document.getElementById("textoNota");
+      const guardar = document.getElementById("guardar");
+      const contenedorNotas = document.getElementById("contenedorNotas");
+
+      guardar.addEventListener("click", function () {
+        if (textoNota.value.trim() === "") return;
+        const nota = document.createElement("div");
+        nota.className = "nota";
+        nota.textContent = textoNota.value;
+        contenedorNotas.appendChild(nota);
+        textoNota.value = "";
+      });
+    </script>
+  </body>
+</html>`,
+      },
+    },
+  },
 };
