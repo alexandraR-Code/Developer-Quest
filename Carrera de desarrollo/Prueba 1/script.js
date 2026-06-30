@@ -216,10 +216,8 @@ function mostrarPopoverNivel(nodo, nivel, progreso, desbloqueado) {
   popoverNivel.classList.add("visible");
   document.getElementById("botonCerrarPopover").addEventListener("click", ocultarPopoverNivel);
 
-  // Por ahora solo estos niveles tienen pantallas de reto construidas.
-  const NIVELES_CON_RETOS_CONSTRUIDOS = [1, 2, 3];
   const botonAccion = popoverNivel.querySelector(".popover-nivel__boton");
-  if (botonAccion && NIVELES_CON_RETOS_CONSTRUIDOS.includes(nivel.id)) {
+  if (botonAccion && datosNiveles[nivel.id]) {
     const indiceProximoReto = nivel.retos.findIndex((r) => r.estado !== "completado");
     const numeroReto = indiceProximoReto === -1 ? 1 : indiceProximoReto + 1;
     botonAccion.addEventListener("click", () => { window.location.href = `reto.html?nivel=${nivel.id}&reto=${numeroReto}`; });

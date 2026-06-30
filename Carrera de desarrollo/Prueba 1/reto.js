@@ -166,6 +166,7 @@ function agregarLineaConsola(tipo, mensaje) {
 }
 
 window.addEventListener("message", (evento) => {
+  if (evento.source !== previewIframe.contentWindow) return;
   if (evento.data && evento.data.origenDeveloperQuest) {
     agregarLineaConsola(evento.data.tipo, evento.data.mensaje);
   }
