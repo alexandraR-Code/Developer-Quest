@@ -1256,4 +1256,649 @@ console.log([nombreFuncion]([valor1], [valor2]));`,
       },
     },
   },
+
+  6: {
+    nombre: "DOM e Interactividad",
+    retos: {
+      1: {
+        id: 1,
+        nombre: "Seleccionar Elementos",
+        objetivo: "Usar document.querySelector y document.getElementById para seleccionar elementos del DOM.",
+        conceptoClave: '<code>document.querySelector("selector")</code> devuelve el primer elemento que coincide con un selector CSS. <code>document.getElementById("id")</code> devuelve el elemento que tiene ese id.',
+        masInformacion: "querySelector acepta cualquier selector CSS (etiqueta, .clase, #id), por eso es el más flexible. getElementById solo busca por id, pero es un poco más rápido.",
+        duracionVideo: "3:00",
+        plantilla: `<!DOCTYPE html>
+<html>
+  <head>
+    <title>Seleccionar Elementos</title>
+  </head>
+  <body>
+    <h1 id="titulo">Hola DOM</h1>
+    <p class="parrafo">Un párrafo cualquiera.</p>
+
+    <script>
+      // Selecciona el <h1> con document.getElementById y muéstralo con console.log
+
+      // Selecciona el <p> con document.querySelector y muéstralo con console.log
+    </script>
+  </body>
+</html>`,
+        criterios: [
+          { descripcion: "Usas document.getElementById", cumple: (c) => /document\.getElementById\s*\(/.test(c) },
+          { descripcion: "Usas document.querySelector", cumple: (c) => /document\.querySelector\s*\(/.test(c) },
+          { descripcion: "Guardas al menos un resultado en una variable", cumple: (c) => /(let|const)\s+\w+\s*=\s*document\.(getElementById|querySelector)\s*\(/.test(c) },
+          { descripcion: "Muestras el resultado con console.log al menos dos veces", cumple: (c) => (c.match(/console\.log\s*\(/g) || []).length >= 2 },
+        ],
+        pistaGeneral: 'const titulo = document.getElementById("titulo"); busca por id. const parrafo = document.querySelector(".parrafo"); busca por selector CSS. Muestra ambos con console.log().',
+        pistaCodigo: `const titulo = document.getElementById("titulo");
+const parrafo = document.querySelector(".parrafo");
+
+console.log(titulo);
+console.log(parrafo);`,
+        solucion: `<!DOCTYPE html>
+<html>
+  <head>
+    <title>Seleccionar Elementos</title>
+  </head>
+  <body>
+    <h1 id="titulo">Hola DOM</h1>
+    <p class="parrafo">Un párrafo cualquiera.</p>
+
+    <script>
+      const titulo = document.getElementById("titulo");
+      const parrafo = document.querySelector(".parrafo");
+
+      console.log(titulo);
+      console.log(parrafo);
+    </script>
+  </body>
+</html>`,
+      },
+
+      2: {
+        id: 2,
+        nombre: "Modificar Contenido",
+        objetivo: "Cambiar el texto de un elemento usando textContent.",
+        conceptoClave: '<code>elemento.textContent = "nuevo texto"</code> reemplaza el texto interno de un elemento ya seleccionado.',
+        masInformacion: "Primero seleccionas el elemento (querySelector o getElementById), y guardas la referencia en una variable. Después le asignas un nuevo textContent a esa variable.",
+        duracionVideo: "2:45",
+        plantilla: `<!DOCTYPE html>
+<html>
+  <head>
+    <title>Modificar Contenido</title>
+  </head>
+  <body>
+    <h1 id="mensaje">Texto original</h1>
+
+    <script>
+      // Selecciona el <h1> y cambia su textContent por otro texto
+    </script>
+  </body>
+</html>`,
+        criterios: [
+          { descripcion: "Seleccionas el elemento con id mensaje", cumple: (c) => /document\.getElementById\s*\(\s*["']mensaje["']\s*\)/.test(c) || /document\.querySelector\s*\(\s*["']#mensaje["']\s*\)/.test(c) },
+          { descripcion: "Guardas el elemento en una variable", cumple: (c) => /(let|const)\s+\w+\s*=\s*document\.(getElementById|querySelector)\s*\(/.test(c) },
+          { descripcion: "Cambias su textContent", cumple: (c) => /\w+\.textContent\s*=\s*["'][^"']+["']/.test(c) },
+        ],
+        pistaGeneral: 'const mensaje = document.getElementById("mensaje"); selecciona el elemento. mensaje.textContent = "Nuevo texto"; cambia lo que se ve.',
+        pistaCodigo: `const mensaje = document.getElementById("mensaje");
+mensaje.textContent = "[Tu nuevo texto]";`,
+        solucion: `<!DOCTYPE html>
+<html>
+  <head>
+    <title>Modificar Contenido</title>
+  </head>
+  <body>
+    <h1 id="mensaje">Texto original</h1>
+
+    <script>
+      const mensaje = document.getElementById("mensaje");
+      mensaje.textContent = "¡El DOM cambió este texto!";
+    </script>
+  </body>
+</html>`,
+      },
+
+      3: {
+        id: 3,
+        nombre: "Eventos de Ratón",
+        objetivo: "Usar addEventListener con el evento click para reaccionar a un clic del usuario.",
+        conceptoClave: '<code>elemento.addEventListener("click", function () { ... })</code> ejecuta el código de adentro cada vez que el usuario hace clic en ese elemento.',
+        masInformacion: "Puedes probar el resultado haciendo clic en el botón dentro del preview en vivo, y revisando la consola integrada.",
+        duracionVideo: "3:00",
+        plantilla: `<!DOCTYPE html>
+<html>
+  <head>
+    <title>Eventos de Ratón</title>
+  </head>
+  <body>
+    <button id="boton">Haz clic aquí</button>
+
+    <script>
+      // Selecciona el botón y agrégale un addEventListener de tipo "click"
+      // que muestre un mensaje con console.log
+    </script>
+  </body>
+</html>`,
+        criterios: [
+          { descripcion: "Seleccionas el botón", cumple: (c) => /document\.getElementById\s*\(\s*["']boton["']\s*\)/.test(c) || /document\.querySelector\s*\(\s*["']#boton["']\s*\)/.test(c) },
+          { descripcion: "Usas addEventListener con \"click\"", cumple: (c) => /addEventListener\s*\(\s*["']click["']/.test(c) },
+          { descripcion: "Dentro del evento hay un console.log", cumple: (c) => { const m = c.match(/addEventListener\s*\(\s*["']click["']\s*,([\s\S]*?)\)\s*;/); return !!(m && /console\.log\s*\(/.test(m[1])); } },
+        ],
+        pistaGeneral: 'const boton = document.getElementById("boton"); boton.addEventListener("click", function () { console.log("¡Clic!"); }); muestra un mensaje cada vez que el usuario hace clic.',
+        pistaCodigo: `const boton = document.getElementById("boton");
+boton.addEventListener("click", function () {
+  console.log("[Tu mensaje]");
+});`,
+        solucion: `<!DOCTYPE html>
+<html>
+  <head>
+    <title>Eventos de Ratón</title>
+  </head>
+  <body>
+    <button id="boton">Haz clic aquí</button>
+
+    <script>
+      const boton = document.getElementById("boton");
+      boton.addEventListener("click", function () {
+        console.log("¡Hiciste clic en el botón!");
+      });
+    </script>
+  </body>
+</html>`,
+      },
+
+      4: {
+        id: 4,
+        nombre: "Eventos de Teclado",
+        objetivo: "Usar addEventListener con el evento keydown para reaccionar a las teclas presionadas.",
+        conceptoClave: '<code>elemento.addEventListener("keydown", function (evento) { ... })</code> se ejecuta cada vez que el usuario presiona una tecla. <code>evento.key</code> dice cuál tecla fue.',
+        masInformacion: "Puedes probarlo escribiendo dentro del campo de texto del preview en vivo y mirando la consola integrada.",
+        duracionVideo: "3:00",
+        plantilla: `<!DOCTYPE html>
+<html>
+  <head>
+    <title>Eventos de Teclado</title>
+  </head>
+  <body>
+    <input id="campo" type="text" placeholder="Escribe aquí">
+
+    <script>
+      // Selecciona el input y agrégale un addEventListener de tipo "keydown"
+      // que muestre evento.key con console.log
+    </script>
+  </body>
+</html>`,
+        criterios: [
+          { descripcion: "Seleccionas el input", cumple: (c) => /document\.getElementById\s*\(\s*["']campo["']\s*\)/.test(c) || /document\.querySelector\s*\(\s*["']#campo["']\s*\)/.test(c) },
+          { descripcion: "Usas addEventListener con \"keydown\"", cumple: (c) => /addEventListener\s*\(\s*["']keydown["']/.test(c) },
+          { descripcion: "La función del evento recibe un parámetro", cumple: (c) => /addEventListener\s*\(\s*["']keydown["']\s*,\s*function\s*\(\s*\w+\s*\)/.test(c) || /addEventListener\s*\(\s*["']keydown["']\s*,\s*\(\s*\w+\s*\)\s*=>/.test(c) },
+          { descripcion: "Muestras evento.key con console.log", cumple: (c) => /console\.log\s*\(\s*\w+\.key\s*\)/.test(c) },
+        ],
+        pistaGeneral: 'const campo = document.getElementById("campo"); campo.addEventListener("keydown", function (evento) { console.log(evento.key); }); muestra cada tecla que se presiona.',
+        pistaCodigo: `const campo = document.getElementById("campo");
+campo.addEventListener("keydown", function (evento) {
+  console.log(evento.key);
+});`,
+        solucion: `<!DOCTYPE html>
+<html>
+  <head>
+    <title>Eventos de Teclado</title>
+  </head>
+  <body>
+    <input id="campo" type="text" placeholder="Escribe aquí">
+
+    <script>
+      const campo = document.getElementById("campo");
+      campo.addEventListener("keydown", function (evento) {
+        console.log(evento.key);
+      });
+    </script>
+  </body>
+</html>`,
+      },
+
+      5: {
+        id: 5,
+        nombre: "Manipulación de Clases",
+        objetivo: "Usar classList.add, classList.remove o classList.toggle para cambiar el estilo de un elemento al hacer clic.",
+        conceptoClave: '<code>elemento.classList.toggle("clase")</code> agrega la clase si no la tiene, o la quita si ya la tiene. <code>classList.add</code> y <code>classList.remove</code> hacen solo una de las dos acciones.',
+        masInformacion: "classList es la forma moderna de cambiar clases CSS desde JavaScript, sin tener que escribir directamente en el atributo style.",
+        duracionVideo: "3:00",
+        plantilla: `<!DOCTYPE html>
+<html>
+  <head>
+    <title>Manipulación de Clases</title>
+    <style>
+      .caja {
+        width: 100px;
+        height: 100px;
+        background-color: lightgray;
+      }
+      .activa {
+        background-color: purple;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="caja" class="caja"></div>
+    <button id="boton">Cambiar color</button>
+
+    <script>
+      // Al hacer clic en el botón, usa classList.toggle para agregar/quitar la clase "activa" en la caja
+    </script>
+  </body>
+</html>`,
+        criterios: [
+          { descripcion: "Seleccionas la caja y el botón", cumple: (c) => (c.match(/document\.(getElementById|querySelector)\s*\(/g) || []).length >= 2 },
+          { descripcion: "Usas addEventListener con \"click\" en el botón", cumple: (c) => /addEventListener\s*\(\s*["']click["']/.test(c) },
+          { descripcion: "Usas classList.toggle, classList.add o classList.remove", cumple: (c) => /classList\.(toggle|add|remove)\s*\(/.test(c) },
+          { descripcion: "Aplicas el cambio sobre la clase \"activa\"", cumple: (c) => /classList\.(toggle|add|remove)\s*\(\s*["']activa["']\s*\)/.test(c) },
+        ],
+        pistaGeneral: 'const caja = document.getElementById("caja"); const boton = document.getElementById("boton"); boton.addEventListener("click", function () { caja.classList.toggle("activa"); });',
+        pistaCodigo: `const caja = document.getElementById("caja");
+const boton = document.getElementById("boton");
+
+boton.addEventListener("click", function () {
+  caja.classList.toggle("activa");
+});`,
+        solucion: `<!DOCTYPE html>
+<html>
+  <head>
+    <title>Manipulación de Clases</title>
+    <style>
+      .caja {
+        width: 100px;
+        height: 100px;
+        background-color: lightgray;
+      }
+      .activa {
+        background-color: purple;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="caja" class="caja"></div>
+    <button id="boton">Cambiar color</button>
+
+    <script>
+      const caja = document.getElementById("caja");
+      const boton = document.getElementById("boton");
+
+      boton.addEventListener("click", function () {
+        caja.classList.toggle("activa");
+      });
+    </script>
+  </body>
+</html>`,
+      },
+    },
+  },
+
+  7: {
+    nombre: "Funciones y Métodos",
+    retos: {
+      1: {
+        id: 1,
+        nombre: "Función con Parámetros",
+        objetivo: "Crear una función que reciba parámetros y los use dentro de su cuerpo.",
+        conceptoClave: 'Los parámetros son variables que la función recibe al ser llamada. Se declaran entre paréntesis en la definición: <code>function saludar(nombre) { ... }</code>.',
+        masInformacion: "Cada vez que llamas a la función puedes pasarle valores distintos; los parámetros permiten que la misma función haga cosas diferentes según lo que recibe.",
+        duracionVideo: "3:00",
+        plantilla: `<script>
+  // Crea una función que reciba al menos dos parámetros
+  // y use ambos dentro de su cuerpo con console.log
+
+  // Llámala al menos una vez
+</script>`,
+        criterios: [
+          { descripcion: "Existe una función declarada con function", cumple: (c) => /\bfunction\s+\w+\s*\(/.test(c) },
+          { descripcion: "La función tiene al menos dos parámetros", cumple: (c) => /\bfunction\s+\w+\s*\(\s*\w+\s*,\s*\w+/.test(c) },
+          { descripcion: "Dentro del cuerpo usas los parámetros", cumple: (c) => /console\.log\s*\(/.test(c) },
+          { descripcion: "Llamas a la función al menos una vez", cumple: (c) => /\w+\s*\([^)]*\)\s*;/.test(c) && /\bfunction\s+(\w+)\s*\(/.test(c) },
+        ],
+        pistaGeneral: "function saludar(nombre, ciudad) { console.log(nombre + ' vive en ' + ciudad); } declara una función con dos parámetros. saludar('Ana', 'Quito'); la llama.",
+        pistaCodigo: `function [nombreFuncion]([param1], [param2]) {
+  console.log([param1] + " " + [param2]);
+}
+
+[nombreFuncion]([valor1], [valor2]);`,
+        solucion: `<script>
+  function saludar(nombre, ciudad) {
+    console.log(nombre + " vive en " + ciudad);
+  }
+
+  saludar("Ana", "Quito");
+  saludar("Luis", "Guayaquil");
+</script>`,
+      },
+
+      2: {
+        id: 2,
+        nombre: "Retorno de Valores",
+        objetivo: "Crear una función que use return para devolver un resultado, y guardarlo en una variable.",
+        conceptoClave: '<code>return</code> termina la función y entrega un valor al código que la llamó. Sin return, la función devuelve undefined.',
+        masInformacion: "El valor que devuelve return puede guardarse en una variable o usarse directamente en otro lugar del código, por ejemplo dentro de un console.log.",
+        duracionVideo: "3:00",
+        plantilla: `<script>
+  // Crea una función que calcule algo (suma, multiplicación, etc.) y use return
+
+  // Guarda el resultado en una variable y muéstralo con console.log
+</script>`,
+        criterios: [
+          { descripcion: "Existe una función con al menos un parámetro", cumple: (c) => /\bfunction\s+\w+\s*\(\s*\w+/.test(c) },
+          { descripcion: "La función usa return con un valor", cumple: (c) => /\breturn\s+.+/.test(c) },
+          { descripcion: "Guardas el resultado de llamar la función en una variable", cumple: (c) => /(let|const)\s+\w+\s*=\s*\w+\s*\(/.test(c) },
+          { descripcion: "Muestras el resultado con console.log", cumple: (c) => /console\.log\s*\(/.test(c) },
+        ],
+        pistaGeneral: "function doble(n) { return n * 2; } devuelve el doble del número. const resultado = doble(5); guarda el valor que retornó. console.log(resultado); lo muestra.",
+        pistaCodigo: `function [nombre]([parametro]) {
+  return [operacion con el parametro];
+}
+
+const resultado = [nombre]([valor]);
+console.log(resultado);`,
+        solucion: `<script>
+  function doble(n) {
+    return n * 2;
+  }
+
+  const resultado = doble(5);
+  console.log(resultado);
+</script>`,
+      },
+
+      3: {
+        id: 3,
+        nombre: "Arrow Functions",
+        objetivo: "Reescribir una función usando la sintaxis de flecha (arrow function).",
+        conceptoClave: 'Una arrow function usa <code>=></code> en lugar de la palabra <code>function</code>: <code>const sumar = (a, b) => a + b;</code>. Si el cuerpo es una sola expresión, el return es implícito.',
+        masInformacion: "Las arrow functions son más cortas de escribir y son muy comunes en JavaScript moderno, especialmente dentro de callbacks.",
+        duracionVideo: "3:00",
+        plantilla: `<script>
+  // Escribe una arrow function con al menos un parámetro que devuelva un valor
+
+  // Llámala y muestra el resultado con console.log
+</script>`,
+        criterios: [
+          { descripcion: "Usas la sintaxis de flecha =>", cumple: (c) => /=>/.test(c) },
+          { descripcion: "La arrow function está guardada en una variable (const o let)", cumple: (c) => /(const|let)\s+\w+\s*=\s*(\(.*\)|\w+)\s*=>/.test(c) },
+          { descripcion: "La arrow function tiene al menos un parámetro", cumple: (c) => /(const|let)\s+\w+\s*=\s*(\(\s*\w+(\s*,\s*\w+)*\s*\)|\w+)\s*=>/.test(c) },
+          { descripcion: "La llamas y muestras el resultado con console.log", cumple: (c) => /console\.log\s*\(/.test(c) },
+        ],
+        pistaGeneral: "const cuadrado = (n) => n * n; es una arrow function que eleva n al cuadrado. console.log(cuadrado(4)); muestra el resultado.",
+        pistaCodigo: `const [nombre] = ([parametro]) => [expresion];
+
+console.log([nombre]([valor]));`,
+        solucion: `<script>
+  const cuadrado = (n) => n * n;
+
+  console.log(cuadrado(4));
+  console.log(cuadrado(7));
+</script>`,
+      },
+
+      4: {
+        id: 4,
+        nombre: "Métodos de String",
+        objetivo: "Usar al menos dos métodos de string: toUpperCase (o toLowerCase) y slice (o includes).",
+        conceptoClave: '<code>.toUpperCase()</code> convierte el texto a mayúsculas. <code>.slice(inicio, fin)</code> extrae una parte del texto. <code>.includes("texto")</code> dice si el texto contiene una cadena.',
+        masInformacion: "Los métodos de string no modifican el string original, sino que devuelven uno nuevo. Por eso necesitas guardar el resultado en una variable o usarlo directamente.",
+        duracionVideo: "3:00",
+        plantilla: `<script>
+  let texto = "Hola, soy estudiante de Movilis";
+
+  // Usa al menos dos métodos distintos sobre 'texto' y muestra los resultados
+</script>`,
+        criterios: [
+          { descripcion: "Existe una variable de texto (string)", cumple: (c) => /(let|const)\s+\w+\s*=\s*["'][^"']+["']/.test(c) },
+          { descripcion: "Usas toUpperCase() o toLowerCase()", cumple: (c) => /\.(toUpperCase|toLowerCase)\s*\(\s*\)/.test(c) },
+          { descripcion: "Usas slice(), includes(), indexOf() o replace()", cumple: (c) => /\.(slice|includes|indexOf|replace)\s*\(/.test(c) },
+          { descripcion: "Muestras los resultados con console.log al menos dos veces", cumple: (c) => (c.match(/console\.log\s*\(/g) || []).length >= 2 },
+        ],
+        pistaGeneral: "texto.toUpperCase() convierte todo a mayúsculas. texto.slice(0, 4) extrae los primeros 4 caracteres. texto.includes('Movilis') devuelve true o false.",
+        pistaCodigo: `let texto = "Hola, soy estudiante de Movilis";
+
+console.log(texto.toUpperCase());
+console.log(texto.slice(0, 4));`,
+        solucion: `<script>
+  let texto = "Hola, soy estudiante de Movilis";
+
+  console.log(texto.toUpperCase());
+  console.log(texto.slice(0, 4));
+  console.log(texto.includes("Movilis"));
+</script>`,
+      },
+
+      5: {
+        id: 5,
+        nombre: "Métodos de Array",
+        objetivo: "Usar al menos dos métodos de array: push (o pop) y forEach (o map o filter).",
+        conceptoClave: '<code>.push(valor)</code> agrega un elemento al final del array. <code>.forEach(función)</code> recorre cada elemento ejecutando la función. <code>.map(función)</code> devuelve un array nuevo con los resultados.',
+        masInformacion: "Este reto es un repaso: combina lo que ya practicaste sobre arrays y funciones usando los métodos más comunes.",
+        duracionVideo: "3:15",
+        plantilla: `<script>
+  let frutas = ["manzana", "pera", "uva"];
+
+  // Agrega un elemento al array con push
+
+  // Recorre el array con forEach y muestra cada elemento con console.log
+</script>`,
+        criterios: [
+          { descripcion: "Existe un array declarado", cumple: (c) => /(let|const)\s+\w+\s*=\s*\[/.test(c) },
+          { descripcion: "Usas push() o pop() o unshift() o shift()", cumple: (c) => /\.(push|pop|unshift|shift)\s*\(/.test(c) },
+          { descripcion: "Usas forEach(), map() o filter()", cumple: (c) => /\.(forEach|map|filter)\s*\(/.test(c) },
+          { descripcion: "Muestras elementos con console.log dentro del recorrido", cumple: (c) => /console\.log\s*\(/.test(c) },
+        ],
+        pistaGeneral: "frutas.push('naranja'); agrega 'naranja' al final. frutas.forEach(function(f) { console.log(f); }); muestra cada fruta.",
+        pistaCodigo: `frutas.push("[tu fruta]");
+
+frutas.forEach(function(fruta) {
+  console.log(fruta);
+});`,
+        solucion: `<script>
+  let frutas = ["manzana", "pera", "uva"];
+
+  frutas.push("naranja");
+
+  frutas.forEach(function(fruta) {
+    console.log(fruta);
+  });
+</script>`,
+      },
+    },
+  },
+
+  8: {
+    nombre: "Arrays y Objetos",
+    retos: {
+      1: {
+        id: 1,
+        nombre: "Crear Arrays",
+        objetivo: "Declarar un array, acceder a sus elementos por índice y conocer su longitud.",
+        conceptoClave: 'Un array se declara con corchetes: <code>let colores = ["rojo", "verde", "azul"]</code>. Los elementos se acceden con su índice (empezando en 0): <code>colores[0]</code> es "rojo". <code>colores.length</code> dice cuántos elementos tiene.',
+        masInformacion: "Los índices arrancan desde 0, por eso el primer elemento es [0], el segundo [1], y así sucesivamente.",
+        duracionVideo: "2:45",
+        plantilla: `<script>
+  // Declara un array con al menos 3 elementos del tema que quieras
+
+  // Muestra el primer y el último elemento con console.log
+
+  // Muestra la longitud del array con console.log
+</script>`,
+        criterios: [
+          { descripcion: "Declaras un array con al menos 3 elementos", cumple: (c) => { const m = c.match(/(let|const)\s+\w+\s*=\s*\[([^\]]*)\]/); if (!m) return false; return (m[2].split(",").length >= 3); } },
+          { descripcion: "Accedes a un elemento por índice ([0], [1], etc.)", cumple: (c) => /\w+\s*\[\s*\d+\s*\]/.test(c) },
+          { descripcion: "Usas .length", cumple: (c) => /\.length/.test(c) },
+          { descripcion: "Muestras resultados con console.log al menos dos veces", cumple: (c) => (c.match(/console\.log\s*\(/g) || []).length >= 2 },
+        ],
+        pistaGeneral: "let colores = ['rojo', 'verde', 'azul']; declara el array. colores[0] accede al primero. colores[colores.length - 1] accede al último. colores.length devuelve 3.",
+        pistaCodigo: `let [nombre] = [[elemento1], [elemento2], [elemento3]];
+
+console.log([nombre][0]);
+console.log([nombre][[nombre].length - 1]);
+console.log([nombre].length);`,
+        solucion: `<script>
+  let colores = ["rojo", "verde", "azul"];
+
+  console.log(colores[0]);
+  console.log(colores[colores.length - 1]);
+  console.log(colores.length);
+</script>`,
+      },
+
+      2: {
+        id: 2,
+        nombre: "Métodos de Array",
+        objetivo: "Usar push, pop y splice para modificar un array, y mostrar el resultado.",
+        conceptoClave: '<code>.push(valor)</code> agrega al final. <code>.pop()</code> quita el último elemento y lo devuelve. <code>.splice(índice, cantidad)</code> elimina elementos a partir de una posición.',
+        masInformacion: "A diferencia de slice, splice modifica el array original. push y pop también modifican el array original directamente.",
+        duracionVideo: "3:00",
+        plantilla: `<script>
+  let animales = ["perro", "gato", "pájaro", "pez"];
+
+  // Agrega un animal al final con push y muestra el array
+
+  // Quita el último con pop y muestra el array
+
+  // Elimina uno del medio con splice y muestra el array final
+</script>`,
+        criterios: [
+          { descripcion: "Existe un array declarado", cumple: (c) => /(let|const)\s+\w+\s*=\s*\[/.test(c) },
+          { descripcion: "Usas .push()", cumple: (c) => /\.push\s*\(/.test(c) },
+          { descripcion: "Usas .pop()", cumple: (c) => /\.pop\s*\(/.test(c) },
+          { descripcion: "Muestras el array con console.log al menos dos veces", cumple: (c) => (c.match(/console\.log\s*\(/g) || []).length >= 2 },
+        ],
+        pistaGeneral: "animales.push('tortuga'); agrega al final. animales.pop(); quita el último. animales.splice(1, 1); quita un elemento desde el índice 1. console.log(animales); muestra el array actual.",
+        pistaCodigo: `animales.push("[tu animal]");
+console.log(animales);
+
+animales.pop();
+console.log(animales);`,
+        solucion: `<script>
+  let animales = ["perro", "gato", "pájaro", "pez"];
+
+  animales.push("tortuga");
+  console.log(animales);
+
+  animales.pop();
+  console.log(animales);
+
+  animales.splice(1, 1);
+  console.log(animales);
+</script>`,
+      },
+
+      3: {
+        id: 3,
+        nombre: "Crear Objetos",
+        objetivo: "Declarar un objeto con al menos tres propiedades y acceder a ellas.",
+        conceptoClave: 'Un objeto agrupa propiedades relacionadas: <code>let persona = { nombre: "Ana", edad: 16, ciudad: "Quito" }</code>. Se accede a las propiedades con punto: <code>persona.nombre</code>.',
+        masInformacion: "Mientras los arrays guardan listas ordenadas con índices numéricos, los objetos guardan información con nombres descriptivos (claves), lo que los hace más legibles.",
+        duracionVideo: "3:00",
+        plantilla: `<script>
+  // Declara un objeto sobre lo que quieras (una persona, un animal, un producto...)
+  // con al menos 3 propiedades
+
+  // Muestra al menos 2 propiedades con console.log
+</script>`,
+        criterios: [
+          { descripcion: "Declaras un objeto con llaves { }", cumple: (c) => /(let|const)\s+\w+\s*=\s*\{/.test(c) },
+          { descripcion: "El objeto tiene al menos 3 propiedades", cumple: (c) => { const m = c.match(/(let|const)\s+\w+\s*=\s*\{([\s\S]*?)\}/); if (!m) return false; return (m[2].match(/\w+\s*:/g) || []).length >= 3; } },
+          { descripcion: "Accedes a propiedades con punto (objeto.propiedad)", cumple: (c) => /\w+\.\w+/.test(c) },
+          { descripcion: "Muestras al menos 2 propiedades con console.log", cumple: (c) => (c.match(/console\.log\s*\(/g) || []).length >= 2 },
+        ],
+        pistaGeneral: "let persona = { nombre: 'Ana', edad: 16, ciudad: 'Quito' }; declara el objeto. persona.nombre accede al valor 'Ana'. console.log(persona.edad); lo muestra.",
+        pistaCodigo: `let [nombre] = {
+  [propiedad1]: [valor1],
+  [propiedad2]: [valor2],
+  [propiedad3]: [valor3]
+};
+
+console.log([nombre].[propiedad1]);
+console.log([nombre].[propiedad2]);`,
+        solucion: `<script>
+  let persona = {
+    nombre: "Ana",
+    edad: 16,
+    ciudad: "Quito"
+  };
+
+  console.log(persona.nombre);
+  console.log(persona.edad);
+  console.log(persona.ciudad);
+</script>`,
+      },
+
+      4: {
+        id: 4,
+        nombre: "Propiedades y Métodos",
+        objetivo: "Agregar un método a un objeto y llamarlo.",
+        conceptoClave: 'Un método es una función guardada como propiedad de un objeto. Se define igual que una propiedad, pero su valor es una función: <code>presentarse: function() { ... }</code>.',
+        masInformacion: "Dentro del método, puedes usar this.propiedad para acceder a otras propiedades del mismo objeto.",
+        duracionVideo: "3:00",
+        plantilla: `<script>
+  // Crea un objeto con al menos 2 propiedades y un método que use console.log
+
+  // Llama al método del objeto
+</script>`,
+        criterios: [
+          { descripcion: "Declaras un objeto con al menos 2 propiedades", cumple: (c) => { const m = c.match(/(let|const)\s+\w+\s*=\s*\{([\s\S]*?)\}/); if (!m) return false; return (m[2].match(/\w+\s*:/g) || []).length >= 2; } },
+          { descripcion: "El objeto tiene un método (una propiedad que es una función)", cumple: (c) => /\w+\s*:\s*function\s*\(/.test(c) || /\w+\s*\(\s*\)\s*\{/.test(c) },
+          { descripcion: "El método usa console.log", cumple: (c) => /console\.log\s*\(/.test(c) },
+          { descripcion: "Llamas al método con objeto.metodo()", cumple: (c) => /\w+\.\w+\s*\(\s*\)/.test(c) },
+        ],
+        pistaGeneral: "Agrega un método así: presentarse: function() { console.log('Hola, soy ' + this.nombre); } — luego llámalo con objeto.presentarse();",
+        pistaCodigo: `let [nombre] = {
+  [propiedad]: [valor],
+  [metodo]: function() {
+    console.log([mensaje]);
+  }
+};
+
+[nombre].[metodo]();`,
+        solucion: `<script>
+  let persona = {
+    nombre: "Ana",
+    edad: 16,
+    presentarse: function() {
+      console.log("Hola, soy " + this.nombre + " y tengo " + this.edad + " años.");
+    }
+  };
+
+  persona.presentarse();
+</script>`,
+      },
+
+      5: {
+        id: 5,
+        nombre: "Iteración con for...of",
+        objetivo: "Recorrer un array con el bucle for...of y mostrar cada elemento.",
+        conceptoClave: '<code>for (let elemento of array) { ... }</code> recorre el array y en cada vuelta guarda el valor actual en la variable <code>elemento</code>. Es más legible que el for clásico cuando no necesitas el índice.',
+        masInformacion: "Este reto es un repaso: combina arrays y objetos con iteración. También puedes usar for...of sobre un array de objetos para mostrar propiedades de cada uno.",
+        duracionVideo: "3:00",
+        plantilla: `<script>
+  let tareas = ["Estudiar", "Hacer ejercicio", "Leer", "Programar"];
+
+  // Usa for...of para recorrer el array y mostrar cada tarea con console.log
+</script>`,
+        criterios: [
+          { descripcion: "Existe un array declarado", cumple: (c) => /(let|const)\s+\w+\s*=\s*\[/.test(c) },
+          { descripcion: "Usas for...of", cumple: (c) => /\bfor\s*\(\s*(let|const)\s+\w+\s+of\s+\w+\s*\)/.test(c) },
+          { descripcion: "Dentro del for...of hay un console.log", cumple: (c) => /for\s*\([\s\S]*?of[\s\S]*?\)\s*\{[\s\S]*?console\.log/.test(c) },
+        ],
+        pistaGeneral: "for (let tarea of tareas) { console.log(tarea); } recorre el array y muestra cada elemento en una vuelta distinta.",
+        pistaCodigo: `for (let [elemento] of [array]) {
+  console.log([elemento]);
+}`,
+        solucion: `<script>
+  let tareas = ["Estudiar", "Hacer ejercicio", "Leer", "Programar"];
+
+  for (let tarea of tareas) {
+    console.log(tarea);
+  }
+</script>`,
+      },
+    },
+  },
 };
