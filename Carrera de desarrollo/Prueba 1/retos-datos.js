@@ -2317,4 +2317,473 @@ guardar.addEventListener("click", function () {
       },
     },
   },
+
+  10: {
+    nombre: "Proyecto Integrador Final",
+    retos: {
+      1: {
+        id: 1,
+        nombre: "Planificación",
+        objetivo: "Describir en HTML el proyecto que vas a construir: qué hace, cómo se llamará y qué funciones tendrá.",
+        conceptoClave: "Antes de escribir código, un buen desarrollador define qué va a construir. En este reto tu entregable ES la planificación: un documento HTML que describe tu proyecto.",
+        masInformacion: "Puedes elegir cualquier idea: una página personal, una tienda sencilla, un juego de preguntas, una app de recetas, lo que quieras. Estos son los retos finales del camino, ¡elige algo que te emocione!",
+        duracionVideo: "3:00",
+        plantilla: `<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Plan de mi proyecto</title>
+  </head>
+  <body>
+
+    <!-- El nombre de tu proyecto (usa h1) -->
+
+    <!-- Una descripción corta de qué hace (usa p) -->
+
+    <!-- Una lista (ul) con al menos 3 funciones o características que tendrá -->
+
+    <!-- Una sección (puedes usar h2 + p) sobre a quién está dirigido -->
+
+  </body>
+</html>`,
+        criterios: [
+          { descripcion: "Tiene un título (h1) con el nombre del proyecto", cumple: (c) => { const t = textoNoVacioEntre(c, "<h1>", "<\\/h1>"); return !!(t && t.length > 0); } },
+          { descripcion: "Tiene al menos un párrafo (p) describiendo el proyecto", cumple: (c) => (c.match(/<p[^>]*>[\s\S]*?<\/p>/gi) || []).length >= 1 },
+          { descripcion: "Tiene una lista (ul u ol) con al menos 3 características", cumple: (c) => { const u = c.match(/<(ul|ol)>([\s\S]*?)<\/(ul|ol)>/i); return !!(u && (u[2].match(/<li/gi) || []).length >= 3); } },
+          { descripcion: "Tiene al menos un encabezado secundario (h2)", cumple: (c) => { const t = textoNoVacioEntre(c, "<h2>", "<\\/h2>"); return !!(t && t.length > 0); } },
+        ],
+        pistaGeneral: "Escribe el nombre del proyecto en un &lt;h1&gt;, luego un &lt;p&gt; describiendo qué hace, después un &lt;ul&gt; con al menos 3 &lt;li&gt; para las características, y finalmente un &lt;h2&gt; con otro &lt;p&gt; explicando a quién va dirigido.",
+        pistaCodigo: `<h1>[Nombre de tu proyecto]</h1>
+<p>[Qué hace tu proyecto en 1-2 oraciones]</p>
+<h2>Características</h2>
+<ul>
+  <li>[Característica 1]</li>
+  <li>[Característica 2]</li>
+  <li>[Característica 3]</li>
+</ul>
+<h2>¿A quién va dirigido?</h2>
+<p>[Describe el público]</p>`,
+        solucion: `<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Plan de mi proyecto</title>
+  </head>
+  <body>
+    <h1>Mi Recetario Digital</h1>
+    <p>Una aplicación web donde puedes guardar y consultar tus recetas favoritas de cocina.</p>
+
+    <h2>Características</h2>
+    <ul>
+      <li>Agregar nuevas recetas con nombre e ingredientes</li>
+      <li>Ver la lista de recetas guardadas</li>
+      <li>Buscar recetas por nombre</li>
+      <li>Eliminar recetas que ya no quieras</li>
+    </ul>
+
+    <h2>¿A quién va dirigido?</h2>
+    <p>A cualquier persona que cocine en casa y quiera tener sus recetas organizadas en un solo lugar.</p>
+  </body>
+</html>`,
+      },
+
+      2: {
+        id: 2,
+        nombre: "Estructura y Diseño",
+        objetivo: "Construir la estructura HTML semántica y el diseño CSS de tu proyecto.",
+        conceptoClave: "Una buena estructura usa &lt;header&gt;, &lt;main&gt; y &lt;footer&gt; para organizar el contenido. El CSS da identidad visual: colores, fuentes y espaciado que hacen tu proyecto único.",
+        masInformacion: "No necesitas que sea perfecto: lo importante es que tenga una estructura clara y un diseño mínimo que haga reconocible tu proyecto.",
+        duracionVideo: "4:00",
+        plantilla: `<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>[Nombre de tu proyecto]</title>
+    <style>
+      /* Escribe aquí el CSS de tu proyecto */
+      /* Mínimo: color de fondo, tipografía y estilos para al menos 2 elementos */
+
+    </style>
+  </head>
+  <body>
+
+    <header>
+      <!-- Nombre o logo de tu proyecto -->
+    </header>
+
+    <main>
+      <!-- El contenido principal: formularios, listas, tarjetas, lo que necesite tu proyecto -->
+    </main>
+
+    <footer>
+      <!-- Pie de página: autor, créditos o un enlace -->
+    </footer>
+
+  </body>
+</html>`,
+        criterios: [
+          { descripcion: "Tiene las etiquetas semánticas header, main y footer", cumple: (c) => /<header[\s>]/i.test(c) && /<main[\s>]/i.test(c) && /<footer[\s>]/i.test(c) },
+          { descripcion: "Tiene CSS dentro de una etiqueta style con al menos 3 reglas", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && (m[1].match(/\{[^}]+\}/g) || []).length >= 3); } },
+          { descripcion: "El CSS aplica al menos un color (color o background-color)", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /(color|background-color)\s*:/i.test(m[1])); } },
+          { descripcion: "El main tiene contenido (al menos un elemento HTML dentro)", cumple: (c) => { const m = c.match(/<main[^>]*>([\s\S]*?)<\/main>/i); return !!(m && /<[a-z]/i.test(m[1])); } },
+        ],
+        pistaGeneral: "Pon tu &lt;header&gt; con el nombre del proyecto, en &lt;main&gt; el contenido central (inputs, botones, listas), y en &lt;footer&gt; tu nombre como autora. Dentro de &lt;style&gt; escribe al menos 3 reglas CSS.",
+        pistaCodigo: `<style>
+  body { font-family: Arial; background-color: #f5f5f5; }
+  header { background-color: purple; color: white; padding: 16px; }
+  main { padding: 24px; }
+  footer { text-align: center; padding: 12px; color: gray; }
+</style>`,
+        solucion: `<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Mi Recetario Digital</title>
+    <style>
+      body { font-family: Arial, sans-serif; background-color: #fdf6ec; margin: 0; }
+      header { background-color: #c0392b; color: white; padding: 20px; text-align: center; }
+      main { max-width: 600px; margin: 24px auto; padding: 0 16px; }
+      footer { text-align: center; padding: 16px; color: gray; font-size: 14px; }
+      input { padding: 8px; width: 70%; border: 1px solid #ccc; border-radius: 4px; }
+      button { padding: 8px 16px; background-color: #c0392b; color: white; border: none; border-radius: 4px; cursor: pointer; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Mi Recetario Digital</h1>
+    </header>
+    <main>
+      <input id="nombreReceta" type="text" placeholder="Nombre de la receta">
+      <button id="agregar">Agregar</button>
+      <ul id="listaRecetas"></ul>
+    </main>
+    <footer>
+      <p>Hecho con amor por Alexandra</p>
+    </footer>
+  </body>
+</html>`,
+      },
+
+      3: {
+        id: 3,
+        nombre: "Funcionalidad Dinámica",
+        objetivo: "Agregar JavaScript a tu proyecto para que responda a las acciones del usuario.",
+        conceptoClave: "La funcionalidad dinámica es lo que diferencia una página estática de una aplicación. El usuario hace algo (clic, escribir, enviar) y la página cambia sin recargar.",
+        masInformacion: "Revisa tu plan del Reto 1: ¿cuáles eran las características de tu proyecto? Implementa al menos dos de ellas con JavaScript.",
+        duracionVideo: "4:30",
+        plantilla: `<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>[Tu proyecto]</title>
+    <style>
+      /* Tu CSS del Reto 2 aquí */
+    </style>
+  </head>
+  <body>
+
+    <!-- Tu estructura HTML del Reto 2 aquí -->
+
+    <script>
+      // Implementa al menos 2 funcionalidades interactivas:
+      // - Selecciona elementos con getElementById o querySelector
+      // - Usa addEventListener para responder a acciones del usuario
+      // - Modifica el DOM (textContent, appendChild, classList, etc.)
+
+    </script>
+  </body>
+</html>`,
+        criterios: [
+          { descripcion: "Seleccionas al menos 2 elementos del DOM", cumple: (c) => (c.match(/document\.(getElementById|querySelector)\s*\(/g) || []).length >= 2 },
+          { descripcion: "Usas addEventListener al menos 2 veces", cumple: (c) => (c.match(/addEventListener\s*\(/g) || []).length >= 2 },
+          { descripcion: "Defines al menos una función o usas arrow functions", cumple: (c) => /\bfunction\s+\w+\s*\(/.test(c) || /=>\s*\{/.test(c) || /addEventListener\s*\([^,]+,\s*function/.test(c) },
+          { descripcion: "Modificas el DOM dinámicamente (textContent, appendChild, classList u otro)", cumple: (c) => /\.(textContent|innerHTML|appendChild|classList|src|value)\s*[=(]/.test(c) },
+        ],
+        pistaGeneral: "Para cada funcionalidad: (1) selecciona el elemento con getElementById, (2) agrégale un addEventListener, (3) dentro del evento modifica el DOM. Por ejemplo, un botón que agrega elementos a una lista es: getElementById → addEventListener('click') → createElement + appendChild.",
+        pistaCodigo: `// Funcionalidad 1: Agregar elemento
+const boton = document.getElementById("[id-boton]");
+boton.addEventListener("click", function () {
+  // tu lógica aquí
+});
+
+// Funcionalidad 2: Otra acción
+const otro = document.getElementById("[id-otro]");
+otro.addEventListener("[evento]", function () {
+  // tu lógica aquí
+});`,
+        solucion: `<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Mi Recetario Digital</title>
+    <style>
+      body { font-family: Arial, sans-serif; background-color: #fdf6ec; margin: 0; }
+      header { background-color: #c0392b; color: white; padding: 20px; text-align: center; }
+      main { max-width: 600px; margin: 24px auto; padding: 0 16px; }
+      footer { text-align: center; padding: 16px; color: gray; font-size: 14px; }
+      input { padding: 8px; width: 65%; border: 1px solid #ccc; border-radius: 4px; }
+      button { padding: 8px 16px; background-color: #c0392b; color: white; border: none; border-radius: 4px; cursor: pointer; }
+      li { padding: 6px 0; }
+    </style>
+  </head>
+  <body>
+    <header><h1>Mi Recetario Digital</h1></header>
+    <main>
+      <input id="nombreReceta" type="text" placeholder="Nombre de la receta">
+      <button id="agregar">Agregar</button>
+      <ul id="listaRecetas"></ul>
+    </main>
+    <footer><p>Hecho con amor por Alexandra</p></footer>
+
+    <script>
+      const entrada = document.getElementById("nombreReceta");
+      const boton = document.getElementById("agregar");
+      const lista = document.getElementById("listaRecetas");
+
+      boton.addEventListener("click", function () {
+        if (entrada.value.trim() === "") return;
+        const li = document.createElement("li");
+        li.textContent = entrada.value;
+        lista.appendChild(li);
+        entrada.value = "";
+      });
+
+      entrada.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") boton.click();
+      });
+    </script>
+  </body>
+</html>`,
+      },
+
+      4: {
+        id: 4,
+        nombre: "Validación y Mejoras",
+        objetivo: "Mejorar tu proyecto con validación de datos, mensajes de error y diseño responsivo.",
+        conceptoClave: "Un proyecto de calidad valida que el usuario ingresó datos correctos, muestra mensajes claros cuando algo falla, y se ve bien en pantallas pequeñas con media queries.",
+        masInformacion: "Las mejoras no tienen que ser grandes: un mensaje de error claro, un estilo que cambia en pantallas pequeñas, o un detalle de animación ya marcan la diferencia.",
+        duracionVideo: "4:00",
+        plantilla: `<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>[Tu proyecto]</title>
+    <style>
+      /* Tu CSS del Reto 2 + nuevas mejoras */
+
+      /* Agrega una media query para pantallas angostas */
+      @media (max-width: 600px) {
+
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Tu HTML del Reto 3 aquí -->
+    <!-- Agrega un elemento para mostrar mensajes de error o éxito -->
+
+    <script>
+      // Tu JS del Reto 3 + validaciones
+      // Antes de ejecutar cada acción, valida que los datos sean correctos
+      // Muestra un mensaje si hay un error
+    </script>
+  </body>
+</html>`,
+        criterios: [
+          { descripcion: "Validas datos con un if antes de ejecutar la acción principal", cumple: (c) => /\bif\s*\([^)]*\.value/.test(c) || /\bif\s*\([^)]*\.trim\s*\(\s*\)/.test(c) },
+          { descripcion: "Muestras un mensaje de error o retroalimentación al usuario", cumple: (c) => /\.(textContent|innerHTML)\s*=\s*["'][^"']+["']/.test(c) },
+          { descripcion: "Tienes al menos una media query con max-width o min-width", cumple: (c) => /@media\s*\([^)]*\b(max-width|min-width)\b/i.test(c) },
+          { descripcion: "Usas classList o estilos condicionales para dar retroalimentación visual", cumple: (c) => /classList\.(add|remove|toggle)\s*\(/.test(c) || /\.(style)\.\w+\s*=/.test(c) || /\.(textContent|innerHTML)\s*=/.test(c) },
+        ],
+        pistaGeneral: "Antes de agregar algo, valida: if (entrada.value.trim() === '') { mensajeError.textContent = 'El campo está vacío'; return; } Agrega también un @media (max-width: 600px) que ajuste el layout para móviles.",
+        pistaCodigo: `// Validación
+if (entrada.value.trim() === "") {
+  mensajeError.textContent = "Por favor escribe algo antes de guardar.";
+  return;
+}
+mensajeError.textContent = "";
+
+/* En el CSS: */
+@media (max-width: 600px) {
+  /* ajusta el layout para pantallas pequeñas */
+}`,
+        solucion: `<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Mi Recetario Digital</title>
+    <style>
+      body { font-family: Arial, sans-serif; background-color: #fdf6ec; margin: 0; }
+      header { background-color: #c0392b; color: white; padding: 20px; text-align: center; }
+      main { max-width: 600px; margin: 24px auto; padding: 0 16px; }
+      footer { text-align: center; padding: 16px; color: gray; font-size: 14px; }
+      input { padding: 8px; width: 65%; border: 1px solid #ccc; border-radius: 4px; }
+      button { padding: 8px 16px; background-color: #c0392b; color: white; border: none; border-radius: 4px; cursor: pointer; }
+      li { padding: 6px 0; }
+      .error { color: red; font-size: 14px; margin-top: 6px; }
+      @media (max-width: 600px) {
+        input { width: 100%; display: block; margin-bottom: 8px; }
+        button { width: 100%; }
+      }
+    </style>
+  </head>
+  <body>
+    <header><h1>Mi Recetario Digital</h1></header>
+    <main>
+      <input id="nombreReceta" type="text" placeholder="Nombre de la receta">
+      <button id="agregar">Agregar</button>
+      <p id="error" class="error"></p>
+      <ul id="listaRecetas"></ul>
+    </main>
+    <footer><p>Hecho con amor por Alexandra</p></footer>
+
+    <script>
+      const entrada = document.getElementById("nombreReceta");
+      const boton = document.getElementById("agregar");
+      const lista = document.getElementById("listaRecetas");
+      const error = document.getElementById("error");
+
+      boton.addEventListener("click", function () {
+        if (entrada.value.trim() === "") {
+          error.textContent = "Por favor escribe el nombre de una receta.";
+          return;
+        }
+        error.textContent = "";
+        const li = document.createElement("li");
+        li.textContent = entrada.value;
+        lista.appendChild(li);
+        entrada.value = "";
+      });
+
+      entrada.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") boton.click();
+      });
+    </script>
+  </body>
+</html>`,
+      },
+
+      5: {
+        id: 5,
+        nombre: "Presentación Final",
+        objetivo: "Entregar tu proyecto completo y pulido, con HTML semántico, CSS propio, JavaScript funcional y validación.",
+        conceptoClave: "Este es tu proyecto integrador: combina todo lo que aprendiste en el camino. Un documento HTML bien estructurado, diseño CSS propio, interactividad JavaScript y buenas prácticas.",
+        masInformacion: "¡Llegaste al final del camino! Este último reto valida que tu proyecto tiene todas las piezas. Puedes usar cualquier idea: no tiene que ser el mismo ejemplo de los retos anteriores.",
+        duracionVideo: "3:00",
+        plantilla: `<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>[Nombre de tu proyecto final]</title>
+    <style>
+      /* Tu CSS completo aquí */
+
+    </style>
+  </head>
+  <body>
+
+    <header>
+      <!-- Título y/o navegación -->
+    </header>
+
+    <main>
+      <!-- Contenido principal: formularios, listas, tarjetas, etc. -->
+    </main>
+
+    <footer>
+      <!-- Tu nombre como autora del proyecto -->
+    </footer>
+
+    <script>
+      // Tu JavaScript completo aquí
+      // Debe incluir: selección de elementos, eventos, modificación del DOM y validación
+
+    </script>
+  </body>
+</html>`,
+        criterios: [
+          { descripcion: "Tiene estructura semántica completa: header, main y footer con contenido", cumple: (c) => { const h = c.match(/<header[^>]*>([\s\S]*?)<\/header>/i); const m = c.match(/<main[^>]*>([\s\S]*?)<\/main>/i); const f = c.match(/<footer[^>]*>([\s\S]*?)<\/footer>/i); return !!(h && h[1].trim() && m && m[1].trim() && f && f[1].trim()); } },
+          { descripcion: "Tiene CSS con al menos 4 reglas de estilo propias", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && (m[1].match(/\{[^}]+\}/g) || []).length >= 4); } },
+          { descripcion: "Tiene JavaScript con addEventListener y modificación del DOM", cumple: (c) => /addEventListener\s*\(/.test(c) && /\.(textContent|innerHTML|appendChild|classList)\s*[=(]/.test(c) },
+          { descripcion: "Tiene validación: un if que controla el flujo según los datos del usuario", cumple: (c) => /\bif\s*\(/.test(c) && (/\.value/.test(c) || /\.length/.test(c) || /\.trim\s*\(\s*\)/.test(c)) },
+        ],
+        pistaGeneral: "Tu proyecto final necesita: (1) &lt;header&gt;, &lt;main&gt; y &lt;footer&gt; con contenido, (2) &lt;style&gt; con al menos 4 reglas CSS, (3) JS con addEventListener y modificación del DOM, (4) un if que valide datos antes de actuar.",
+        pistaCodigo: `<!-- Estructura -->
+<header>...</header>
+<main>...</main>
+<footer>Hecho por [tu nombre]</footer>
+
+<style>
+  /* Al menos 4 reglas */
+  body { ... }
+  header { ... }
+  main { ... }
+  .elemento { ... }
+</style>
+
+<script>
+  // Al menos: addEventListener + modificación DOM + validación if
+</script>`,
+        solucion: `<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Mi Recetario Digital</title>
+    <style>
+      body { font-family: Arial, sans-serif; background-color: #fdf6ec; margin: 0; }
+      header { background-color: #c0392b; color: white; padding: 20px; text-align: center; }
+      main { max-width: 600px; margin: 24px auto; padding: 0 16px; }
+      footer { text-align: center; padding: 16px; color: gray; font-size: 14px; }
+      input { padding: 8px; width: 65%; border: 1px solid #ccc; border-radius: 4px; }
+      button { padding: 8px 16px; background-color: #c0392b; color: white; border: none; border-radius: 4px; cursor: pointer; }
+      .receta { padding: 8px; border-left: 4px solid #c0392b; margin: 8px 0; background: white; }
+      .error { color: red; font-size: 14px; }
+      @media (max-width: 600px) {
+        input { width: 100%; display: block; margin-bottom: 8px; }
+        button { width: 100%; }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Mi Recetario Digital</h1>
+      <p>Guarda tus recetas favoritas</p>
+    </header>
+    <main>
+      <input id="entrada" type="text" placeholder="Nombre de la receta">
+      <button id="agregar">Agregar receta</button>
+      <p id="error" class="error"></p>
+      <div id="lista"></div>
+    </main>
+    <footer><p>Hecho con amor por Alexandra &mdash; Developer Quest</p></footer>
+
+    <script>
+      const entrada = document.getElementById("entrada");
+      const boton = document.getElementById("agregar");
+      const lista = document.getElementById("lista");
+      const error = document.getElementById("error");
+
+      boton.addEventListener("click", agregarReceta);
+      entrada.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") agregarReceta();
+      });
+
+      function agregarReceta() {
+        if (entrada.value.trim() === "") {
+          error.textContent = "Escribe el nombre de una receta primero.";
+          return;
+        }
+        error.textContent = "";
+        const div = document.createElement("div");
+        div.className = "receta";
+        div.textContent = entrada.value;
+        lista.appendChild(div);
+        entrada.value = "";
+        entrada.focus();
+      }
+    </script>
+  </body>
+</html>`,
+      },
+    },
+  },
 };
