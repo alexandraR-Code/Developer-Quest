@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TEAM CODER EXPERIENCE - Mi Perfil</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="perfil.css">
+</head>
+<body>
+
+  <button class="boton-hamburguesa" id="botonHamburguesa" aria-label="Abrir menú">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+
+  <div class="contenedor-app">
+    <aside class="menu-lateral" id="menuLateral">
+      <div class="menu-lateral__logo">
+        <span class="logo-marca"><i class="fa-solid fa-code"></i></span>
+        <span class="logo-texto">TEAM CODER EXPERIENCE</span>
+      </div>
+
+      <nav class="menu-lateral__nav">
+        <a href="index.html" class="enlace-menu" data-vista="niveles">
+          <i class="fa-solid fa-route enlace-menu__icono"></i>
+          <span>Mis Niveles</span>
+        </a>
+        <a href="perfil.html" class="enlace-menu enlace-menu--activo" data-vista="perfil">
+          <i class="fa-solid fa-user enlace-menu__icono"></i>
+          <span>Perfil</span>
+        </a>
+        <a href="configuracion.html" class="enlace-menu" data-vista="configuracion">
+          <i class="fa-solid fa-gear enlace-menu__icono"></i>
+          <span>Configuración</span>
+        </a>
+      </nav>
+
+      <a href="#" class="enlace-menu enlace-menu--salir" data-vista="salir">
+        <i class="fa-solid fa-right-from-bracket enlace-menu__icono"></i>
+        <span>Cerrar Sesión</span>
+      </a>
+    </aside>
+
+    <div class="fondo-menu" id="fondoMenu"></div>
+
+    <main class="contenido-principal">
+      <header class="encabezado-niveles">
+        <div>
+          <h1>Mi Perfil</h1>
+          <p class="encabezado-niveles__subtitulo" id="textoSaludoJugador">Tu progreso en TEAM CODER EXPERIENCEt</p>
+        </div>
+        <div class="insignia-nivel-usuario">
+          <div class="insignia-nivel-usuario__circulo"><span id="textoNivelUsuario">1</span></div>
+          <div class="insignia-nivel-usuario__info">
+            <span class="insignia-nivel-usuario__etiqueta">Nivel de usuario</span>
+            <div class="barra-progreso barra-progreso--mini">
+              <div class="barra-progreso__relleno" id="barraXpUsuario" style="width: 0%"></div>
+            </div>
+            <span class="insignia-nivel-usuario__xp" id="textoXpUsuario">0 / 1500 XP</span>
+          </div>
+        </div>
+      </header>
+
+      <div class="grid-perfil">
+        <section class="tarjeta-perfil tarjeta-perfil--info">
+          <div class="avatar-perfil"><span id="letraAvatar">A</span></div>
+          <div class="info-perfil">
+            <div class="info-perfil__nombre" id="textoNombrePerfil">Jugador</div>
+            <div class="info-perfil__inscripcion" id="textoFechaInscripcion">Miembro desde -</div>
+          </div>
+          <button class="boton-secundario" id="botonEditarNombre"><i class="fa-solid fa-pen"></i> Editar nombre</button>
+        </section>
+
+        <section class="tarjeta-perfil tarjeta-perfil--nivel">
+          <h2 class="panel__titulo"><i class="fa-solid fa-ranking-star"></i> Nivel y Progreso</h2>
+          <div class="bloque-nivel-grande">
+            <div class="nivel-grande" id="textoNivelGrande">1</div>
+            <div class="bloque-nivel-grande__info">
+              <div class="barra-progreso">
+                <div class="barra-progreso__relleno" id="barraXpPerfil" style="width: 0%"></div>
+              </div>
+              <span id="textoXpPerfil">0 / 1500 XP</span>
+            </div>
+          </div>
+          <div class="texto-progreso" id="textoProgresoNiveles">0 de 10 niveles completados (0%)</div>
+          <a href="index.html" class="boton-estado">Ver Mapa de Progreso</a>
+        </section>
+      </div>
+
+      <section class="grid-estadisticas">
+        <div class="tarjeta-estadistica">
+          <i class="fa-solid fa-flag-checkered"></i>
+          <span class="tarjeta-estadistica__valor" id="statRetosCompletados">0</span>
+          <span class="tarjeta-estadistica__etiqueta">Retos completados</span>
+        </div>
+        <div class="tarjeta-estadistica">
+          <i class="fa-solid fa-bullseye"></i>
+          <span class="tarjeta-estadistica__valor" id="statPromedioPuntuacion">0</span>
+          <span class="tarjeta-estadistica__etiqueta">Puntuación promedio</span>
+        </div>
+        <div class="tarjeta-estadistica">
+          <i class="fa-solid fa-star"></i>
+          <span class="tarjeta-estadistica__valor" id="statTotalEstrellas">0</span>
+          <span class="tarjeta-estadistica__etiqueta">Estrellas totales</span>
+        </div>
+        <div class="tarjeta-estadistica">
+          <i class="fa-solid fa-medal"></i>
+          <span class="tarjeta-estadistica__valor" id="statMedallas">0</span>
+          <span class="tarjeta-estadistica__etiqueta">Medallas desbloqueadas</span>
+        </div>
+        <div class="tarjeta-estadistica">
+          <i class="fa-solid fa-clock"></i>
+          <span class="tarjeta-estadistica__valor" id="statTiempoTotal">-</span>
+          <span class="tarjeta-estadistica__etiqueta">Tiempo invertido</span>
+        </div>
+        <div class="tarjeta-estadistica">
+          <i class="fa-solid fa-gauge-high"></i>
+          <span class="tarjeta-estadistica__valor" id="statVelocidad">0</span>
+          <span class="tarjeta-estadistica__etiqueta">Retos / semana</span>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2 class="panel__titulo"><i class="fa-solid fa-chart-column"></i> Progreso Reciente</h2>
+        <div class="grafico-semanas" id="graficoSemanas"></div>
+      </section>
+
+      <section class="panel">
+        <h2 class="panel__titulo"><i class="fa-solid fa-clock-rotate-left"></i> Historial de Retos</h2>
+        <table class="tabla-historial">
+          <thead>
+            <tr>
+              <th>Reto</th>
+              <th>Puntuación</th>
+              <th>Estrellas</th>
+              <th>Fecha</th>
+              <th>Duración</th>
+            </tr>
+          </thead>
+          <tbody id="cuerpoHistorial"></tbody>
+        </table>
+        <p class="texto-vacio" id="textoHistorialVacio">Todavía no has completado ningún reto.</p>
+      </section>
+
+      <section class="panel">
+        <h2 class="panel__titulo"><i class="fa-solid fa-award"></i> Medallas y Logros</h2>
+
+        <div class="resumen-medallas">
+          <span id="textoResumenMedallas">Has desbloqueado 0 de 15 medallas</span>
+          <div class="barra-progreso">
+            <div class="barra-progreso__relleno" id="barraMedallas" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <div class="filtro-medallas">
+          <button class="filtro-medallas__boton filtro-medallas__boton--activo" data-filtro="todos">Todos</button>
+          <button class="filtro-medallas__boton" data-filtro="desbloqueadas">Desbloqueadas</button>
+          <button class="filtro-medallas__boton" data-filtro="bloqueadas">Bloqueadas</button>
+        </div>
+
+        <div class="grid-medallas" id="gridMedallas"></div>
+      </section>
+
+      <section class="panel panel-certificado">
+        <h2 class="panel__titulo"><i class="fa-solid fa-certificate"></i> Certificado de Finalización</h2>
+        <div id="bloqueCertificado"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="preferencias.js"></script>
+  <script src="niveles-datos.js"></script>
+  <script src="progreso.js"></script>
+  <script src="medallas-datos.js"></script>
+  <script src="perfil-datos.js"></script>
+  <script src="logo-movilis-datos.js"></script>
+  <script src="menu.js"></script>
+  <script src="perfil.js"></script>
+</body>
+</html>

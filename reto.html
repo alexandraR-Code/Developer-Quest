@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title id="tituloPagina">Reto - Developer Quest</title>
+  <title id="tituloPagina">Reto - TEAM CODER EXPERIENCE</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
@@ -155,9 +155,12 @@
         <i class="fa-solid fa-trophy"></i>
         <div>
           <strong>¡Reto Completado!</strong>
-          <p>Obtuviste <span id="puntosObtenidos">100</span> puntos.</p>
+          <p>Obtuviste <span id="puntosObtenidos">100</span> puntos y <span id="xpObtenido">0</span> XP.</p>
+          <p class="banner-exito__nivel-usuario" id="textoNivelUsuarioBanner"></p>
         </div>
       </div>
+
+      <div class="medallas-nuevas" id="medallasNuevas"></div>
     </section>
 
   </main>
@@ -173,8 +176,11 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/htmlmixed/htmlmixed.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/closebrackets.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/closetag.min.js"></script>
+  <script src="preferencias.js"></script>
   <script src="niveles-datos.js"></script>
   <script src="retos-datos.js"></script>
+  <script src="progreso.js"></script>
+  <script src="medallas-datos.js"></script>
   <script src="reto.js"></script>
 </body>
 </html>

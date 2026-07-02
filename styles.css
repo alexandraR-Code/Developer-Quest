@@ -21,6 +21,58 @@
   --ancho-menu: 256px;
   --fuente-titulos: 'Baloo 2', sans-serif;
   --fuente-texto: 'Roboto', sans-serif;
+
+  /* --morado/--morado-oscuro también se usan como FONDO (botones, degradados),
+     donde siempre van con texto blanco y no necesitan cambiar con el tema.
+     Estos dos son para cuando el morado es el TEXTO/ícono sobre una superficie
+     de la tarjeta: en modo oscuro necesitan aclararse para seguir siendo legibles. */
+  --morado-texto: var(--morado);
+  --morado-oscuro-texto: var(--morado-oscuro);
+
+  /* Superficies y estados, reutilizados en varias pantallas */
+  --superficie-sutil: #faf8fb;
+  --superficie-hover: #f1eef2;
+  --realce-hover: #ead9e7;
+  --contorno-suave: #e6dee5;
+  --pista-progreso: #efe9ee;
+  --sombra-borde: #d8d2d7;
+  --exito-fondo: #eafaf1;
+  --exito-texto: #1f6e45;
+  --advertencia-fondo: #fff7e0;
+  --advertencia-texto: #b8860b;
+  --error-texto: #c0392b;
+  --peligro: #b04848;
+  --peligro-hover-fondo: #fbeaea;
+  --estrella-vacia: #ddd6dc;
+}
+
+/* ===== TEMA OSCURO (RF-016.1), activado desde Configuración ===== */
+:root[data-tema="oscuro"] {
+  --morado-claro: #3a2440;
+  --gris-bloqueado: #5c5462;
+  --fondo: #1b1420;
+  --tarjeta: #241a29;
+  --borde: #3a2d40;
+  --texto: #f1eaf0;
+  --texto-secundario: #b8aebd;
+
+  --morado-texto: #e07ad1;
+  --morado-oscuro-texto: #f2b8e8;
+
+  --superficie-sutil: #2c2030;
+  --superficie-hover: #33263a;
+  --realce-hover: #4a2f52;
+  --contorno-suave: #3a2d40;
+  --pista-progreso: #362b3d;
+  --sombra-borde: #4a3d52;
+  --exito-fondo: #163d2a;
+  --exito-texto: #6fd9a3;
+  --advertencia-fondo: #4a3c12;
+  --advertencia-texto: #f0c419;
+  --error-texto: #ff6b6b;
+  --peligro: #e88a8a;
+  --peligro-hover-fondo: #3d2020;
+  --estrella-vacia: #57485e;
 }
 
 body {
@@ -40,6 +92,126 @@ button {
   font-family: var(--fuente-texto);
   cursor: pointer;
   border: none;
+}
+
+/* ===== PANELES Y BOTONES COMPARTIDOS (usados en varias pantallas) ===== */
+.panel {
+  background: var(--tarjeta);
+  border: 1px solid var(--borde);
+  border-radius: 16px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.panel__titulo {
+  font-family: var(--fuente-titulos);
+  font-size: 15px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--morado-oscuro-texto);
+}
+
+.panel__encabezado {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.texto-vacio {
+  font-size: 13px;
+  color: var(--texto-secundario);
+  text-align: center;
+  padding: 12px 0;
+}
+
+.bloque-nivel-grande {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.nivel-grande {
+  width: 68px;
+  height: 68px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--amarillo), var(--amarillo-oscuro));
+  color: var(--morado-oscuro);
+  font-family: var(--fuente-titulos);
+  font-weight: 800;
+  font-size: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bloque-nivel-grande__info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--texto-secundario);
+}
+
+.boton-estado {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: linear-gradient(135deg, var(--morado), var(--morado-oscuro));
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 11px 20px;
+  border-radius: 10px;
+  transition: filter 0.2s ease, opacity 0.2s ease;
+}
+
+.boton-estado:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+
+.boton-estado:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.boton-estado--completado {
+  background: linear-gradient(135deg, var(--verde-exito), var(--verde-exito-oscuro));
+}
+
+.boton-secundario {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--morado-claro);
+  color: var(--morado-texto);
+  font-weight: 600;
+  font-size: 13px;
+  padding: 9px 16px;
+  border-radius: 9px;
+  transition: background 0.2s ease;
+}
+
+.boton-secundario:hover:not(:disabled) {
+  background: var(--realce-hover);
+}
+
+.boton-secundario:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.boton-texto {
+  background: none;
+  color: var(--morado-texto);
+  font-size: 12px;
+  font-weight: 600;
 }
 
 /* ===== ESTRUCTURA GENERAL ===== */
@@ -114,12 +286,12 @@ button {
 
 .enlace-menu:hover {
   background: var(--morado-claro);
-  color: var(--morado);
+  color: var(--morado-texto);
 }
 
 .enlace-menu--activo {
   background: var(--morado-claro);
-  color: var(--morado);
+  color: var(--morado-texto);
   font-weight: 700;
 }
 
@@ -133,12 +305,12 @@ button {
   border-top: 1px solid var(--borde);
   padding-top: 16px;
   margin-top: 8px;
-  color: #b04848;
+  color: var(--peligro);
 }
 
 .enlace-menu--salir:hover {
-  background: #fbeaea;
-  color: #b04848;
+  background: var(--peligro-hover-fondo);
+  color: var(--peligro);
 }
 
 .fondo-menu {
@@ -151,14 +323,14 @@ button {
   top: 16px;
   left: 16px;
   z-index: 200;
-  background: #fff;
+  background: var(--tarjeta);
   border-radius: 9px;
   width: 44px;
   height: 44px;
   align-items: center;
   justify-content: center;
   font-size: 16px;
-  color: var(--morado);
+  color: var(--morado-texto);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
 }
 
@@ -181,7 +353,7 @@ button {
   font-family: var(--fuente-titulos);
   font-size: 32px;
   font-weight: 700;
-  color: var(--morado-oscuro);
+  color: var(--morado-oscuro-texto);
   letter-spacing: 0.3px;
 }
 
@@ -191,31 +363,76 @@ button {
   font-size: 14px;
 }
 
-.campo-busqueda {
+/* ===== INSIGNIA DE NIVEL DE USUARIO (RF-008) ===== */
+.insignia-nivel-usuario {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   background: var(--tarjeta);
   border: 1px solid var(--borde);
-  border-radius: 10px;
-  padding: 10px 14px;
-  min-width: 230px;
+  border-radius: 12px;
+  padding: 8px 16px 8px 8px;
+}
+
+.insignia-nivel-usuario__circulo {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--amarillo), var(--amarillo-oscuro));
+  color: var(--morado-oscuro);
+  font-family: var(--fuente-titulos);
+  font-weight: 800;
+  font-size: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.insignia-nivel-usuario__info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 130px;
+}
+
+.insignia-nivel-usuario__etiqueta {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--texto-secundario);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.insignia-nivel-usuario__xp {
+  font-size: 11px;
   color: var(--texto-secundario);
 }
 
-.campo-busqueda input {
-  border: none;
-  outline: none;
-  font-size: 14px;
-  flex: 1;
-  font-family: var(--fuente-texto);
-  color: var(--texto);
+.barra-progreso--mini {
+  width: 100%;
+  height: 5px;
 }
 
 /* ===== SENDERO DE NIVELES ===== */
 .contenedor-sendero {
   position: relative;
   padding: 36px 0 70px;
+}
+
+/* Marca de agua del logo Movilis: solo en "Mis Niveles", centrada en la
+   zona del sendero (a la derecha del menú lateral), fija a la pantalla. */
+.pagina-niveles::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: var(--ancho-menu);
+  right: 0;
+  bottom: 0;
+  background: url("Logo Movilis Outline Amarillo.png") no-repeat center center / 340px auto;
+  opacity: 0.18;
+  pointer-events: none;
+  z-index: -1;
 }
 
 .sendero {
@@ -238,7 +455,7 @@ button {
 
 .ruta-base {
   fill: none;
-  stroke: #e6dee5;
+  stroke: var(--contorno-suave);
   stroke-width: 6;
   stroke-linecap: round;
   stroke-dasharray: 2 18;
@@ -261,10 +478,10 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(160deg, #fff, var(--morado-claro));
-  border: 5px solid #fff;
-  box-shadow: 0 7px 0 var(--morado-oscuro), 0 10px 16px rgba(136, 30, 128, 0.22);
-  color: var(--morado);
+  background: linear-gradient(160deg, var(--tarjeta), var(--morado-claro));
+  border: 5px solid var(--tarjeta);
+  box-shadow: 0 7px 0 var(--morado-oscuro-texto), 0 10px 16px rgba(136, 30, 128, 0.22);
+  color: var(--morado-texto);
   font-size: 30px;
   appearance: none;
   padding: 0;
@@ -278,7 +495,7 @@ button {
 
 .nodo-nivel:active {
   transform: translate(-50%, -47%);
-  box-shadow: 0 2px 0 var(--morado-oscuro), 0 4px 8px rgba(136, 30, 128, 0.22);
+  box-shadow: 0 2px 0 var(--morado-oscuro-texto), 0 4px 8px rgba(136, 30, 128, 0.22);
 }
 
 .nodo-nivel__numero {
@@ -296,12 +513,12 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid #fff;
+  border: 2px solid var(--tarjeta);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .nodo-nivel--completado {
-  background: linear-gradient(160deg, #fff, #e6f8ee);
+  background: linear-gradient(160deg, var(--tarjeta), var(--exito-fondo));
   color: var(--verde-exito);
   box-shadow: 0 6px 0 var(--verde-exito-oscuro), 0 8px 14px rgba(47, 158, 107, 0.22);
 }
@@ -318,9 +535,9 @@ button {
 }
 
 .nodo-nivel--bloqueado {
-  background: #f1eef2;
+  background: var(--superficie-hover);
   color: var(--gris-bloqueado);
-  box-shadow: 0 6px 0 #d8d2d7, 0 8px 14px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 6px 0 var(--sombra-borde), 0 8px 14px rgba(0, 0, 0, 0.06);
 }
 
 .nodo-nivel--bloqueado .nodo-nivel__numero {
@@ -331,18 +548,9 @@ button {
   transform: translate(-50%, -50%);
 }
 
-.nodo-nivel--resaltado {
-  animation: destello 0.5s ease 2;
-}
-
 @keyframes pulso-actual {
-  0%, 100% { box-shadow: 0 6px 0 var(--morado-oscuro), 0 0 0 0 rgba(136, 30, 128, 0.35); }
-  50% { box-shadow: 0 6px 0 var(--morado-oscuro), 0 0 0 14px rgba(136, 30, 128, 0); }
-}
-
-@keyframes destello {
-  0%, 100% { box-shadow: 0 6px 0 var(--morado-oscuro), 0 0 0 0 rgba(249, 235, 29, 0.7); }
-  50% { box-shadow: 0 6px 0 var(--morado-oscuro), 0 0 0 10px rgba(249, 235, 29, 0); }
+  0%, 100% { box-shadow: 0 6px 0 var(--morado-oscuro-texto), 0 0 0 0 rgba(136, 30, 128, 0.35); }
+  50% { box-shadow: 0 6px 0 var(--morado-oscuro-texto), 0 0 0 14px rgba(136, 30, 128, 0); }
 }
 
 .etiqueta-actual {
@@ -392,7 +600,7 @@ button {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: #f1eef2;
+  background: var(--superficie-hover);
   color: var(--texto-secundario);
   display: flex;
   align-items: center;
@@ -401,7 +609,7 @@ button {
 }
 
 .popover-nivel__cerrar:hover {
-  background: #e6dee5;
+  background: var(--contorno-suave);
 }
 
 .popover-nivel__encabezado {
@@ -417,7 +625,7 @@ button {
   height: 48px;
   border-radius: 50%;
   background: var(--morado-claro);
-  color: var(--morado);
+  color: var(--morado-texto);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -477,7 +685,7 @@ button {
 .barra-progreso {
   width: 100%;
   height: 7px;
-  background: #efe9ee;
+  background: var(--pista-progreso);
   border-radius: 6px;
   overflow: hidden;
 }
@@ -525,7 +733,7 @@ button {
   justify-content: space-between;
   padding: 7px 10px;
   border-radius: 8px;
-  background: #faf8fb;
+  background: var(--superficie-sutil);
   font-size: 12px;
 }
 
@@ -536,7 +744,7 @@ button {
 }
 
 .fila-reto__icono--completado { color: var(--verde-exito); }
-.fila-reto__icono--en-progreso { color: var(--morado); }
+.fila-reto__icono--en-progreso { color: var(--morado-texto); }
 .fila-reto__icono--no-iniciado { color: var(--gris-bloqueado); }
 
 .fila-reto__estrellas {
@@ -548,7 +756,7 @@ button {
 }
 
 .fila-reto__estrellas .fa-star.vacia {
-  color: #ddd6dc;
+  color: var(--estrella-vacia);
 }
 
 /* ===== RESPONSIVE ===== */
@@ -558,6 +766,12 @@ button {
     left: 0;
     transform: translateX(-100%);
     box-shadow: 4px 0 18px rgba(0, 0, 0, 0.15);
+  }
+
+  /* El menú lateral se oculta, así que la marca de agua vuelve a centrarse
+     en todo el ancho de la pantalla. */
+  .pagina-niveles::before {
+    left: 0;
   }
 
   .menu-lateral--abierto {

@@ -21,7 +21,7 @@ const datosNiveles = {
         plantilla: `<!DOCTYPE html>
 <html>
   <head>
-    <!-- Escribe el título que quieras: tu nombre, tu colegio, lo que sea -->
+    <!-- Escribe el título que quieras-->
     <title></title>
   </head>
   <body>
@@ -2458,7 +2458,7 @@ guardar.addEventListener("click", function () {
       <ul id="listaRecetas"></ul>
     </main>
     <footer>
-      <p>Hecho con amor por Alexandra</p>
+      <p>Hecho por Alexandra</p>
     </footer>
   </body>
 </html>`,
@@ -2533,7 +2533,7 @@ otro.addEventListener("[evento]", function () {
       <button id="agregar">Agregar</button>
       <ul id="listaRecetas"></ul>
     </main>
-    <footer><p>Hecho con amor por Alexandra</p></footer>
+    <footer><p>Hecho por Alexandra</p></footer>
 
     <script>
       const entrada = document.getElementById("nombreReceta");
@@ -2634,7 +2634,7 @@ mensajeError.textContent = "";
       <p id="error" class="error"></p>
       <ul id="listaRecetas"></ul>
     </main>
-    <footer><p>Hecho con amor por Alexandra</p></footer>
+    <footer><p>Hecho por Alexandra</p></footer>
 
     <script>
       const entrada = document.getElementById("nombreReceta");
@@ -2754,7 +2754,7 @@ mensajeError.textContent = "";
       <p id="error" class="error"></p>
       <div id="lista"></div>
     </main>
-    <footer><p>Hecho con amor por Alexandra &mdash; Developer Quest</p></footer>
+    <footer><p>Hecho por Alexandra &mdash; TEAM CODER EXPERIENCE</p></footer>
 
     <script>
       const entrada = document.getElementById("entrada");

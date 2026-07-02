@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Developer Quest - Mis Niveles</title>
+  <title>TEAM CODER EXPERIENCE - Mis Niveles</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="pagina-niveles">
 
   <button class="boton-hamburguesa" id="botonHamburguesa" aria-label="Abrir menú">
     <i class="fa-solid fa-bars"></i>
@@ -19,27 +19,19 @@
     <aside class="menu-lateral" id="menuLateral">
       <div class="menu-lateral__logo">
         <span class="logo-marca"><i class="fa-solid fa-code"></i></span>
-        <span class="logo-texto">Developer Quest</span>
+        <span class="logo-texto">TEAM CODER EXPERIENCE</span>
       </div>
 
       <nav class="menu-lateral__nav">
-        <a href="#" class="enlace-menu" data-vista="inicio">
-          <i class="fa-solid fa-house enlace-menu__icono"></i>
-          <span>Inicio</span>
-        </a>
         <a href="#" class="enlace-menu enlace-menu--activo" data-vista="niveles">
           <i class="fa-solid fa-route enlace-menu__icono"></i>
           <span>Mis Niveles</span>
         </a>
-        <a href="#" class="enlace-menu" data-vista="medallas">
-          <i class="fa-solid fa-medal enlace-menu__icono"></i>
-          <span>Medallas</span>
-        </a>
-        <a href="#" class="enlace-menu" data-vista="perfil">
+        <a href="perfil.html" class="enlace-menu" data-vista="perfil">
           <i class="fa-solid fa-user enlace-menu__icono"></i>
           <span>Perfil</span>
         </a>
-        <a href="#" class="enlace-menu" data-vista="configuracion">
+        <a href="configuracion.html" class="enlace-menu" data-vista="configuracion">
           <i class="fa-solid fa-gear enlace-menu__icono"></i>
           <span>Configuración</span>
         </a>
@@ -59,9 +51,15 @@
           <h1>Mis Niveles</h1>
           <p class="encabezado-niveles__subtitulo" id="textoSaludoJugador">Sigue el sendero y desbloquea cada nivel</p>
         </div>
-        <div class="campo-busqueda">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" id="entradaBusqueda" placeholder="Buscar nivel...">
+        <div class="insignia-nivel-usuario">
+          <div class="insignia-nivel-usuario__circulo"><span id="textoNivelUsuario">1</span></div>
+          <div class="insignia-nivel-usuario__info">
+            <span class="insignia-nivel-usuario__etiqueta">Nivel de usuario</span>
+            <div class="barra-progreso barra-progreso--mini">
+              <div class="barra-progreso__relleno" id="barraXpUsuario" style="width: 0%"></div>
+            </div>
+            <span class="insignia-nivel-usuario__xp" id="textoXpUsuario">0 / 1500 XP</span>
+          </div>
         </div>
       </header>
 
@@ -74,8 +72,11 @@
 
   <div class="popover-nivel" id="popoverNivel"></div>
 
+  <script src="preferencias.js"></script>
   <script src="niveles-datos.js"></script>
   <script src="retos-datos.js"></script>
+  <script src="progreso.js"></script>
+  <script src="menu.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

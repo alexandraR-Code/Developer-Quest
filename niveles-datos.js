@@ -1,6 +1,7 @@
-// Datos base (de ejemplo) de progreso de los 10 niveles, compartidos entre el
-// sendero (index.html) y la pantalla de reto (reto.html). aplicarProgresoReal()
-// sobrepone lo que el jugador completó de verdad en esta sesión.
+// Datos base de los 10 niveles, compartidos entre el sendero (index.html) y
+// la pantalla de reto (reto.html). Todos los retos arrancan "no-iniciado":
+// aplicarProgresoReal() sobrepone lo que el jugador completó de verdad,
+// leyendo su progreso guardado en localStorage.
 
 const niveles = [
   {
@@ -8,26 +9,14 @@ const niveles = [
     nombre: "Introducción a HTML",
     icono: "fa-solid fa-file-code",
     descripcion: "Estructura básica de documentos HTML.",
-    retos: [
-      { nombre: "Estructura HTML Básica", estado: "completado", estrellas: 3 },
-      { nombre: "Párrafos y Encabezados", estado: "completado", estrellas: 2 },
-      { nombre: "Crear Listas", estado: "completado", estrellas: 3 },
-      { nombre: "Insertar Imágenes", estado: "completado", estrellas: 2 },
-      { nombre: "Crear Enlaces", estado: "en-progreso", estrellas: 0 },
-    ],
+    retos: nombresRetosVacios(["Estructura HTML Básica", "Párrafos y Encabezados", "Crear Listas", "Insertar Imágenes", "Crear Enlaces"]),
   },
   {
     id: 2,
     nombre: "Estructuras HTML Avanzadas",
     icono: "fa-solid fa-sitemap",
     descripcion: "Elementos semánticos, formularios y tablas.",
-    retos: [
-      { nombre: "Elementos Semánticos", estado: "completado", estrellas: 3 },
-      { nombre: "Formularios Básicos", estado: "en-progreso", estrellas: 0 },
-      { nombre: "Tablas", estado: "no-iniciado", estrellas: 0 },
-      { nombre: "Atributos Avanzados", estado: "no-iniciado", estrellas: 0 },
-      { nombre: "Validación HTML", estado: "no-iniciado", estrellas: 0 },
-    ],
+    retos: nombresRetosVacios(["Elementos Semánticos", "Formularios Básicos", "Tablas", "Atributos Avanzados", "Validación HTML"]),
   },
   {
     id: 3,
@@ -121,11 +110,11 @@ function aplicarProgresoReal() {
   niveles.forEach((nivel) => {
     nivel.retos.forEach((reto, indice) => {
       const numeroReto = indice + 1;
-      const estadoGuardado = sessionStorage.getItem(`dq_estado_nivel${nivel.id}_reto${numeroReto}`);
+      const estadoGuardado = localStorage.getItem(`dq_estado_nivel${nivel.id}_reto${numeroReto}`);
       if (!estadoGuardado) return;
 
       reto.estado = estadoGuardado;
-      const estrellasGuardadas = sessionStorage.getItem(`dq_estrellas_nivel${nivel.id}_reto${numeroReto}`);
+      const estrellasGuardadas = localStorage.getItem(`dq_estrellas_nivel${nivel.id}_reto${numeroReto}`);
       if (estrellasGuardadas) reto.estrellas = parseInt(estrellasGuardadas, 10);
     });
   });

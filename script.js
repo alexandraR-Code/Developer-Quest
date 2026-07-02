@@ -1,11 +1,7 @@
-// Sin nombre de jugador no hay partida: se exige pasar por la bienvenida primero.
-const nombreJugador = sessionStorage.getItem("dq_nombre_jugador");
-if (!nombreJugador) {
-  window.location.href = "bienvenida.html";
-}
-
 // "niveles", "calcularProgresoNivel", "nivelEstaDesbloqueado" y
 // "aplicarProgresoReal" vienen de niveles-datos.js (compartido con reto.js).
+// El guardián de sesión, la insignia de nivel de usuario y el menú lateral
+// colapsable viven en menu.js (compartido con otras pantallas del shell).
 aplicarProgresoReal();
 
 document.getElementById("textoSaludoJugador").textContent = `¡Hola, ${nombreJugador}! Sigue el sendero y desbloquea cada nivel`;
@@ -252,56 +248,11 @@ document.addEventListener("click", (evento) => {
   }
 });
 
-// ===== BÚSQUEDA: resalta y centra el nivel encontrado en el sendero =====
-document.getElementById("entradaBusqueda").addEventListener("input", (evento) => {
-  const termino = evento.target.value.trim().toLowerCase();
-  if (!termino) return;
-
-  const nivelEncontrado = niveles.find((n) => n.nombre.toLowerCase().includes(termino));
-  if (!nivelEncontrado) return;
-
-  const nodoEncontrado = document.querySelector(`.nodo-nivel[data-id="${nivelEncontrado.id}"]`);
-  if (!nodoEncontrado) return;
-
-  nodoEncontrado.scrollIntoView({ behavior: "smooth", block: "center" });
-  nodoEncontrado.classList.add("nodo-nivel--resaltado");
-  setTimeout(() => nodoEncontrado.classList.remove("nodo-nivel--resaltado"), 1000);
-});
-
 // ===== REDIBUJAR AL CAMBIAR EL TAMAÑO DE VENTANA =====
 let temporizadorRedimension;
 window.addEventListener("resize", () => {
   clearTimeout(temporizadorRedimension);
   temporizadorRedimension = setTimeout(renderizarSendero, 150);
-});
-
-// ===== MENÚ LATERAL COLAPSABLE (<1200px) =====
-const menuLateral = document.getElementById("menuLateral");
-const fondoMenu = document.getElementById("fondoMenu");
-const botonHamburguesa = document.getElementById("botonHamburguesa");
-
-function alternarMenuLateral() {
-  menuLateral.classList.toggle("menu-lateral--abierto");
-  fondoMenu.classList.toggle("fondo-menu--visible");
-}
-
-botonHamburguesa.addEventListener("click", alternarMenuLateral);
-fondoMenu.addEventListener("click", alternarMenuLateral);
-
-document.querySelectorAll(".enlace-menu").forEach((enlace) => {
-  enlace.addEventListener("click", (evento) => {
-    evento.preventDefault();
-
-    if (enlace.dataset.vista === "salir") {
-      sessionStorage.clear();
-      window.location.href = "bienvenida.html";
-      return;
-    }
-
-    document.querySelectorAll(".enlace-menu").forEach((e) => e.classList.remove("enlace-menu--activo"));
-    enlace.classList.add("enlace-menu--activo");
-    if (window.innerWidth <= 1200) alternarMenuLateral();
-  });
 });
 
 renderizarSendero();

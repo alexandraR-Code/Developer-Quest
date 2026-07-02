@@ -1,0 +1,287 @@
+/* ===== CERTIFICADO ===== */
+#bloqueCertificado {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* ===== TARJETAS SUPERIORES (info personal + nivel) ===== */
+.grid-perfil {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 18px;
+  margin-top: 28px;
+}
+
+.tarjeta-perfil {
+  background: var(--tarjeta);
+  border: 1px solid var(--borde);
+  border-radius: 16px;
+  padding: 22px;
+}
+
+.tarjeta-perfil--info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+}
+
+.avatar-perfil {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  background: linear-gradient(160deg, var(--morado), var(--morado-oscuro));
+  color: #fff;
+  font-family: var(--fuente-titulos);
+  font-size: 32px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.info-perfil__nombre {
+  font-family: var(--fuente-titulos);
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.info-perfil__inscripcion {
+  font-size: 12px;
+  color: var(--texto-secundario);
+}
+
+.tarjeta-perfil--nivel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ===== GRID DE ESTADÍSTICAS ===== */
+.grid-estadisticas {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.tarjeta-estadistica {
+  background: var(--tarjeta);
+  border: 1px solid var(--borde);
+  border-radius: 14px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+}
+
+.tarjeta-estadistica i {
+  font-size: 18px;
+  color: var(--morado-texto);
+}
+
+.tarjeta-estadistica__valor {
+  font-family: var(--fuente-titulos);
+  font-weight: 800;
+  font-size: 22px;
+}
+
+.tarjeta-estadistica__etiqueta {
+  font-size: 12px;
+  color: var(--texto-secundario);
+}
+
+/* ===== PANELES INFERIORES (reutilizan ".panel" de styles.css) ===== */
+section.panel {
+  margin-top: 18px;
+}
+
+/* ===== GRÁFICO DE PROGRESO SEMANAL ===== */
+.grafico-semanas {
+  display: flex;
+  align-items: flex-end;
+  gap: 24px;
+  height: 140px;
+  padding: 10px 12px 0;
+}
+
+.barra-semana {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  gap: 6px;
+}
+
+.barra-semana__valor {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--morado-oscuro-texto);
+}
+
+.barra-semana__columna {
+  width: 100%;
+  max-width: 56px;
+  min-height: 4px;
+  background: linear-gradient(180deg, var(--morado), var(--morado-oscuro));
+  border-radius: 8px 8px 0 0;
+}
+
+.barra-semana__etiqueta {
+  font-size: 11px;
+  color: var(--texto-secundario);
+}
+
+/* ===== TABLA DE HISTORIAL ===== */
+.tabla-historial {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.tabla-historial th {
+  text-align: left;
+  padding: 8px 10px;
+  color: var(--texto-secundario);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  border-bottom: 1px solid var(--borde);
+}
+
+.tabla-historial td {
+  padding: 10px;
+  border-bottom: 1px solid var(--borde);
+}
+
+.tabla-historial tr:last-child td {
+  border-bottom: none;
+}
+
+/* ===== GALERÍA DE MEDALLAS (fusionada desde la antigua pantalla Medallas) ===== */
+.resumen-medallas {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--texto-secundario);
+  font-weight: 600;
+}
+
+.filtro-medallas {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.filtro-medallas__boton {
+  background: var(--fondo);
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--texto-secundario);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.filtro-medallas__boton:hover {
+  background: var(--morado-claro);
+  color: var(--morado-texto);
+}
+
+.filtro-medallas__boton--activo {
+  background: var(--morado);
+  border-color: var(--morado-texto);
+  color: #fff;
+}
+
+.grid-medallas {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 18px;
+}
+
+.tarjeta-medalla {
+  background: var(--fondo);
+  border: 1px solid var(--borde);
+  border-radius: 16px;
+  padding: 22px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.tarjeta-medalla:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(43, 34, 51, 0.08);
+}
+
+.tarjeta-medalla__icono {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  margin-bottom: 4px;
+}
+
+.tarjeta-medalla--desbloqueada .tarjeta-medalla__icono {
+  background: linear-gradient(160deg, var(--amarillo), var(--amarillo-oscuro));
+  color: var(--morado-oscuro);
+}
+
+.tarjeta-medalla--bloqueada .tarjeta-medalla__icono {
+  background: var(--superficie-hover);
+  color: var(--gris-bloqueado);
+}
+
+.tarjeta-medalla--bloqueada {
+  opacity: 0.75;
+}
+
+.tarjeta-medalla__nombre {
+  font-family: var(--fuente-titulos);
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.tarjeta-medalla__dificultad {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--morado-texto);
+}
+
+.tarjeta-medalla__fecha {
+  font-size: 12px;
+  color: var(--verde-exito);
+  font-weight: 600;
+}
+
+.tarjeta-medalla__requisito {
+  font-size: 12px;
+  color: var(--texto-secundario);
+  line-height: 1.4;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .grid-perfil {
+    grid-template-columns: 1fr;
+  }
+}

@@ -6,7 +6,7 @@
   padding: 20px;
   background:
     radial-gradient(circle at 1px 1px, rgba(136, 30, 128, 0.07) 1px, transparent 0) 0 0 / 22px 22px,
-    linear-gradient(160deg, #fdfbfd, var(--morado-claro));
+    linear-gradient(160deg, var(--fondo), var(--morado-claro));
 }
 
 .tarjeta-bienvenida {
@@ -31,7 +31,7 @@
   font-family: var(--fuente-titulos);
   font-size: 26px;
   font-weight: 800;
-  color: var(--morado-oscuro);
+  color: var(--morado-oscuro-texto);
 }
 
 .subtitulo-bienvenida {
@@ -61,12 +61,14 @@
   padding: 12px 14px;
   font-size: 15px;
   font-family: var(--fuente-texto);
+  background: var(--tarjeta);
+  color: var(--texto);
   outline: none;
   transition: border-color 0.2s ease;
 }
 
 #formularioBienvenida input:focus {
-  border-color: var(--morado);
+  border-color: var(--morado-texto);
 }
 
 .ayuda-campo {
@@ -81,7 +83,7 @@
 
 .ayuda-campo i {
   margin-top: 2px;
-  color: var(--morado);
+  color: var(--morado-texto);
 }
 
 .boton-comenzar-aventura {

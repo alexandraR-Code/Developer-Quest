@@ -6,7 +6,7 @@ function escaparHtml(texto) {
 }
 
 // Sin nombre de jugador no hay partida: se exige pasar por la bienvenida primero.
-if (!sessionStorage.getItem("dq_nombre_jugador")) {
+if (!localStorage.getItem("dq_nombre_jugador")) {
   window.location.href = "bienvenida.html";
 }
 
@@ -20,9 +20,26 @@ const numeroReto = Math.min(Math.max(numeroRetoSolicitado, 1), totalRetosDelNive
 const retoActual = nivelActual.retos[numeroReto];
 
 const CLAVE_ALMACENAMIENTO = `dq_progreso_nivel${numeroNivel}_reto${numeroReto}`;
+const CLAVE_ESTADO = `dq_estado_nivel${numeroNivel}_reto${numeroReto}`;
+const CLAVE_ESTRELLAS = `dq_estrellas_nivel${numeroNivel}_reto${numeroReto}`;
+const CLAVE_INTENTOS = `dq_intentos_nivel${numeroNivel}_reto${numeroReto}`;
+const CLAVE_USO_PISTA = `dq_usopista_nivel${numeroNivel}_reto${numeroReto}`;
+const CLAVE_RAPIDO = `dq_rapido_nivel${numeroNivel}_reto${numeroReto}`;
+const CLAVE_PUNTOS = `dq_puntos_nivel${numeroNivel}_reto${numeroReto}`;
+const CLAVE_FECHA = `dq_fecha_nivel${numeroNivel}_reto${numeroReto}`;
+const CLAVE_DURACION = `dq_duracion_nivel${numeroNivel}_reto${numeroReto}`;
+
+// Para el catálogo de medallas (RF-009): solo se registran intentos, pistas
+// y velocidad la primera vez que se completa el reto, no en revisitas.
+const yaEstabaCompletadoAlCargar = localStorage.getItem(CLAVE_ESTADO) === "completado";
+const inicioTimestamp = Date.now();
+if (!yaEstabaCompletadoAlCargar) {
+  const intentosPrevios = parseInt(localStorage.getItem(CLAVE_INTENTOS), 10) || 0;
+  localStorage.setItem(CLAVE_INTENTOS, intentosPrevios + 1);
+}
 
 // ===== TEXTOS DEL ENCABEZADO, VIDEO Y PIE DE PÁGINA =====
-document.getElementById("tituloPagina").textContent = `Reto ${numeroReto}: ${retoActual.nombre} - Developer Quest`;
+document.getElementById("tituloPagina").textContent = `Reto ${numeroReto}: ${retoActual.nombre} - TEAM CODER EXPERIENCE`;
 document.getElementById("textoTituloEncabezado").textContent = `Nivel ${numeroNivel}, Reto ${numeroReto}: ${retoActual.nombre}`;
 document.getElementById("textoProgresoEncabezado").textContent = `Reto ${numeroReto} de ${totalRetosDelNivel}`;
 document.getElementById("barraProgresoEncabezado").style.width = `${(numeroReto / totalRetosDelNivel) * 100}%`;
@@ -78,7 +95,7 @@ function irAlSiguienteReto() {
 }
 
 // ===== EDITOR DE CÓDIGO (CodeMirror) =====
-const codigoGuardado = sessionStorage.getItem(CLAVE_ALMACENAMIENTO);
+const codigoGuardado = localStorage.getItem(CLAVE_ALMACENAMIENTO);
 
 const editor = CodeMirror(document.getElementById("editorContenedor"), {
   value: codigoGuardado || retoActual.plantilla,
@@ -92,6 +109,10 @@ const editor = CodeMirror(document.getElementById("editorContenedor"), {
   autoCloseTags: true,
 });
 
+// RF-016.1: tamaño de fuente del editor, configurable desde Configuración.
+editor.getWrapperElement().style.fontSize = `${obtenerPreferencias().tamanoFuenteEditor}px`;
+editor.refresh();
+
 const contadorLineas = document.getElementById("contadorLineas");
 const contadorCaracteres = document.getElementById("contadorCaracteres");
 
@@ -103,7 +124,7 @@ function actualizarContadores() {
 
 editor.on("cursorActivity", actualizarContadores);
 
-// ===== GUARDADO AUTOMÁTICO (RN-006: cada 2 segundos, solo dura la sesión) =====
+// ===== GUARDADO AUTOMÁTICO (RN-006: cada 2 segundos, persiste entre sesiones) =====
 const indicadorGuardado = document.getElementById("indicadorGuardado");
 let temporizadorGuardado = null;
 
@@ -115,7 +136,7 @@ function marcarComoSinGuardar() {
 }
 
 function guardarProgreso() {
-  sessionStorage.setItem(CLAVE_ALMACENAMIENTO, editor.getValue());
+  localStorage.setItem(CLAVE_ALMACENAMIENTO, editor.getValue());
   indicadorGuardado.classList.remove("sin-guardar");
   indicadorGuardado.innerHTML = '<i class="fa-solid fa-check"></i> Guardado';
 }
@@ -187,6 +208,9 @@ const barraCriterios = document.getElementById("barraCriterios");
 const textoCriterios = document.getElementById("textoCriterios");
 const bannerExito = document.getElementById("bannerExito");
 const puntosObtenidos = document.getElementById("puntosObtenidos");
+const xpObtenido = document.getElementById("xpObtenido");
+const textoNivelUsuarioBanner = document.getElementById("textoNivelUsuarioBanner");
+const contenedorMedallasNuevas = document.getElementById("medallasNuevas");
 
 let retoYaCompletado = false;
 let temporizadorCompletitud = null;
@@ -229,15 +253,59 @@ function mostrarBannerExito() {
   const estrellas = calcularEstrellas(puntos);
   puntosObtenidos.textContent = puntos;
 
-  // Guarda el resultado real de la sesión: esto es lo que aplicarProgresoReal()
+  // Guarda el resultado real de la partida: esto es lo que aplicarProgresoReal()
   // lee después para que el sendero y el desbloqueo de niveles reflejen lo jugado.
-  sessionStorage.setItem(`dq_estado_nivel${numeroNivel}_reto${numeroReto}`, "completado");
-  sessionStorage.setItem(`dq_estrellas_nivel${numeroNivel}_reto${numeroReto}`, estrellas);
+  // Usa localStorage (RF-011) para que el progreso sobreviva entre sesiones.
+  localStorage.setItem(CLAVE_ESTADO, "completado");
+  localStorage.setItem(CLAVE_ESTRELLAS, estrellas);
+
+  // Datos para el catálogo de medallas (RF-009) y el perfil (RF-014),
+  // solo la primera vez que se completa (no en revisitas).
+  if (!yaEstabaCompletadoAlCargar) {
+    const usoAlgunaPista = pistasUsadas.nivel1 || pistasUsadas.nivel2 || pistasUsadas.nivel3;
+    const duracionMs = Date.now() - inicioTimestamp;
+    localStorage.setItem(CLAVE_USO_PISTA, usoAlgunaPista ? "true" : "false");
+    localStorage.setItem(CLAVE_RAPIDO, duracionMs < 120000 ? "true" : "false");
+    localStorage.setItem(CLAVE_PUNTOS, puntos);
+    localStorage.setItem(CLAVE_FECHA, new Date().toISOString());
+    localStorage.setItem(CLAVE_DURACION, duracionMs);
+  }
+
+  // RF-008/RN-004: el reto completado suma XP al total del jugador.
+  const xpGanado = calcularXpGanado(puntos, estrellas);
+  const estadoNivelUsuario = agregarXp(xpGanado);
+  xpObtenido.textContent = xpGanado;
+  textoNivelUsuarioBanner.textContent = estadoNivelUsuario.subioDeNivel
+    ? `¡Subiste a Nivel de Usuario ${estadoNivelUsuario.nivel}!`
+    : `Nivel de Usuario ${estadoNivelUsuario.nivel} · ${estadoNivelUsuario.xpEnNivel}/${estadoNivelUsuario.xpParaSiguiente} XP`;
+
+  // RF-016.2/RF-016.3: sonido y notificación de medallas respetan preferencias.
+  reproducirSonidoExito();
+  const medallasNuevas = verificarMedallasNuevas();
+  if (obtenerPreferencias().notificacionesLogros) {
+    mostrarMedallasNuevas(medallasNuevas);
+  }
 
   bannerExito.classList.add("visible");
   botonSiguiente.disabled = false;
   configurarBotonSiguiente();
   botonSiguiente.addEventListener("click", irAlSiguienteReto, { once: true });
+}
+
+// RF-009.2: notifica de inmediato cualquier medalla recién desbloqueada.
+function mostrarMedallasNuevas(medallasNuevas) {
+  if (medallasNuevas.length === 0) return;
+
+  contenedorMedallasNuevas.innerHTML = medallasNuevas.map((medalla) => `
+    <div class="medalla-nueva">
+      <i class="${medalla.icono}"></i>
+      <div>
+        <strong>¡Medalla desbloqueada!</strong>
+        <p>${medalla.nombre}</p>
+      </div>
+    </div>
+  `).join("");
+  contenedorMedallasNuevas.classList.add("visible");
 }
 
 // ===== SISTEMA DE PISTAS (RF-010): cada pista reduce la puntuación =====

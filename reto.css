@@ -21,7 +21,7 @@
   gap: 8px;
   font-weight: 600;
   font-size: 14px;
-  color: var(--morado);
+  color: var(--morado-texto);
   padding: 8px 14px;
   border-radius: 9px;
   transition: background 0.2s ease;
@@ -70,25 +70,7 @@
   align-items: start;
 }
 
-.panel {
-  background: var(--tarjeta);
-  border: 1px solid var(--borde);
-  border-radius: 16px;
-  padding: 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.panel__titulo {
-  font-family: var(--fuente-titulos);
-  font-size: 15px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--morado-oscuro);
-}
+/* ".panel" y ".panel__titulo" ahora viven en styles.css (compartidos con otras pantallas). */
 
 /* ===== PANEL DE VIDEO ===== */
 .reproductor-video__marco {
@@ -147,7 +129,7 @@
 
 .info-reto code {
   background: var(--morado-claro);
-  color: var(--morado-oscuro);
+  color: var(--morado-oscuro-texto);
   padding: 1px 5px;
   border-radius: 5px;
   font-size: 12px;
@@ -156,7 +138,7 @@
 .boton-mas-info {
   margin-top: 14px;
   background: none;
-  color: var(--morado);
+  color: var(--morado-texto);
   font-weight: 600;
   font-size: 13px;
   display: flex;
@@ -212,7 +194,7 @@
   height: 32px;
   border-radius: 8px;
   background: var(--morado-claro);
-  color: var(--morado);
+  color: var(--morado-texto);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -221,7 +203,7 @@
 }
 
 .boton-icono:hover {
-  background: #ead9e7;
+  background: var(--realce-hover);
 }
 
 .editor-contenedor {
@@ -256,6 +238,8 @@
   height: 220px;
   border: 1px solid var(--borde);
   border-radius: 12px;
+  /* Intencionalmente fijo en blanco: es cómo se ve el HTML del usuario en un
+     navegador real por defecto, no debe cambiar con el tema de la app. */
   background: #fff;
 }
 
@@ -269,22 +253,15 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #f3f0f3;
+  background: var(--superficie-sutil);
   padding: 8px 12px;
   font-size: 12px;
   font-weight: 600;
   color: var(--texto-secundario);
 }
 
-.boton-texto {
-  background: none;
-  color: var(--morado);
-  font-size: 12px;
-  font-weight: 600;
-}
-
 .consola__cuerpo {
-  background: #fdfcfd;
+  background: var(--tarjeta);
   height: 110px;
   overflow-y: auto;
   padding: 8px 12px;
@@ -294,12 +271,12 @@
 
 .consola__linea {
   padding: 3px 0;
-  border-bottom: 1px solid #f1eef2;
+  border-bottom: 1px solid var(--borde);
 }
 
-.consola__linea--error { color: #c0392b; }
-.consola__linea--warn { color: #b8860b; }
-.consola__linea--info { color: var(--morado); }
+.consola__linea--error { color: var(--error-texto); }
+.consola__linea--warn { color: var(--advertencia-texto); }
+.consola__linea--info { color: var(--morado-texto); }
 .consola__linea--log { color: var(--texto); }
 
 /* ===== PANEL DE AYUDA (acordeón) ===== */
@@ -311,7 +288,7 @@
 
 .item-ayuda__boton {
   width: 100%;
-  background: #faf8fb;
+  background: var(--superficie-sutil);
   padding: 12px 14px;
   display: flex;
   align-items: center;
@@ -350,7 +327,7 @@
 
 .item-ayuda__contenido code {
   background: var(--morado-claro);
-  color: var(--morado-oscuro);
+  color: var(--morado-oscuro-texto);
   padding: 1px 5px;
   border-radius: 5px;
 }
@@ -360,12 +337,13 @@
   margin-top: 10px;
   font-size: 11px;
   font-weight: 700;
-  color: #b8860b;
-  background: #fff7e0;
+  color: var(--advertencia-texto);
+  background: var(--advertencia-fondo);
   padding: 4px 9px;
   border-radius: 8px;
 }
 
+/* Intencionalmente siempre oscuro (como un editor de código), independiente del tema. */
 .bloque-codigo {
   background: #1e1e1e;
   color: #d4d4d4;
@@ -403,7 +381,7 @@
   gap: 10px;
   padding: 9px 11px;
   border-radius: 9px;
-  background: #faf8fb;
+  background: var(--superficie-sutil);
   font-size: 13px;
   transition: background 0.2s ease;
 }
@@ -414,8 +392,8 @@
 }
 
 .criterio--cumplido {
-  background: #eafaf1;
-  color: #1f6e45;
+  background: var(--exito-fondo);
+  color: var(--exito-texto);
 }
 
 .criterio--cumplido i {
@@ -455,28 +433,49 @@
   opacity: 0.9;
 }
 
-/* ===== BOTONES GENÉRICOS DE ESTA PÁGINA ===== */
-.boton-secundario {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--morado-claro);
-  color: var(--morado);
+.banner-exito__nivel-usuario {
+  font-size: 12px;
   font-weight: 600;
+  color: var(--amarillo);
+  margin-top: 2px;
+}
+
+.medallas-nuevas {
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.medallas-nuevas.visible {
+  display: flex;
+}
+
+.medalla-nueva {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: linear-gradient(135deg, var(--amarillo), var(--amarillo-oscuro));
+  color: var(--morado-oscuro);
+  padding: 14px 16px;
+  border-radius: 14px;
+}
+
+.medalla-nueva i {
+  font-size: 28px;
+}
+
+.medalla-nueva strong {
+  font-family: var(--fuente-titulos);
+  font-size: 14px;
+  display: block;
+}
+
+.medalla-nueva p {
   font-size: 13px;
-  padding: 9px 16px;
-  border-radius: 9px;
-  transition: background 0.2s ease;
 }
 
-.boton-secundario:hover:not(:disabled) {
-  background: #ead9e7;
-}
-
-.boton-secundario:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
+/* ".boton-secundario" ahora vive en styles.css (compartido con otras pantallas). */
 
 /* ===== PIE DE PÁGINA ===== */
 .pie-reto {

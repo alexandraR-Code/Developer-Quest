@@ -1,6 +1,6 @@
-// Si ya hay un nombre guardado en esta sesión (pestaña abierta), no se vuelve
-// a pedir: se entra directo al sendero de niveles.
-if (sessionStorage.getItem("dq_nombre_jugador")) {
+// Si ya hay un nombre guardado (RF-011: persiste entre sesiones en localStorage),
+// no se vuelve a pedir: se entra directo al sendero de niveles.
+if (localStorage.getItem("dq_nombre_jugador")) {
   window.location.href = "index.html";
 }
 
@@ -11,6 +11,7 @@ document.getElementById("formularioBienvenida").addEventListener("submit", (even
   const nombre = campoNombre.value.trim();
   if (!nombre) return;
 
-  sessionStorage.setItem("dq_nombre_jugador", nombre);
+  localStorage.setItem("dq_nombre_jugador", nombre);
+  localStorage.setItem("dq_fecha_inscripcion", new Date().toISOString());
   window.location.href = "index.html";
 });
