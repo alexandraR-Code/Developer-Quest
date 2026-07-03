@@ -5,9 +5,9 @@
 }
 
 :root {
-  --morado: #881e80;
-  --morado-oscuro: #6b1766;
-  --morado-claro: #f4e9f3;
+  --morado: #46368d;
+  --morado-oscuro: #322569;
+  --morado-claro: #f4f3f9;
   --amarillo: #f9eb1d;
   --amarillo-oscuro: #e6d610;
   --verde-exito: #2f9e6b;
@@ -32,7 +32,7 @@
   /* Superficies y estados, reutilizados en varias pantallas */
   --superficie-sutil: #faf8fb;
   --superficie-hover: #f1eef2;
-  --realce-hover: #ead9e7;
+  --realce-hover: #e2ddf0;
   --contorno-suave: #e6dee5;
   --pista-progreso: #efe9ee;
   --sombra-borde: #d8d2d7;
@@ -48,7 +48,7 @@
 
 /* ===== TEMA OSCURO (RF-016.1), activado desde Configuración ===== */
 :root[data-tema="oscuro"] {
-  --morado-claro: #3a2440;
+  --morado-claro: #2d2749;
   --gris-bloqueado: #5c5462;
   --fondo: #1b1420;
   --tarjeta: #241a29;
@@ -56,12 +56,12 @@
   --texto: #f1eaf0;
   --texto-secundario: #b8aebd;
 
-  --morado-texto: #e07ad1;
-  --morado-oscuro-texto: #f2b8e8;
+  --morado-texto: #a698e1;
+  --morado-oscuro-texto: #c7c0e7;
 
   --superficie-sutil: #2c2030;
   --superficie-hover: #33263a;
-  --realce-hover: #4a2f52;
+  --realce-hover: #3f3660;
   --contorno-suave: #3a2d40;
   --pista-progreso: #362b3d;
   --sombra-borde: #4a3d52;
@@ -243,6 +243,27 @@ button {
   padding: 0 8px 24px 8px;
   border-bottom: 1px solid var(--borde);
   margin-bottom: 20px;
+}
+
+/* Logo de marca Movilis: se usan dos versiones (contorno morado / contorno
+   amarillo) para mantener contraste según el tema claro u oscuro activo. */
+.logo-movilis {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.logo-movilis--oscuro {
+  display: none;
+}
+
+:root[data-tema="oscuro"] .logo-movilis--claro {
+  display: none;
+}
+
+:root[data-tema="oscuro"] .logo-movilis--oscuro {
+  display: block;
 }
 
 .logo-marca {

@@ -17,6 +17,15 @@
   width: 100%;
   text-align: center;
   box-shadow: 0 24px 50px rgba(136, 30, 128, 0.18);
+  
+}
+
+.logo-movilis-completo {
+  width: 220px;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto 50px;
 }
 
 .logo-marca--grande {

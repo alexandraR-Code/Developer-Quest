@@ -122,7 +122,7 @@ const datosNiveles = {
 </html>`,
         criterios: [
           { descripcion: "Existe un &lt;h1&gt; con contenido", cumple: (c) => { const t = textoNoVacioEntre(c, "<h1>", "<\\/h1>"); return !!(t && t.length > 0); } },
-          { descripcion: "Existe &l;tul&gt; con al menos 2 elementos &lt;li&gt;", cumple: (c) => { const u = c.match(/<ul>([\s\S]*?)<\/ul>/i); return !!(u && (u[1].match(/<li>/gi) || []).length >= 2); } },
+          { descripcion: "Existe &lt;ul&gt; con al menos 2 elementos &lt;li&gt;", cumple: (c) => { const u = c.match(/<ul>([\s\S]*?)<\/ul>/i); return !!(u && (u[1].match(/<li>/gi) || []).length >= 2); } },
           { descripcion: "Existe &lt;ol&gt; con al menos 2 elementos &lt;li&gt;", cumple: (c) => { const o = c.match(/<ol>([\s\S]*?)<\/ol>/i); return !!(o && (o[1].match(/<li>/gi) || []).length >= 2); } },
           { descripcion: "Todo está dentro del &lt;body&gt;", cumple: (c) => { const b = c.match(/<body>([\s\S]*?)<\/body>/i); return !!(b && /<h1>/i.test(b[1]) && /<ul>/i.test(b[1]) && /<ol>/i.test(b[1])); } },
         ],
