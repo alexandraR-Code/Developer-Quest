@@ -122,7 +122,10 @@ function renderizarSendero() {
   ocultarPopoverNivel();
   elementoSendero.innerHTML = "";
 
-  const datosPorNivel = niveles.map((nivel, indice) => ({
+  // Filtrar solo niveles 1 y 2
+  const nivelesAMostrar = niveles.slice(0, 2);
+
+  const datosPorNivel = nivelesAMostrar.map((nivel, indice) => ({
     nivel,
     progreso: calcularProgresoNivel(nivel),
     desbloqueado: nivelEstaDesbloqueado(indice),
@@ -130,7 +133,7 @@ function renderizarSendero() {
 
   const indiceNivelActual = datosPorNivel.findIndex((d) => d.progreso.estadoGeneral !== "completado");
   const anchoContenedor = elementoSendero.clientWidth;
-  const puntos = calcularPuntosSendero(niveles.length, anchoContenedor);
+  const puntos = calcularPuntosSendero(nivelesAMostrar.length, anchoContenedor);
   const alturaTotal = puntos[puntos.length - 1].y + MARGEN_SUPERIOR;
   elementoSendero.style.height = `${alturaTotal}px`;
 
