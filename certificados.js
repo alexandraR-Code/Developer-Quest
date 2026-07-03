@@ -27,8 +27,8 @@ function generarCertificadoPDF() {
   const numeroCertificado = obtenerNumeroCertificado();
   const fecha = new Date().toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" });
 
-  const morado = [136, 30, 128];
-  const moradoOscuro = [107, 23, 102];
+  const morado = [70, 54, 141];
+  const moradoOscuro = [50, 37, 105];
   const dorado = [197, 160, 63];
   const gris = [100, 100, 100];
 
@@ -167,8 +167,8 @@ function generarCertificadoFase1PDF() {
   const numeroCertificado = obtenerNumeroCertificadoFase1();
   const fecha = new Date().toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" });
 
-  const morado = [136, 30, 128];
-  const moradoOscuro = [107, 23, 102];
+  const morado = [70, 54, 141];
+  const moradoOscuro = [50, 37, 105];
   const dorado = [197, 160, 63];
   const gris = [100, 100, 100];
 

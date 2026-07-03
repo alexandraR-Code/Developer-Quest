@@ -74,8 +74,8 @@ function dibujarLineasSendero(svg, puntos, anchoContenedor, altoContenedor, indi
   svg.innerHTML = `
     <defs>
       <linearGradient id="degradadoRuta" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#aa3d9f" />
-        <stop offset="100%" stop-color="#881e80" />
+        <stop offset="0%" stop-color="#6e5fa5" />
+        <stop offset="100%" stop-color="#46368d" />
       </linearGradient>
     </defs>
     <path class="ruta-base" d="${rutaCompleta}" />
