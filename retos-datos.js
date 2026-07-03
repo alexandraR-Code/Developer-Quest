@@ -21,11 +21,10 @@ const datosNiveles = {
         plantilla: `<!DOCTYPE html>
 <html>
   <head>
-    <!-- Escribe el título que quieras-->
+    
     <title></title>
   </head>
   <body>
-    <!-- Aquí va el contenido visible de la página -->
   </body>
 </html>`,
         criterios: [
@@ -42,13 +41,12 @@ const datosNiveles = {
     <title>[Escribe aquí cualquier título]</title>
   </head>
   <body>
-    [El contenido va aquí]
   </body>
 </html>`,
         solucion: `<!DOCTYPE html>
 <html>
   <head>
-    <title>Mi Primera Página</title>
+    <title>[Escribe aquí cualquier título]</title>
   </head>
   <body>
   </body>
