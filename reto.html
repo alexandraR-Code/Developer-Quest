@@ -42,10 +42,12 @@
 
       <div class="reproductor-video">
         <div class="reproductor-video__marco">
-          <i class="fa-solid fa-play reproductor-video__icono-play"></i>
-          <span class="reproductor-video__duracion" id="textoDuracionVideo">0:00</span>
+          <video id="videoExplicativo" class="reproductor-video__video" controls>
+            <source id="videoSource" src="" type="video/mp4">
+            Tu navegador no soporta video HTML5.
+          </video>
         </div>
-        <button class="boton-secundario boton-ver-de-nuevo">
+        <button class="boton-secundario boton-ver-de-nuevo" id="botonVerDeNuevo">
           <i class="fa-solid fa-rotate-right"></i> Ver nuevamente
         </button>
       </div>

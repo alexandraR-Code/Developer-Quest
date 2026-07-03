@@ -64,13 +64,20 @@
 /* ===== CUERPO: GRID DE PANELES ===== */
 .cuerpo-reto {
   display: grid;
-  grid-template-columns: 260px minmax(360px, 1fr) 360px;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 18px;
   padding: 24px 28px;
   align-items: start;
+  grid-template-rows: auto 1fr;
 }
 
 /* ".panel" y ".panel__titulo" ahora viven en styles.css (compartidos con otras pantallas). */
+
+.panel-editor,
+.panel-preview {
+  height: 100%;
+  overflow: hidden;
+}
 
 /* ===== PANEL DE VIDEO ===== */
 .reproductor-video__marco {
@@ -81,6 +88,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
+}
+
+.reproductor-video__video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #000;
 }
 
 .reproductor-video__icono-play {
@@ -207,13 +222,14 @@
 }
 
 .editor-contenedor {
+  flex: 1;
   border-radius: 12px;
   overflow: hidden;
   border: 1px solid #2a2a2a;
 }
 
 .editor-contenedor .CodeMirror {
-  height: 360px;
+  height: 100%;
   font-family: 'Consolas', 'Monaco', monospace;
   font-size: 14px;
   line-height: 1.5;
@@ -234,8 +250,8 @@
 }
 
 .preview-iframe {
+  flex: 1;
   width: 100%;
-  height: 220px;
   border: 1px solid var(--borde);
   border-radius: 12px;
   /* Intencionalmente fijo en blanco: es cómo se ve el HTML del usuario en un
@@ -244,9 +260,12 @@
 }
 
 .consola {
+  flex: 0.4;
   border: 1px solid var(--borde);
   border-radius: 12px;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .consola__encabezado {
@@ -261,8 +280,8 @@
 }
 
 .consola__cuerpo {
+  flex: 1;
   background: var(--tarjeta);
-  height: 110px;
   overflow-y: auto;
   padding: 8px 12px;
   font-family: 'Consolas', 'Monaco', monospace;

@@ -45,7 +45,24 @@ document.getElementById("textoProgresoEncabezado").textContent = `Reto ${numeroR
 document.getElementById("barraProgresoEncabezado").style.width = `${(numeroReto / totalRetosDelNivel) * 100}%`;
 document.getElementById("textoFooterReto").textContent = `Reto ${numeroReto} de ${totalRetosDelNivel}`;
 
-document.getElementById("textoDuracionVideo").textContent = retoActual.duracionVideo;
+// ===== VIDEO EXPLICATIVO =====
+const videoSource = document.getElementById("videoSource");
+const videoElement = document.getElementById("videoExplicativo");
+const botonVerDeNuevo = document.getElementById("botonVerDeNuevo");
+
+// Construir ruta del video: videos/DQ-N{nivel}R{reto}.mp4
+const rutaVideo = `videos/DQ-N${numeroNivel}R${numeroReto}.mp4`;
+videoSource.src = rutaVideo;
+videoElement.load();
+
+// Botón "Ver nuevamente" reinicia el video
+if (botonVerDeNuevo) {
+  botonVerDeNuevo.addEventListener("click", () => {
+    videoElement.currentTime = 0;
+    videoElement.play();
+  });
+}
+
 document.getElementById("textoObjetivo").textContent = retoActual.objetivo;
 document.getElementById("textoConceptoClave").innerHTML = retoActual.conceptoClave;
 document.getElementById("textoMasInformacion").textContent = retoActual.masInformacion;
