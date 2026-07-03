@@ -165,6 +165,21 @@
 
   </main>
 
+  <div class="modal-certificado" id="modalCertificadoFase1">
+    <div class="modal-certificado__tarjeta">
+      <button class="modal-certificado__cerrar" id="botonCerrarModalCertificado" aria-label="Cerrar">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div class="modal-certificado__insignia"><i class="fa-solid fa-certificate"></i></div>
+      <h2>¡Fase 1 completada!</h2>
+      <p>Terminaste los Niveles 1 y 2: Fundamentos de HTML. Tu certificado de la Fase 1 ya está disponible.</p>
+      <div class="modal-certificado__acciones">
+        <button class="boton-estado" id="botonDescargarCertificadoModal"><i class="fa-solid fa-download"></i> Descargar certificado</button>
+        <button class="boton-secundario" id="botonContinuarModal">Continuar jugando <i class="fa-solid fa-arrow-right"></i></button>
+      </div>
+    </div>
+  </div>
+
   <footer class="pie-reto">
     <button class="boton-secundario" id="botonAnterior" disabled><i class="fa-solid fa-chevron-left"></i> Anterior</button>
     <span id="textoFooterReto">Reto X de 5</span>
@@ -176,11 +191,14 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/htmlmixed/htmlmixed.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/closebrackets.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/addon/edit/closetag.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="preferencias.js"></script>
   <script src="niveles-datos.js"></script>
   <script src="retos-datos.js"></script>
   <script src="progreso.js"></script>
   <script src="medallas-datos.js"></script>
+  <script src="logo-movilis-fase1-datos.js"></script>
+  <script src="certificados.js"></script>
   <script src="reto.js"></script>
 </body>
 </html>

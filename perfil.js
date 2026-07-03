@@ -123,154 +123,31 @@ document.querySelectorAll(".filtro-medallas__boton").forEach((boton) => {
   });
 });
 
-// ===== CERTIFICADO DE FINALIZACIÓN (RF-015) =====
-function obtenerNumeroCertificado() {
-  let numero = localStorage.getItem("dq_certificado_numero");
-  if (!numero) {
-    const sufijo = Math.floor(10000 + Math.random() * 90000);
-    numero = `TCE-${new Date().getFullYear()}-${sufijo}`;
-    localStorage.setItem("dq_certificado_numero", numero);
-  }
-  return numero;
-}
-
-// No hay backend que emita una URL/QR de verificación real, así que el
-// certificado no simula uno: solo lleva un número único de referencia.
-function generarCertificadoPDF() {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF({ orientation: "landscape", unit: "mm", format: "a4" });
-  const anchoPagina = doc.internal.pageSize.getWidth();
-  const altoPagina = doc.internal.pageSize.getHeight();
-
-  const numeroCertificado = obtenerNumeroCertificado();
-  const fecha = new Date().toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" });
-
-  const morado = [136, 30, 128];
-  const moradoOscuro = [107, 23, 102];
-  const amarillo = [249, 235, 29];
-  const amarilloOscuro = [230, 214, 16];
-  const gris = [100, 100, 100];
-
-  // Aclara un color mezclándolo con blanco (simula opacidad sin depender
-  // del plugin de transparencia de jsPDF).
-  const aclarar = (color, factor) => color.map((c) => Math.round(c + (255 - c) * factor));
-  const moradoMuySuave = aclarar(morado, 0.94);
-
-  // ===== FONDO =====
-  doc.setFillColor(...moradoMuySuave);
-  doc.rect(0, 0, anchoPagina, altoPagina, "F");
-  doc.setFillColor(255, 255, 255);
-  doc.rect(4, 4, anchoPagina - 8, altoPagina - 8, "F");
-
-  // ===== FRANJA LATERAL, en los colores del logo =====
-  const anchoFranja = 46;
-  const xFranja = anchoPagina - anchoFranja;
-  doc.setFillColor(...morado);
-  doc.rect(xFranja, 4, anchoFranja - 4, altoPagina - 8, "F");
-  doc.setFillColor(...amarillo);
-  doc.rect(xFranja, 26, anchoFranja - 4, 9, "F");
-
-  // Marco fino alrededor del área de contenido (no invade la franja).
-  doc.setDrawColor(...moradoMuySuave.map((c) => Math.max(0, c - 20)));
-  doc.setLineWidth(0.3);
-  doc.rect(9, 9, xFranja - 9 - 6, altoPagina - 18);
-
-  // Sello circular dentro de la franja.
-  const centroBadgeX = xFranja + (anchoFranja - 4) / 2;
-  const centroBadgeY = 90;
-  doc.setFillColor(...amarillo);
-  doc.circle(centroBadgeX, centroBadgeY, 19, "F");
-  doc.setDrawColor(255, 255, 255);
-  doc.setLineWidth(1);
-  doc.circle(centroBadgeX, centroBadgeY, 15.5, "S");
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(9.5);
-  doc.setTextColor(...moradoOscuro);
-  doc.text("PROGRAMA", centroBadgeX, centroBadgeY - 2, { align: "center" });
-  doc.text("COMPLETO", centroBadgeX, centroBadgeY + 4, { align: "center" });
-
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(8);
-  doc.setTextColor(255, 255, 255);
-  doc.text("FECHA DE EMISIÓN", centroBadgeX, altoPagina - 34, { align: "center" });
-  doc.setFont("helvetica", "normal");
-  doc.setFontSize(9);
-  const fechaPartida = doc.splitTextToSize(fecha, anchoFranja - 10);
-  doc.text(fechaPartida, centroBadgeX, altoPagina - 27, { align: "center" });
-
-  // ===== CONTENIDO PRINCIPAL =====
-  const margenIzq = 20;
-  const anchoContenido = xFranja - margenIzq - 12;
-
-  doc.addImage(LOGO_MOVILIS_BASE64, "PNG", margenIzq, 16, 13, 13);
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(11);
-  doc.setTextColor(...morado);
-  doc.text("TEAM CODER EXPERIENCE", margenIzq + 17, 24.5);
-
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(34);
-  doc.setTextColor(...moradoOscuro);
-  doc.text("CERTIFICADO", margenIzq, 56);
-
-  doc.setFont("helvetica", "normal");
-  doc.setFontSize(15);
-  doc.setTextColor(...morado);
-  doc.text("DE FINALIZACIÓN", margenIzq, 65);
-
-  doc.setDrawColor(...amarilloOscuro);
-  doc.setLineWidth(1.2);
-  doc.line(margenIzq, 70, margenIzq + 38, 70);
-
-  doc.setFont("helvetica", "normal");
-  doc.setFontSize(11);
-  doc.setTextColor(...gris);
-  doc.text("Se otorga a", margenIzq, 85);
-
-  doc.setFont("times", "bolditalic");
-  doc.setFontSize(30);
-  doc.setTextColor(30, 30, 30);
-  doc.text(nombreJugador, margenIzq, 102);
-
-  doc.setFont("helvetica", "normal");
-  doc.setFontSize(11);
-  doc.setTextColor(...gris);
-  const cuerpo = doc.splitTextToSize(
-    "En reconocimiento por completar exitosamente el programa TEAM CODER EXPERIENCE, demostrando dedicación y compromiso en el desarrollo de sus habilidades de programación web.",
-    anchoContenido
+// ===== CERTIFICADOS (RF-015) =====
+// La generación de los PDF (obtenerNumeroCertificado, generarCertificadoPDF,
+// obtenerNumeroCertificadoFase1, generarCertificadoFase1PDF) vive en
+// certificados.js, compartida con reto.js.
+function renderizarCertificadoFase1() {
+  aplicarProgresoReal();
+  const fase1Completa = [1, 2].every(
+    (id) => calcularProgresoNivel(niveles.find((n) => n.id === id)).estadoGeneral === "completado"
   );
-  doc.text(cuerpo, margenIzq, 114);
+  const bloque = document.getElementById("bloqueCertificadoFase1");
 
-  // ===== FIRMA =====
-  const yFirma = altoPagina - 40;
-  doc.setDrawColor(...moradoOscuro);
-  doc.setLineWidth(0.7);
-  doc.lines([[7, -5], [7, 7], [9, -9], [7, 6]], margenIzq, yFirma - 6);
+  if (!fase1Completa) {
+    bloque.innerHTML = `<p class="texto-vacio">Completa los Niveles 1 y 2 para desbloquear tu certificado de la Fase 1.</p>`;
+    return;
+  }
 
-  doc.setDrawColor(160, 160, 160);
-  doc.setLineWidth(0.3);
-  doc.line(margenIzq, yFirma + 4, margenIzq + 58, yFirma + 4);
+  bloque.innerHTML = `
+    <p>¡Excelente! Completaste la Fase 1 de TEAM CODER EXPERIENCE: Fundamentos de HTML.</p>
+    <button class="boton-estado" id="botonDescargarCertificadoFase1"><i class="fa-solid fa-download"></i> Descargar Certificado</button>
+  `;
 
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(11);
-  doc.setTextColor(30, 30, 30);
-  doc.text("MSc. Patricia Ruiz", margenIzq, yFirma + 10);
-
-  doc.setFont("helvetica", "normal");
-  doc.setFontSize(9);
-  doc.setTextColor(...gris);
-  doc.text("Rectora", margenIzq, yFirma + 15);
-
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(8);
-  doc.setTextColor(...gris);
-  doc.text("N° DE CERTIFICADO", margenIzq + 95, yFirma + 4);
-  doc.setFont("helvetica", "normal");
-  doc.setFontSize(10);
-  doc.setTextColor(30, 30, 30);
-  doc.text(numeroCertificado, margenIzq + 95, yFirma + 10);
-
-  doc.save(`TeamCoderExperience_Certificado_${nombreJugador.replace(/\s+/g, "_")}.pdf`);
+  document.getElementById("botonDescargarCertificadoFase1").addEventListener("click", () => {
+    generarCertificadoFase1PDF();
+    localStorage.setItem("dq_certificado_fase1_descargado", "true");
+  });
 }
 
 function renderizarCertificado() {
@@ -302,4 +179,5 @@ const historialRetos = recopilarHistorialRetos();
 renderizarGraficoSemanas(historialRetos);
 renderizarHistorial(historialRetos);
 renderizarGaleriaMedallas("todos");
+renderizarCertificadoFase1();
 renderizarCertificado();

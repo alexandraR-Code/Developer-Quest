@@ -29,11 +29,11 @@ const datosNiveles = {
   </body>
 </html>`,
         criterios: [
-          { descripcion: "El documento empieza con <!DOCTYPE html>", cumple: (c) => /^\s*<!DOCTYPE html>/i.test(c) },
-          { descripcion: "Existe la etiqueta <html> y está cerrada", cumple: (c) => /<html>[\s\S]*<\/html>/i.test(c) },
-          { descripcion: "Existe <head> dentro de <html>", cumple: (c) => /<head>[\s\S]*<\/head>/i.test(c) },
-          { descripcion: "Existe <body> después de </head>", cumple: (c) => /<\/head>[\s\S]*<body>[\s\S]*<\/body>/i.test(c) },
-          { descripcion: "Existe un <title> con cualquier texto dentro del head", cumple: (c) => { const h = c.match(/<head>([\s\S]*?)<\/head>/i); if (!h) return false; const t = textoNoVacioEntre(h[1], "<title>", "<\\/title>"); return !!(t && t.length > 0); } },
+          { descripcion: "El documento empieza con &lt;!DOCTYPE html&gt;", cumple: (c) => /^\s*<!DOCTYPE html>/i.test(c) },
+          { descripcion: "Existe la etiqueta &lt;html&gt; y está cerrada", cumple: (c) => /<html>[\s\S]*<\/html>/i.test(c) },
+          { descripcion: "Existe &lt;head&gt; dentro de &lt;html&gt;", cumple: (c) => /<head>[\s\S]*<\/head>/i.test(c) },
+          { descripcion: "Existe &lt;body&gt; después de &lt;/head&gt;", cumple: (c) => /<\/head>[\s\S]*<body>[\s\S]*<\/body>/i.test(c) },
+          { descripcion: "Existe un &lt;title&gt; con cualquier texto dentro del head", cumple: (c) => { const h = c.match(/<head>([\s\S]*?)<\/head>/i); if (!h) return false; const t = textoNoVacioEntre(h[1], "<title>", "<\\/title>"); return !!(t && t.length > 0); } },
         ],
         pistaGeneral: "Estructura HTML: primero DOCTYPE, luego &lt;html&gt; que contiene &lt;head&gt; y &lt;body&gt;. Dentro del head va el &lt;title&gt; — puede decir lo que quieras.",
         pistaCodigo: `<!DOCTYPE html>
@@ -76,10 +76,10 @@ const datosNiveles = {
   </body>
 </html>`,
         criterios: [
-          { descripcion: "Existe un <h1> con contenido", cumple: (c) => { const t = textoNoVacioEntre(c, "<h1>", "<\\/h1>"); return !!(t && t.length > 0); } },
-          { descripcion: "Existe un <h2> con contenido", cumple: (c) => { const t = textoNoVacioEntre(c, "<h2>", "<\\/h2>"); return !!(t && t.length > 0); } },
-          { descripcion: "Existen al menos 2 elementos <p>", cumple: (c) => (c.match(/<p[^>]*>/gi) || []).length >= 2 },
-          { descripcion: "Todo el contenido está dentro del <body>", cumple: (c) => { const b = c.match(/<body>([\s\S]*?)<\/body>/i); return !!(b && /<h1>/i.test(b[1]) && /<h2>/i.test(b[1]) && (b[1].match(/<p[^>]*>/gi) || []).length >= 2); } },
+          { descripcion: "Existe un &lt;h1&gt; con contenido", cumple: (c) => { const t = textoNoVacioEntre(c, "<h1>", "<\\/h1>"); return !!(t && t.length > 0); } },
+          { descripcion: "Existe un &lt;h2&gt; con contenido", cumple: (c) => { const t = textoNoVacioEntre(c, "<h2>", "<\\/h2>"); return !!(t && t.length > 0); } },
+          { descripcion: "Existen al menos 2 elementos &lt;p&gt;", cumple: (c) => (c.match(/<p[^>]*>/gi) || []).length >= 2 },
+          { descripcion: "Todo el contenido está dentro del &lt;body&gt;", cumple: (c) => { const b = c.match(/<body>([\s\S]*?)<\/body>/i); return !!(b && /<h1>/i.test(b[1]) && /<h2>/i.test(b[1]) && (b[1].match(/<p[^>]*>/gi) || []).length >= 2); } },
         ],
         pistaGeneral: "Usa &lt;h1&gt; para el título principal, &lt;h2&gt; para un subtítulo, y &lt;p&gt; para cada párrafo. Escribe sobre lo que quieras.",
         pistaCodigo: `<h1>[Tu título]</h1>
@@ -121,10 +121,10 @@ const datosNiveles = {
   </body>
 </html>`,
         criterios: [
-          { descripcion: "Existe un <h1> con contenido", cumple: (c) => { const t = textoNoVacioEntre(c, "<h1>", "<\\/h1>"); return !!(t && t.length > 0); } },
-          { descripcion: "Existe <ul> con al menos 2 elementos <li>", cumple: (c) => { const u = c.match(/<ul>([\s\S]*?)<\/ul>/i); return !!(u && (u[1].match(/<li>/gi) || []).length >= 2); } },
-          { descripcion: "Existe <ol> con al menos 2 elementos <li>", cumple: (c) => { const o = c.match(/<ol>([\s\S]*?)<\/ol>/i); return !!(o && (o[1].match(/<li>/gi) || []).length >= 2); } },
-          { descripcion: "Todo está dentro del <body>", cumple: (c) => { const b = c.match(/<body>([\s\S]*?)<\/body>/i); return !!(b && /<h1>/i.test(b[1]) && /<ul>/i.test(b[1]) && /<ol>/i.test(b[1])); } },
+          { descripcion: "Existe un &lt;h1&gt; con contenido", cumple: (c) => { const t = textoNoVacioEntre(c, "<h1>", "<\\/h1>"); return !!(t && t.length > 0); } },
+          { descripcion: "Existe &l;tul&gt; con al menos 2 elementos &lt;li&gt;", cumple: (c) => { const u = c.match(/<ul>([\s\S]*?)<\/ul>/i); return !!(u && (u[1].match(/<li>/gi) || []).length >= 2); } },
+          { descripcion: "Existe &lt;ol&gt; con al menos 2 elementos &lt;li&gt;", cumple: (c) => { const o = c.match(/<ol>([\s\S]*?)<\/ol>/i); return !!(o && (o[1].match(/<li>/gi) || []).length >= 2); } },
+          { descripcion: "Todo está dentro del &lt;body&gt;", cumple: (c) => { const b = c.match(/<body>([\s\S]*?)<\/body>/i); return !!(b && /<h1>/i.test(b[1]) && /<ul>/i.test(b[1]) && /<ol>/i.test(b[1])); } },
         ],
         pistaGeneral: "Usa &lt;ul&gt; para listas sin orden y &lt;ol&gt; para listas numeradas. Cada elemento va dentro de &lt;li&gt; — escribe lo que quieras en cada uno.",
         pistaCodigo: `<ul>
@@ -174,8 +174,8 @@ const datosNiveles = {
   </body>
 </html>`,
         criterios: [
-          { descripcion: "Existe un <h1> con contenido", cumple: (c) => { const t = textoNoVacioEntre(c, "<h1>", "<\\/h1>"); return !!(t && t.length > 0); } },
-          { descripcion: "Existe al menos una etiqueta <img>", cumple: (c) => (c.match(/<img[^>]*>/gi) || []).length >= 1 },
+          { descripcion: "Existe un &lt;h1&gt; con contenido", cumple: (c) => { const t = textoNoVacioEntre(c, "<h1>", "<\\/h1>"); return !!(t && t.length > 0); } },
+          { descripcion: "Existe al menos una etiqueta &lt;img&gt;", cumple: (c) => (c.match(/<img[^>]*>/gi) || []).length >= 1 },
           { descripcion: "La imagen tiene atributo src", cumple: (c) => { const m = c.match(/<img([^>]*)>/i); return !!(m && /src\s*=\s*["'][^"']+["']/i.test(m[1])); } },
           { descripcion: "La imagen tiene atributo alt", cumple: (c) => { const m = c.match(/<img([^>]*)>/i); return !!(m && /alt\s*=\s*["'][^"']+["']/i.test(m[1])); } },
         ],
@@ -214,8 +214,8 @@ const datosNiveles = {
   </body>
 </html>`,
         criterios: [
-          { descripcion: "Existe un <h1> con contenido", cumple: (c) => { const t = textoNoVacioEntre(c, "<h1>", "<\\/h1>"); return !!(t && t.length > 0); } },
-          { descripcion: "Existe al menos un <a> con atributo href", cumple: (c) => { const enlaces = [...c.matchAll(/<a([^>]*)>/gi)].map((m) => m[1]); return enlaces.some((a) => /href\s*=\s*["'][^"']+["']/i.test(a)); } },
+          { descripcion: "Existe un &lt;h1&gt; con contenido", cumple: (c) => { const t = textoNoVacioEntre(c, "<h1>", "<\\/h1>"); return !!(t && t.length > 0); } },
+          { descripcion: "Existe al menos un &lt;a&gt; con atributo href", cumple: (c) => { const enlaces = [...c.matchAll(/<a([^>]*)>/gi)].map((m) => m[1]); return enlaces.some((a) => /href\s*=\s*["'][^"']+["']/i.test(a)); } },
           { descripcion: "Al menos un enlace apunta a https://movilis.edu.ec/", cumple: (c) => { const enlaces = [...c.matchAll(/<a([^>]*)>/gi)].map((m) => m[1]); return enlaces.some((a) => { const m = a.match(/href\s*=\s*["']([^"']*)["']/i); return !!(m && /movilis\.edu\.ec/i.test(m[1])); }); } },
           { descripcion: "Cada enlace tiene texto descriptivo", cumple: (c) => { const enlaces = [...c.matchAll(/<a([^>]*)>([\s\S]*?)<\/a>/gi)]; return enlaces.length > 0 && enlaces.every(([, , texto]) => texto.replace(/<[^>]*>/g, "").trim().length > 0); } },
         ],
@@ -261,11 +261,11 @@ const datosNiveles = {
   </body>
 </html>`,
         criterios: [
-          { descripcion: "Existe un <header>", cumple: (c) => /<header>[\s\S]*<\/header>/i.test(c) },
-          { descripcion: "Existe un <main>", cumple: (c) => /<main>[\s\S]*<\/main>/i.test(c) },
-          { descripcion: "Existe un <footer>", cumple: (c) => /<footer>[\s\S]*<\/footer>/i.test(c) },
-          { descripcion: "El <footer> incluye un enlace a https://movilis.edu.ec/", cumple: (c) => { const f = c.match(/<footer>([\s\S]*?)<\/footer>/i); return !!(f && /movilis\.edu\.ec/i.test(f[1])); } },
-          { descripcion: "<header>, <main> y <footer> están dentro del <body>", cumple: (c) => { const b = c.match(/<body>([\s\S]*?)<\/body>/i); return !!(b && /<header>/i.test(b[1]) && /<main>/i.test(b[1]) && /<footer>/i.test(b[1])); } },
+          { descripcion: "Existe un &lt;header&gt;", cumple: (c) => /<header>[\s\S]*<\/header>/i.test(c) },
+          { descripcion: "Existe un &lt;main&gt;", cumple: (c) => /<main>[\s\S]*<\/main>/i.test(c) },
+          { descripcion: "Existe un &lt;footer&gt;", cumple: (c) => /<footer>[\s\S]*<\/footer>/i.test(c) },
+          { descripcion: "El &lt;footer&gt; incluye un enlace a https://movilis.edu.ec/", cumple: (c) => { const f = c.match(/<footer>([\s\S]*?)<\/footer>/i); return !!(f && /movilis\.edu\.ec/i.test(f[1])); } },
+          { descripcion: "&lt;header&gt;, &lt;main&gt; y &lt;footer&gt; están dentro del &lt;body&gt;", cumple: (c) => { const b = c.match(/<body>([\s\S]*?)<\/body>/i); return !!(b && /<header>/i.test(b[1]) && /<main>/i.test(b[1]) && /<footer>/i.test(b[1])); } },
         ],
         pistaGeneral: 'Los elementos semánticos describen el rol de cada parte: &lt;header&gt; para la cabecera, &lt;main&gt; para el contenido principal, &lt;footer&gt; para el pie. En el footer agrega un enlace con href="https://movilis.edu.ec/".',
         pistaCodigo: `<header>
@@ -314,10 +314,10 @@ const datosNiveles = {
   </body>
 </html>`,
         criterios: [
-          { descripcion: "Existe un <form>", cumple: (c) => /<form[^>]*>[\s\S]*<\/form>/i.test(c) },
-          { descripcion: "Existe al menos un <input>", cumple: (c) => /<input[^>]*>/i.test(c) },
-          { descripcion: "Existe al menos un <label>", cumple: (c) => /<label[^>]*>[\s\S]*?<\/label>/i.test(c) },
-          { descripcion: "Existe un <button>", cumple: (c) => /<button[^>]*>[\s\S]*?<\/button>/i.test(c) },
+          { descripcion: "Existe un &lt;form&gt", cumple: (c) => /<form[^>]*>[\s\S]*<\/form>/i.test(c) },
+          { descripcion: "Existe al menos un &lt;input&gt", cumple: (c) => /<input[^>]*>/i.test(c) },
+          { descripcion: "Existe al menos un &lt;label&gt;", cumple: (c) => /<label[^>]*>[\s\S]*?<\/label>/i.test(c) },
+          { descripcion: "Existe un &lt;button&gt;", cumple: (c) => /<button[^>]*>[\s\S]*?<\/button>/i.test(c) },
         ],
         pistaGeneral: "Un formulario simple necesita &lt;form&gt;, dentro un &lt;label&gt; que describe el campo, un &lt;input&gt; donde se escribe, y un &lt;button&gt; para enviar.",
         pistaCodigo: `<form>
@@ -358,10 +358,10 @@ const datosNiveles = {
   </body>
 </html>`,
         criterios: [
-          { descripcion: "Existe una <table>", cumple: (c) => /<table>[\s\S]*<\/table>/i.test(c) },
-          { descripcion: "Existen al menos 2 filas <tr>", cumple: (c) => { const t = c.match(/<table>([\s\S]*?)<\/table>/i); return !!(t && (t[1].match(/<tr>/gi) || []).length >= 2); } },
-          { descripcion: "Existe al menos un encabezado <th>", cumple: (c) => { const t = c.match(/<table>([\s\S]*?)<\/table>/i); return !!(t && /<th>/i.test(t[1])); } },
-          { descripcion: "Existe al menos una celda <td>", cumple: (c) => { const t = c.match(/<table>([\s\S]*?)<\/table>/i); return !!(t && /<td>/i.test(t[1])); } },
+          { descripcion: "Existe una &lt;table&gt;", cumple: (c) => /<table>[\s\S]*<\/table>/i.test(c) },
+          { descripcion: "Existen al menos 2 filas &lt;tr&gt;", cumple: (c) => { const t = c.match(/<table>([\s\S]*?)<\/table>/i); return !!(t && (t[1].match(/<tr>/gi) || []).length >= 2); } },
+          { descripcion: "Existe al menos un encabezado &lt;th&gt;", cumple: (c) => { const t = c.match(/<table>([\s\S]*?)<\/table>/i); return !!(t && /<th>/i.test(t[1])); } },
+          { descripcion: "Existe al menos una celda &lt;td&gt;", cumple: (c) => { const t = c.match(/<table>([\s\S]*?)<\/table>/i); return !!(t && /<td>/i.test(t[1])); } },
         ],
         pistaGeneral: "Una tabla usa &lt;table&gt;, cada fila es &lt;tr&gt;, los encabezados son &lt;th&gt; y las celdas normales &lt;td&gt;.",
         pistaCodigo: `<table>
@@ -451,8 +451,8 @@ const datosNiveles = {
   </body>
 </html>`,
         criterios: [
-          { descripcion: "El documento empieza con <!DOCTYPE html>", cumple: (c) => /^\s*<!DOCTYPE html>/i.test(c) },
-          { descripcion: "Existe un <title> con texto", cumple: (c) => { const t = textoNoVacioEntre(c, "<title>", "<\\/title>"); return !!(t && t.length > 0); } },
+          { descripcion: "El documento empieza con &lt;!DOCTYPE html&gt;", cumple: (c) => /^\s*<!DOCTYPE html>/i.test(c) },
+          { descripcion: "Existe un &lt;title&gt; con texto", cumple: (c) => { const t = textoNoVacioEntre(c, "<title>", "<\\/title>"); return !!(t && t.length > 0); } },
           { descripcion: "Existe al menos un encabezado (h1 a h6)", cumple: (c) => /<h[1-6][^>]*>[\s\S]*?<\/h[1-6]>/i.test(c) },
           { descripcion: "Existe al menos un elemento semántico (header, main, footer, section, article o nav)", cumple: (c) => /<(header|main|footer|section|article|nav)[^>]*>/i.test(c) },
         ],
@@ -506,7 +506,7 @@ const datosNiveles = {
   </body>
 </html>`,
         criterios: [
-          { descripcion: "Existe un <style> con contenido", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && m[1].trim().length > 0); } },
+          { descripcion: "Existe un &lt;style&gt; con contenido", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && m[1].trim().length > 0); } },
           { descripcion: "Usas la propiedad color", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /\bcolor\s*:/i.test(m[1])); } },
           { descripcion: "Usas la propiedad background-color", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /background-color\s*:/i.test(m[1])); } },
         ],
@@ -559,7 +559,7 @@ p {
   </body>
 </html>`,
         criterios: [
-          { descripcion: "Existe un <style> con contenido", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && m[1].trim().length > 0); } },
+          { descripcion: "Existe un &lt;style&gt; con contenido", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && m[1].trim().length > 0); } },
           { descripcion: "Usas la propiedad font-family", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /font-family\s*:/i.test(m[1])); } },
           { descripcion: "Usas la propiedad font-size", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /font-size\s*:/i.test(m[1])); } },
         ],
@@ -610,7 +610,7 @@ p {
   </body>
 </html>`,
         criterios: [
-          { descripcion: "Existe un <style> con contenido", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && m[1].trim().length > 0); } },
+          { descripcion: "Existe un &lt;style&gt; con contenido", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && m[1].trim().length > 0); } },
           { descripcion: "Usas la propiedad margin", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /\bmargin\s*:/i.test(m[1])); } },
           { descripcion: "Usas la propiedad padding", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /\bpadding\s*:/i.test(m[1])); } },
         ],
@@ -658,7 +658,7 @@ p {
   </body>
 </html>`,
         criterios: [
-          { descripcion: "Existe un <style> con contenido", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && m[1].trim().length > 0); } },
+          { descripcion: "Existe un &lt;style&gt; con contenido", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && m[1].trim().length > 0); } },
           { descripcion: "Usas la propiedad border", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /\bborder\s*:/i.test(m[1])); } },
           { descripcion: "Usas la propiedad box-shadow", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /box-shadow\s*:/i.test(m[1])); } },
         ],
@@ -707,7 +707,7 @@ p {
   </body>
 </html>`,
         criterios: [
-          { descripcion: "Existe un <style> con contenido", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && m[1].trim().length > 0); } },
+          { descripcion: "Existe un &lt;style&gt; con contenido", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && m[1].trim().length > 0); } },
           { descripcion: "Usas un selector de clase (.algo)", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /\.[a-zA-Z_][\w-]*\s*\{/.test(m[1])); } },
           { descripcion: "Usas un selector de id (#algo)", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /#[a-zA-Z_][\w-]*\s*\{/.test(m[1])); } },
           { descripcion: "El HTML tiene un elemento con class y otro con id", cumple: (c) => /\sclass\s*=\s*["'][^"']+["']/i.test(c) && /\sid\s*=\s*["'][^"']+["']/i.test(c) },
@@ -773,7 +773,7 @@ p {
   </body>
 </html>`,
         criterios: [
-          { descripcion: "Existe un <style> con contenido", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && m[1].trim().length > 0); } },
+          { descripcion: "Existe un &lt;style&gt; con contenido", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && m[1].trim().length > 0); } },
           { descripcion: "Usas display: flex", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /display\s*:\s*flex/i.test(m[1])); } },
           { descripcion: "Usas la propiedad justify-content", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /justify-content\s*:/i.test(m[1])); } },
           { descripcion: "Usas la propiedad align-items", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /align-items\s*:/i.test(m[1])); } },
@@ -839,7 +839,7 @@ p {
   </body>
 </html>`,
         criterios: [
-          { descripcion: "Existe un <style> con contenido", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && m[1].trim().length > 0); } },
+          { descripcion: "Existe un &lt;style&gt; con contenido", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && m[1].trim().length > 0); } },
           { descripcion: "Usas display: grid", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /display\s*:\s*grid/i.test(m[1])); } },
           { descripcion: "Usas la propiedad grid-template-columns", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /grid-template-columns\s*:/i.test(m[1])); } },
           { descripcion: "Usas la propiedad gap", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /\bgap\s*:/i.test(m[1])); } },
@@ -902,7 +902,7 @@ p {
   </body>
 </html>`,
         criterios: [
-          { descripcion: "Existe un <style> con contenido", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && m[1].trim().length > 0); } },
+          { descripcion: "Existe un &lt;style&gt; con contenido", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && m[1].trim().length > 0); } },
           { descripcion: "Usas position: relative", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /position\s*:\s*relative/i.test(m[1])); } },
           { descripcion: "Usas position: absolute", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /position\s*:\s*absolute/i.test(m[1])); } },
           { descripcion: "Ubicas el elemento absoluto con top, left, right o bottom", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /\b(top|left|right|bottom)\s*:/i.test(m[1])); } },
@@ -972,7 +972,7 @@ p {
   </body>
 </html>`,
         criterios: [
-          { descripcion: "Existe un <style> con contenido", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && m[1].trim().length > 0); } },
+          { descripcion: "Existe un &lt;style&gt; con contenido", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && m[1].trim().length > 0); } },
           { descripcion: "Usas @media", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /@media/i.test(m[1])); } },
           { descripcion: "La media query usa max-width o min-width", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /@media\s*\([^)]*\b(max-width|min-width)\b/i.test(m[1])); } },
           { descripcion: "Dentro de la media query cambias al menos una propiedad", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /@media[^{]*\{\s*[^{}]+\{[^{}]*:[^{}]*\}\s*\}/i.test(m[1])); } },
@@ -1031,7 +1031,7 @@ p {
   </body>
 </html>`,
         criterios: [
-          { descripcion: "Existe un <style> con contenido", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && m[1].trim().length > 0); } },
+          { descripcion: "Existe un &lt;style&gt; con contenido", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && m[1].trim().length > 0); } },
           { descripcion: "Usas display: flex o display: grid", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /display\s*:\s*(flex|grid)/i.test(m[1])); } },
           { descripcion: "Usas @media con max-width o min-width", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /@media\s*\([^)]*\b(max-width|min-width)\b/i.test(m[1])); } },
           { descripcion: "Dentro de la media query cambias flex-direction o grid-template-columns", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /@media[^{]*\{\s*[^{}]+\{[^{}]*(flex-direction|grid-template-columns)\s*:[^{}]*\}\s*\}/i.test(m[1])); } },

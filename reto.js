@@ -290,6 +290,40 @@ function mostrarBannerExito() {
   botonSiguiente.disabled = false;
   configurarBotonSiguiente();
   botonSiguiente.addEventListener("click", irAlSiguienteReto, { once: true });
+
+  verificarCertificadoFase1();
+}
+
+// Al terminar el último reto del Nivel 2, si con eso se completa la Fase 1
+// (Niveles 1 y 2), se muestra el certificado en pantalla una sola vez.
+// Es solo informativo: el jugador puede cerrarlo y seguir avanzando si quiere.
+function verificarCertificadoFase1() {
+  if (numeroNivel !== 2 || !esUltimoReto) return;
+
+  aplicarProgresoReal();
+  const fase1Completa = [1, 2].every(
+    (id) => calcularProgresoNivel(niveles.find((n) => n.id === id)).estadoGeneral === "completado"
+  );
+  const yaVioModal = localStorage.getItem("dq_certificado_fase1_popup_mostrado") === "true";
+  if (!fase1Completa || yaVioModal) return;
+
+  localStorage.setItem("dq_certificado_fase1_popup_mostrado", "true");
+  mostrarModalCertificadoFase1();
+}
+
+function mostrarModalCertificadoFase1() {
+  const modal = document.getElementById("modalCertificadoFase1");
+  modal.classList.add("visible");
+
+  const cerrarModal = () => modal.classList.remove("visible");
+
+  document.getElementById("botonDescargarCertificadoModal").addEventListener("click", () => {
+    generarCertificadoFase1PDF();
+    localStorage.setItem("dq_certificado_fase1_descargado", "true");
+  }, { once: true });
+
+  document.getElementById("botonCerrarModalCertificado").addEventListener("click", cerrarModal, { once: true });
+  document.getElementById("botonContinuarModal").addEventListener("click", cerrarModal, { once: true });
 }
 
 // RF-009.2: notifica de inmediato cualquier medalla recién desbloqueada.
