@@ -11,7 +11,18 @@ if (!localStorage.getItem("dq_nombre_jugador")) {
 }
 
 const parametrosUrl = new URLSearchParams(window.location.search);
-const numeroNivel = parseInt(parametrosUrl.get("nivel"), 10) || 1;
+// Igual que numeroReto más abajo: se recorta a un rango válido para que un
+// ?nivel= inventado en la URL (0, -1, 999, texto...) no rompa la página en
+// vez de simplemente llevar a un nivel real.
+const totalNiveles = Object.keys(datosNiveles).length;
+const numeroNivel = Math.min(Math.max(parseInt(parametrosUrl.get("nivel"), 10) || 1, 1), totalNiveles);
+
+// Sin código de acceso validado, no se puede entrar directo por URL a un
+// nivel de esta franja (RF-017), aunque el jugador ya tenga el 80% previo.
+if (numeroNivel >= NIVEL_MINIMO_CON_CODIGO && !codigoAccesoValidado()) {
+  window.location.href = "index.html";
+}
+
 const nivelActual = datosNiveles[numeroNivel];
 const totalRetosDelNivel = Object.keys(nivelActual.retos).length;
 
@@ -315,53 +326,106 @@ function mostrarBannerExito() {
   configurarBotonSiguiente();
   botonSiguiente.addEventListener("click", irAlSiguienteReto, { once: true });
 
-  verificarCertificadoFase1();
+  verificarTarjetaNivelSuperado();
   verificarCertificadoNivel5();
   verificarCertificadoFinal();
 
   if (typeof reaccionarMascota === "function") reaccionarMascota("win");
 }
 
-// Al terminar el último reto del Nivel 2, si con eso se completa la Fase 1
-// (Niveles 1 y 2), se muestra el certificado en pantalla una sola vez.
-// Es solo informativo: el jugador puede cerrarlo y seguir avanzando si quiere.
-function verificarCertificadoFase1() {
-  if (numeroNivel !== 2 || !esUltimoReto) return;
+// ===== TARJETA DE "NIVEL SUPERADO" (RF-015, solo Niveles 1, 2 y 3) =====
+// Reconocimiento inmediato al completar cada uno de estos 3 niveles. No
+// reemplaza a los certificados (Fase 1 se dispara en el Nivel 5, Finalización
+// en el Nivel 10): es el aviso para los niveles que no tienen certificado propio.
+const NIVELES_CON_TARJETA = [1, 2, 3];
+
+function verificarTarjetaNivelSuperado() {
+  if (!esUltimoReto || !NIVELES_CON_TARJETA.includes(numeroNivel)) return;
 
   aplicarProgresoReal();
-  const fase1Completa = [1, 2].every(
-    (id) => calcularProgresoNivel(niveles.find((n) => n.id === id)).estadoGeneral === "completado"
-  );
-  const yaVioModal = localStorage.getItem("dq_certificado_fase1_popup_mostrado") === "true";
-  if (!fase1Completa || yaVioModal) return;
+  const nivelEnCurso = niveles.find((n) => n.id === numeroNivel);
+  const nivelCompleto = calcularProgresoNivel(nivelEnCurso).estadoGeneral === "completado";
+  const claveVista = `dq_tarjeta_nivel${numeroNivel}_vista`;
+  const yaVioTarjeta = localStorage.getItem(claveVista) === "true";
+  if (!nivelCompleto || yaVioTarjeta) return;
 
-  localStorage.setItem("dq_certificado_fase1_popup_mostrado", "true");
-  mostrarModalCertificadoFase1();
+  localStorage.setItem(claveVista, "true");
+  mostrarTarjetaNivelSuperado(nivelEnCurso);
 }
 
-function mostrarModalCertificadoFase1() {
-  const modal = document.getElementById("modalCertificadoFase1");
+function mostrarTarjetaNivelSuperado(nivel) {
+  document.getElementById("iconoNivelSuperado").className = nivel.icono;
+  document.getElementById("tituloNivelSuperado").textContent = `¡Nivel ${nivel.id} superado!`;
+  document.getElementById("textoNivelSuperado").textContent =
+    `Completaste "${nivel.nombre}": ${nivel.descripcion} Vas avanzando en tu recorrido por Desarrollo de Software.`;
+
+  const modal = document.getElementById("modalNivelSuperado");
   modal.classList.add("visible");
 
-  const cerrarModal = () => modal.classList.remove("visible");
-
-  document.getElementById("botonDescargarCertificadoModal").addEventListener("click", () => {
-    generarCertificadoFase1PDF();
-    localStorage.setItem("dq_certificado_fase1_descargado", "true");
-  }, { once: true });
-
-  document.getElementById("botonCerrarModalCertificado").addEventListener("click", cerrarModal, { once: true });
-  document.getElementById("botonContinuarModal").addEventListener("click", cerrarModal, { once: true });
+  // El Nivel 3 es el hito antes del código de acceso: al cerrar su tarjeta,
+  // encadena directo al modal del código en vez de solo cerrar.
+  const cerrarModal = () => {
+    modal.classList.remove("visible");
+    if (nivel.id === 3) mostrarModalCodigoAcceso();
+  };
+  document.getElementById("botonContinuarNivelSuperado").addEventListener("click", cerrarModal, { once: true });
+  document.getElementById("botonCerrarModalNivelSuperado").addEventListener("click", cerrarModal, { once: true });
 }
+
+// ===== CÓDIGO DE ACCESO (RF-017) =====
+// Código único para todos los jugadores, provisto por MOVILIS. No es un
+// secreto real (vive en este archivo, cualquiera puede leerlo con las
+// herramientas de desarrollador) — es un freno motivacional, no de seguridad.
+const CODIGO_ACCESO_VALIDO = "MOVILIS2026";
+
+function mostrarModalCodigoAcceso() {
+  const modal = document.getElementById("modalCodigoAcceso");
+  const campo = document.getElementById("campoCodigoAcceso");
+  const error = document.getElementById("errorCodigoAcceso");
+
+  campo.value = "";
+  error.classList.remove("visible");
+  modal.classList.add("visible");
+  campo.focus();
+
+  document.getElementById("formularioCodigoAcceso").addEventListener("submit", function manejarEnvio(evento) {
+    evento.preventDefault();
+    const codigoIngresado = campo.value.trim();
+
+    if (codigoIngresado.toUpperCase() !== CODIGO_ACCESO_VALIDO) {
+      error.textContent = "Ese código no es correcto. Revísalo con MOVILIS e inténtalo de nuevo.";
+      error.classList.add("visible");
+      campo.select();
+      return;
+    }
+
+    localStorage.setItem("dq_codigo_validado", "true");
+    document.getElementById("formularioCodigoAcceso").removeEventListener("submit", manejarEnvio);
+    modal.classList.remove("visible");
+    window.location.href = "index.html";
+  });
+
+  document.getElementById("botonCerrarModalCodigoAcceso").addEventListener("click", () => {
+    modal.classList.remove("visible");
+  }, { once: true });
+}
+
+// Recuperación: si el jugador cerró el modal sin acertar y quedó bloqueado
+// en el sendero, el enlace "Ingresar código" del popover de nivel lo trae
+// de vuelta aquí con ?mostrarCodigo=1 para reabrirlo.
+if (parametrosUrl.get("mostrarCodigo") === "1") {
+  document.addEventListener("DOMContentLoaded", () => mostrarModalCodigoAcceso());
+}
+
 function verificarCertificadoNivel5() {
   if (numeroNivel !== 5 || !esUltimoReto) return;
 
   aplicarProgresoReal();
-  const fase2Completa = [3, 4, 5].every(
+  const fase1Completa = [1, 2, 3, 4, 5].every(
     (id) => calcularProgresoNivel(niveles.find((n) => n.id === id)).estadoGeneral === "completado"
   );
   const yaVioModal = localStorage.getItem("dq_certificado_nivel5_popup_mostrado") === "true";
-  if (!fase2Completa || yaVioModal) return;
+  if (!fase1Completa || yaVioModal) return;
 
   localStorage.setItem("dq_certificado_nivel5_popup_mostrado", "true");
   mostrarModalCertificadoNivel5();

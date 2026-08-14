@@ -1,12 +1,27 @@
-/* ===== CERTIFICADO ===== */
+/* ===== CERTIFICADO =====
+   nowrap a propósito: el párrafo se encoge y envuelve su propio texto en
+   varias líneas (min-width: 0 se lo permite), mientras el botón se queda
+   fijo a la derecha en la misma fila, sin importar qué tan largo sea el
+   texto ni qué tan angosta esté la ventana. */
 #bloqueCertificado,
-#bloqueCertificadoFase1,
 #bloqueCertificadoNivel5 {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+}
+
+#bloqueCertificado p,
+#bloqueCertificadoNivel5 p {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+}
+
+#bloqueCertificado button,
+#bloqueCertificadoNivel5 button {
+  flex-shrink: 0;
 }
 
 /* ===== TARJETAS SUPERIORES (info personal + nivel) ===== */
@@ -285,5 +300,15 @@ section.panel {
 @media (max-width: 900px) {
   .grid-perfil {
     grid-template-columns: 1fr;
+  }
+}
+
+/* En pantallas muy angostas ya no cabe el botón junto al texto ni
+   encogiéndose: se apilan, con el botón a ancho completo. */
+@media (max-width: 480px) {
+  #bloqueCertificado,
+  #bloqueCertificadoNivel5 {
+    flex-direction: column;
+    align-items: stretch;
   }
 }

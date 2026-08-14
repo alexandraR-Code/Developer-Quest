@@ -125,6 +125,65 @@ button {
   padding: 12px 0;
 }
 
+/* ===== ACORDEÓN DE AYUDA (compartido entre reto.html y ayuda.html) ===== */
+.acordeon-ayuda {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.item-ayuda {
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.item-ayuda__boton {
+  width: 100%;
+  background: var(--superficie-sutil);
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--texto);
+}
+
+.item-ayuda__boton:disabled {
+  color: var(--gris-bloqueado);
+  cursor: not-allowed;
+}
+
+.item-ayuda__boton i:last-child {
+  transition: transform 0.2s ease;
+  font-size: 11px;
+  color: var(--texto-secundario);
+}
+
+.item-ayuda.abierto .item-ayuda__boton i:last-child {
+  transform: rotate(180deg);
+}
+
+.item-ayuda__contenido {
+  display: none;
+  padding: 14px;
+  font-size: 13px;
+  line-height: 1.5;
+  border-top: 1px solid var(--borde);
+}
+
+.item-ayuda.abierto .item-ayuda__contenido {
+  display: block;
+}
+
+.item-ayuda__contenido code {
+  background: var(--morado-claro);
+  color: var(--morado-oscuro-texto);
+  padding: 1px 5px;
+  border-radius: 5px;
+}
+
 .bloque-nivel-grande {
   display: flex;
   align-items: center;

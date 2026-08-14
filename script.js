@@ -147,10 +147,11 @@ const popoverNivel = document.getElementById("popoverNivel");
 
 function construirContenidoPopover(nivel, progreso, desbloqueado) {
   if (!desbloqueado) {
+    const faltaCodigo = nivelRequiereCodigoNoValidado(nivel);
     return `
       <button class="popover-nivel__cerrar" id="botonCerrarPopover"><i class="fa-solid fa-xmark"></i></button>
       <div class="popover-nivel__encabezado">
-        <div class="popover-nivel__icono"><i class="fa-solid fa-lock"></i></div>
+        <div class="popover-nivel__icono"><i class="fa-solid ${faltaCodigo ? "fa-key" : "fa-lock"}"></i></div>
         <div>
           <div class="popover-nivel__eyebrow">Nivel ${nivel.id}</div>
           <div class="popover-nivel__titulo">${nivel.nombre}</div>
@@ -158,8 +159,11 @@ function construirContenidoPopover(nivel, progreso, desbloqueado) {
       </div>
       <div class="popover-nivel__bloqueo">
         <i class="fa-solid fa-circle-info"></i>
-        <span>Completa el 80% del nivel anterior para desbloquear este nivel.</span>
+        <span>${faltaCodigo
+          ? "Ya completaste lo necesario — solo falta tu código de acceso de MOVILIS."
+          : "Completa el 80% del nivel anterior para desbloquear este nivel."}</span>
       </div>
+      ${faltaCodigo ? `<a class="boton-estado" href="reto.html?nivel=3&reto=${niveles.find((n) => n.id === 3).retos.length}&mostrarCodigo=1">Ingresar código</a>` : ""}
     `;
   }
 

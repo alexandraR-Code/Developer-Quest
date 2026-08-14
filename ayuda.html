@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TEAM CODER EXPERIENCE - Ayuda</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Roboto:wght@400;500;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <button class="boton-hamburguesa" id="botonHamburguesa" aria-label="Abrir menú">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+
+  <div class="contenedor-app">
+    <aside class="menu-lateral" id="menuLateral">
+      <div class="menu-lateral__logo">
+        <img src="Logo Movilis Outline.png" alt="Movilis" class="logo-movilis logo-movilis--claro">
+        <img src="Logo Movilis Outline Amarillo.png" alt="Movilis" class="logo-movilis logo-movilis--oscuro">
+        <span class="logo-marca"><i class="fa-solid fa-code"></i></span>
+        <span class="logo-texto">TEAM CODER EXPERIENCE</span>
+      </div>
+
+      <nav class="menu-lateral__nav">
+        <a href="index.html" class="enlace-menu" data-vista="niveles">
+          <i class="fa-solid fa-route enlace-menu__icono"></i>
+          <span>Mis Niveles</span>
+        </a>
+        <a href="perfil.html" class="enlace-menu" data-vista="perfil">
+          <i class="fa-solid fa-user enlace-menu__icono"></i>
+          <span>Perfil</span>
+        </a>
+        <a href="configuracion.html" class="enlace-menu" data-vista="configuracion">
+          <i class="fa-solid fa-gear enlace-menu__icono"></i>
+          <span>Configuración</span>
+        </a>
+        <a href="ayuda.html" class="enlace-menu enlace-menu--activo" data-vista="ayuda">
+          <i class="fa-solid fa-circle-question enlace-menu__icono"></i>
+          <span>Ayuda</span>
+        </a>
+      </nav>
+
+      <a href="#" class="enlace-menu enlace-menu--salir" data-vista="salir">
+        <i class="fa-solid fa-right-from-bracket enlace-menu__icono"></i>
+        <span>Cerrar Sesión</span>
+      </a>
+    </aside>
+
+    <div class="fondo-menu" id="fondoMenu"></div>
+
+    <main class="contenido-principal">
+      <header class="encabezado-niveles">
+        <div>
+          <h1>Ayuda</h1>
+          <p class="encabezado-niveles__subtitulo">Todo lo que necesitas saber sobre TEAM CODER EXPERIENCE</p>
+        </div>
+        <div class="insignia-nivel-usuario">
+          <div class="insignia-nivel-usuario__circulo"><span id="textoNivelUsuario">1</span></div>
+          <div class="insignia-nivel-usuario__info">
+            <span class="insignia-nivel-usuario__etiqueta">Nivel de usuario</span>
+            <div class="barra-progreso barra-progreso--mini">
+              <div class="barra-progreso__relleno" id="barraXpUsuario" style="width: 0%"></div>
+            </div>
+            <span class="insignia-nivel-usuario__xp" id="textoXpUsuario">0 / 1500 XP</span>
+          </div>
+        </div>
+      </header>
+
+      <section class="panel">
+        <h2 class="panel__titulo"><i class="fa-solid fa-book-open"></i> Sobre la experiencia</h2>
+        <div class="acordeon-ayuda">
+          <div class="item-ayuda">
+            <button class="item-ayuda__boton">
+              <span><i class="fa-solid fa-circle-question"></i> ¿Qué es TEAM CODER EXPERIENCE?</span>
+              <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="item-ayuda__contenido">
+              <p>Un recorrido de retos prácticos para aprender los fundamentos del desarrollo web — HTML, CSS y JavaScript — jugando, creado por el Instituto Tecnológico Superior MOVILIS.</p>
+            </div>
+          </div>
+
+          <div class="item-ayuda">
+            <button class="item-ayuda__boton">
+              <span><i class="fa-solid fa-bullseye"></i> ¿Cuál es el objetivo?</span>
+              <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="item-ayuda__contenido">
+              <p>Que descubras si te gusta programar, avanzando por 10 niveles que van desde lo más básico hasta un proyecto integrador final.</p>
+            </div>
+          </div>
+
+          <div class="item-ayuda">
+            <button class="item-ayuda__boton">
+              <span><i class="fa-solid fa-play"></i> ¿Cómo empiezo?</span>
+              <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="item-ayuda__contenido">
+              <p>Escribe tu nombre en la pantalla de bienvenida y listo — no necesitas usuario, contraseña ni instalar nada.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2 class="panel__titulo"><i class="fa-solid fa-route"></i> Niveles y progreso</h2>
+        <div class="acordeon-ayuda">
+          <div class="item-ayuda">
+            <button class="item-ayuda__boton">
+              <span><i class="fa-solid fa-layer-group"></i> ¿Cómo funcionan los niveles?</span>
+              <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="item-ayuda__contenido">
+              <p>Cada nivel tiene 5 retos, con un video explicativo, un editor de código y una vista previa en tiempo real. Un nivel se desbloquea cuando completas el 80% del anterior.</p>
+            </div>
+          </div>
+
+          <div class="item-ayuda">
+            <button class="item-ayuda__boton">
+              <span><i class="fa-solid fa-flag-checkered"></i> ¿Qué significa completar un nivel?</span>
+              <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="item-ayuda__contenido">
+              <p>Terminar los 5 retos de ese nivel. Al hacerlo se desbloquea el siguiente (si ya tienes el 80%) y en varios niveles aparece un premio.</p>
+            </div>
+          </div>
+
+          <div class="item-ayuda">
+            <button class="item-ayuda__boton">
+              <span><i class="fa-solid fa-fingerprint"></i> ¿Cómo funciona mi identificación?</span>
+              <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="item-ayuda__contenido">
+              <p>Al escribir tu nombre se genera automáticamente un código único que te identifica en este navegador — no necesitas usuario ni contraseña.</p>
+            </div>
+          </div>
+
+          <div class="item-ayuda">
+            <button class="item-ayuda__boton">
+              <span><i class="fa-solid fa-laptop"></i> ¿Qué pasa si cierro el navegador?</span>
+              <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="item-ayuda__contenido">
+              <p>Nada — tu progreso se guarda automáticamente en este dispositivo y sigue ahí cuando vuelvas, sin que tengas que hacer nada especial.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2 class="panel__titulo"><i class="fa-solid fa-award"></i> Premios y avance</h2>
+        <div class="acordeon-ayuda">
+          <div class="item-ayuda">
+            <button class="item-ayuda__boton">
+              <span><i class="fa-solid fa-medal"></i> ¿Cómo gano premios?</span>
+              <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="item-ayuda__contenido">
+              <p>Con medallas por logros específicos (velocidad, no usar pistas, dificultad), tarjetas al superar los primeros niveles, y certificados descargables en los grandes hitos del recorrido.</p>
+            </div>
+          </div>
+
+          <div class="item-ayuda">
+            <button class="item-ayuda__boton">
+              <span><i class="fa-solid fa-gift"></i> ¿Dónde reclamo mis premios?</span>
+              <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="item-ayuda__contenido">
+              <p>Los certificados se descargan directo desde tu <a href="perfil.html">Perfil</a>. Las medallas y otros reconocimientos físicos se reclaman en tu visita al Instituto.</p>
+            </div>
+          </div>
+
+          <div class="item-ayuda">
+            <button class="item-ayuda__boton">
+              <span><i class="fa-solid fa-robot"></i> ¿Cómo funciona la mascota?</span>
+              <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="item-ayuda__contenido">
+              <p>Te acompaña mientras resuelves los retos y reacciona a tu avance. Si prefieres jugar sin ella, puedes ocultarla con el botón "✕" — tu elección queda guardada.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2 class="panel__titulo"><i class="fa-solid fa-key"></i> El código de acceso</h2>
+        <div class="acordeon-ayuda">
+          <div class="item-ayuda">
+            <button class="item-ayuda__boton">
+              <span><i class="fa-solid fa-hand"></i> ¿Qué pasa después del Nivel 3?</span>
+              <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="item-ayuda__contenido">
+              <p>Se te pedirá un código de acceso para continuar con el resto del recorrido. Es el momento en el que te invitamos a conocer el Instituto en persona.</p>
+            </div>
+          </div>
+
+          <div class="item-ayuda">
+            <button class="item-ayuda__boton">
+              <span><i class="fa-solid fa-building-columns"></i> ¿Cómo obtengo el código?</span>
+              <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="item-ayuda__contenido">
+              <p>Visitando el Instituto Tecnológico Superior MOVILIS — ahí también puedes reclamar tus premios y conocer de cerca la carrera de Desarrollo de Software.</p>
+            </div>
+          </div>
+
+          <div class="item-ayuda">
+            <button class="item-ayuda__boton">
+              <span><i class="fa-solid fa-forward"></i> ¿Cómo continúo la experiencia?</span>
+              <i class="fa-solid fa-chevron-down"></i>
+            </button>
+            <div class="item-ayuda__contenido">
+              <p>Una vez que ingreses el código correcto, sigues jugando exactamente donde te quedaste, con el resto de los niveles ya disponibles.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="preferencias.js"></script>
+  <script src="progreso.js"></script>
+  <script src="menu.js"></script>
+  <script src="ayuda.js"></script>
+</body>
+
+</html>

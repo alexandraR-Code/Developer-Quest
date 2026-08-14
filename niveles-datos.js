@@ -106,10 +106,31 @@ function calcularProgresoNivel(nivel) {
   return { retosCompletados, totalRetos, porcentaje, estrellasObtenidas, estrellasMaximas, estadoGeneral };
 }
 
+// A partir de este nivel hace falta el código de acceso que entrega MOVILIS
+// (RF-017), además del 80% del nivel anterior.
+const NIVEL_MINIMO_CON_CODIGO = 4;
+
+function codigoAccesoValidado() {
+  return localStorage.getItem("dq_codigo_validado") === "true";
+}
+
+// true solo cuando el 80% ya se cumplió pero falta específicamente el código
+// (para poder mostrar un mensaje distinto al del bloqueo normal por progreso).
+function nivelRequiereCodigoNoValidado(nivel) {
+  if (nivel.id < NIVEL_MINIMO_CON_CODIGO) return false;
+  const nivelAnterior = niveles.find((n) => n.id === nivel.id - 1);
+  return calcularProgresoNivel(nivelAnterior).porcentaje >= 80 && !codigoAccesoValidado();
+}
+
 function nivelEstaDesbloqueado(indiceNivel) {
   if (indiceNivel === 0) return true;
   const progresoAnterior = calcularProgresoNivel(niveles[indiceNivel - 1]);
-  return progresoAnterior.porcentaje >= 80;
+  if (progresoAnterior.porcentaje < 80) return false;
+
+  const nivel = niveles[indiceNivel];
+  if (nivel.id >= NIVEL_MINIMO_CON_CODIGO && !codigoAccesoValidado()) return false;
+
+  return true;
 }
 
 // reto.js guarda aquí el resultado real cada vez que se completa un reto.

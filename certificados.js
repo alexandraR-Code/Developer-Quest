@@ -151,20 +151,11 @@ function generarCertificadoPDF() {
   );
 }
 
-function generarCertificadoFase1PDF() {
-  generarCertificadoBase(
-    obtenerNumeroCertificado("dq_certificado_fase1_numero", "TCE-F1-"),
-    "Por su dedicación, curiosidad y constancia al escribir sus primeras líneas de código, superando con entusiasmo la primera fase del programa:",
-    "Fase 1 · Fundamentos de HTML (Nivel 1 y 2)",
-    "CertificadoFase1"
-  );
-}
-
 function generarCertificadoNivel5PDF() {
   generarCertificadoBase(
     obtenerNumeroCertificado("dq_certificado_nivel5_numero", "TCE-F2-"),
-    "Por su creatividad, dedicación y constancia al dar estilo, diseño responsivo y las primeras líneas de lógica en JavaScript a sus proyectos, superando con entusiasmo la segunda fase del programa:",
-    "Fase 2 · CSS y JavaScript Básico (Niveles 3 al 5)",
-    "CertificadoFase2"
+    "Por su dedicación, creatividad y constancia al construir estructura, estilo y las primeras líneas de lógica en JavaScript a sus proyectos, superando con entusiasmo la primera fase del programa:",
+    "Fase 1 · Fundamentos de HTML, CSS y JavaScript (Niveles 1 al 5)",
+    "CertificadoFase1"
   );
 }

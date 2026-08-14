@@ -285,59 +285,6 @@
 .consola__linea--info { color: var(--morado-texto); }
 .consola__linea--log { color: var(--texto); }
 
-/* ===== PANEL DE AYUDA (acordeón) ===== */
-.item-ayuda {
-  border: 1px solid var(--borde);
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.item-ayuda__boton {
-  width: 100%;
-  background: var(--superficie-sutil);
-  padding: 12px 14px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--texto);
-}
-
-.item-ayuda__boton:disabled {
-  color: var(--gris-bloqueado);
-  cursor: not-allowed;
-}
-
-.item-ayuda__boton i:last-child {
-  transition: transform 0.2s ease;
-  font-size: 11px;
-  color: var(--texto-secundario);
-}
-
-.item-ayuda.abierto .item-ayuda__boton i:last-child {
-  transform: rotate(180deg);
-}
-
-.item-ayuda__contenido {
-  display: none;
-  padding: 14px;
-  font-size: 13px;
-  line-height: 1.5;
-  border-top: 1px solid var(--borde);
-}
-
-.item-ayuda.abierto .item-ayuda__contenido {
-  display: block;
-}
-
-.item-ayuda__contenido code {
-  background: var(--morado-claro);
-  color: var(--morado-oscuro-texto);
-  padding: 1px 5px;
-  border-radius: 5px;
-}
-
 .aviso-puntos {
   display: inline-block;
   margin-top: 10px;
@@ -552,6 +499,35 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.campo-codigo-acceso {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  font-size: 15px;
+  font-family: var(--fuente-texto);
+  text-align: center;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.campo-codigo-acceso:focus {
+  outline: none;
+  border-color: var(--morado);
+}
+
+.error-codigo-acceso {
+  display: none;
+  color: var(--peligro, #b04848);
+  font-size: 13px;
+  margin: -2px 0 0;
+  text-align: left;
+}
+
+.error-codigo-acceso.visible {
+  display: block;
 }
 
 /* ===== PIE DE PÁGINA ===== */

@@ -12,6 +12,15 @@
 //             o más (va bien encaminado), sin haber terminado aún.
 //  - win   -> se muestra el banner de "¡Reto Completado!".
 
+// ===== CONTROL DE ADMINISTRADOR (RF-018) =====
+// Interruptor global de la mascota. Sin panel/servidor todavía, este es el
+// lugar donde tú, como administradora, lo activas o desactivas: cambia el
+// valor y vuelve a publicar el sitio. false = nadie ve la mascota, sin
+// importar lo que cada jugador haya elegido individualmente con su botón
+// de cerrar. true = cada jugador vuelve a decidir por su cuenta (respetando
+// lo que ya haya cerrado antes).
+const MASCOTA_ACTIVADA_GLOBALMENTE = true;
+
 const CLAVE_MASCOTA_OCULTA = "dq_mascota_oculta";
 const CLAVE_MASCOTA_SALUDO_SESION = "dq_mascota_saludo_sesion";
 const TIEMPO_INACTIVIDAD_MS = 45000;
@@ -48,7 +57,8 @@ function inicializarMascota() {
   const contenedor = document.getElementById("mascotaFlotante");
   if (!contenedor) return; // esta página no tiene mascota
 
-  if (localStorage.getItem(CLAVE_MASCOTA_OCULTA) === "true") {
+  const ocultaPorElJugador = localStorage.getItem(CLAVE_MASCOTA_OCULTA) === "true";
+  if (!MASCOTA_ACTIVADA_GLOBALMENTE || ocultaPorElJugador) {
     contenedor.classList.add("mascota-flotante--oculta");
     return;
   }

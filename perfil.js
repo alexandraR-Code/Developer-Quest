@@ -11,10 +11,19 @@ function renderizarInfoPersonal() {
     : "Miembro desde -";
 }
 
+const LONGITUD_MAXIMA_NOMBRE = 40;
+
 document.getElementById("botonEditarNombre").addEventListener("click", () => {
   const nuevoNombre = prompt("¿Cómo quieres que te llamemos?", nombreJugador);
   if (!nuevoNombre || !nuevoNombre.trim()) return;
-  localStorage.setItem("dq_nombre_jugador", nuevoNombre.trim());
+
+  const nombreLimpio = nuevoNombre.trim();
+  if (nombreLimpio.length > LONGITUD_MAXIMA_NOMBRE) {
+    alert(`Tu nombre es muy largo (máximo ${LONGITUD_MAXIMA_NOMBRE} caracteres).`);
+    return;
+  }
+
+  localStorage.setItem("dq_nombre_jugador", nombreLimpio);
   window.location.reload();
 });
 
@@ -125,44 +134,21 @@ document.querySelectorAll(".filtro-medallas__boton").forEach((boton) => {
 
 // ===== CERTIFICADOS (RF-015) =====
 // La generación de los PDF (obtenerNumeroCertificado, generarCertificadoBase,
-// generarCertificadoPDF/Fase1PDF/Nivel5PDF) vive en certificados.js,
-// compartida con reto.js.
-function renderizarCertificadoFase1() {
-  aplicarProgresoReal();
-  const fase1Completa = [1, 2].every(
-    (id) => calcularProgresoNivel(niveles.find((n) => n.id === id)).estadoGeneral === "completado"
-  );
-  const bloque = document.getElementById("bloqueCertificadoFase1");
-
-  if (!fase1Completa) {
-    bloque.innerHTML = `<p class="texto-vacio">Completa los Niveles 1 y 2 para desbloquear tu certificado de la Fase 1.</p>`;
-    return;
-  }
-
-  bloque.innerHTML = `
-    <p>¡Excelente! Completaste la Fase 1 de TEAM CODER EXPERIENCE: Fundamentos de HTML.</p>
-    <button class="boton-estado" id="botonDescargarCertificadoFase1"><i class="fa-solid fa-download"></i> Descargar Certificado</button>
-  `;
-
-  document.getElementById("botonDescargarCertificadoFase1").addEventListener("click", () => {
-    generarCertificadoFase1PDF();
-    localStorage.setItem("dq_certificado_fase1_descargado", "true");
-  });
-}
+// generarCertificadoPDF/Nivel5PDF) vive en certificados.js, compartida con reto.js.
 function renderizarCertificadoNivel5() {
   aplicarProgresoReal();
-  const fase2Completa = [3, 4, 5].every(
+  const fase1Completa = [1, 2, 3, 4, 5].every(
     (id) => calcularProgresoNivel(niveles.find((n) => n.id === id)).estadoGeneral === "completado"
   );
   const bloque = document.getElementById("bloqueCertificadoNivel5");
 
-  if (!fase2Completa) {
-    bloque.innerHTML = `<p class="texto-vacio">Completa los Niveles 3, 4 y 5 para desbloquear tu certificado de la Fase 2.</p>`;
+  if (!fase1Completa) {
+    bloque.innerHTML = `<p class="texto-vacio">Completa los Niveles 1 al 5 para desbloquear tu certificado de la Fase 1.</p>`;
     return;
   }
 
   bloque.innerHTML = `
-    <p>¡Excelente! Completaste la Fase 2 de TEAM CODER EXPERIENCE: CSS y JavaScript Básico.</p>
+    <p>¡Excelente! Completaste la Fase 1 de TEAM CODER EXPERIENCE: Fundamentos de HTML, CSS y JavaScript.</p>
     <button class="boton-estado" id="botonDescargarCertificadoNivel5"><i class="fa-solid fa-download"></i> Descargar Certificado</button>
   `;
 
@@ -202,6 +188,5 @@ const historialRetos = recopilarHistorialRetos();
 renderizarGraficoSemanas(historialRetos);
 renderizarHistorial(historialRetos);
 renderizarGaleriaMedallas("todos");
-renderizarCertificadoFase1();
 renderizarCertificadoNivel5();
 renderizarCertificado();
