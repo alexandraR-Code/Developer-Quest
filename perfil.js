@@ -124,9 +124,9 @@ document.querySelectorAll(".filtro-medallas__boton").forEach((boton) => {
 });
 
 // ===== CERTIFICADOS (RF-015) =====
-// La generación de los PDF (obtenerNumeroCertificado, generarCertificadoPDF,
-// obtenerNumeroCertificadoFase1, generarCertificadoFase1PDF) vive en
-// certificados.js, compartida con reto.js.
+// La generación de los PDF (obtenerNumeroCertificado, generarCertificadoBase,
+// generarCertificadoPDF/Fase1PDF/Nivel5PDF) vive en certificados.js,
+// compartida con reto.js.
 function renderizarCertificadoFase1() {
   aplicarProgresoReal();
   const fase1Completa = [1, 2].every(
@@ -149,6 +149,29 @@ function renderizarCertificadoFase1() {
     localStorage.setItem("dq_certificado_fase1_descargado", "true");
   });
 }
+function renderizarCertificadoNivel5() {
+  aplicarProgresoReal();
+  const fase2Completa = [3, 4, 5].every(
+    (id) => calcularProgresoNivel(niveles.find((n) => n.id === id)).estadoGeneral === "completado"
+  );
+  const bloque = document.getElementById("bloqueCertificadoNivel5");
+
+  if (!fase2Completa) {
+    bloque.innerHTML = `<p class="texto-vacio">Completa los Niveles 3, 4 y 5 para desbloquear tu certificado de la Fase 2.</p>`;
+    return;
+  }
+
+  bloque.innerHTML = `
+    <p>¡Excelente! Completaste la Fase 2 de TEAM CODER EXPERIENCE: CSS y JavaScript Básico.</p>
+    <button class="boton-estado" id="botonDescargarCertificadoNivel5"><i class="fa-solid fa-download"></i> Descargar Certificado</button>
+  `;
+
+  document.getElementById("botonDescargarCertificadoNivel5").addEventListener("click", () => {
+    generarCertificadoNivel5PDF();
+    localStorage.setItem("dq_certificado_nivel5_descargado", "true");
+  });
+}
+
 
 function renderizarCertificado() {
   const nivelesCompletados = niveles.filter((n) => calcularProgresoNivel(n).estadoGeneral === "completado").length;
@@ -180,4 +203,5 @@ renderizarGraficoSemanas(historialRetos);
 renderizarHistorial(historialRetos);
 renderizarGaleriaMedallas("todos");
 renderizarCertificadoFase1();
+renderizarCertificadoNivel5();
 renderizarCertificado();

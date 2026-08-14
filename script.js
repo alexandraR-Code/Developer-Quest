@@ -29,7 +29,6 @@ function generarEstrellasHtml(cantidad, total = 3) {
 const ESPACIO_VERTICAL = 134;
 const MARGEN_SUPERIOR = 80;
 const FRACCION_AMPLITUD = 0.38;
-const RADIO_NODO_NORMAL = 50;
 const RADIO_NODO_ACTUAL = 58;
 const MARGEN_SEGURO_BORDE = 14;
 

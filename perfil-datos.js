@@ -10,8 +10,8 @@ function recopilarHistorialRetos() {
       if (reto.estado !== "completado") return;
       const numeroReto = indice + 1;
 
-      const puntos = parseInt(localStorage.getItem(`dq_puntos_nivel${nivel.id}_reto${numeroReto}`), 10);
-      const duracionMs = parseInt(localStorage.getItem(`dq_duracion_nivel${nivel.id}_reto${numeroReto}`), 10);
+      const puntos = parseInt(localStorage.getItem(claveReto("puntos", nivel.id, numeroReto)), 10);
+      const duracionMs = parseInt(localStorage.getItem(claveReto("duracion", nivel.id, numeroReto)), 10);
 
       historial.push({
         nivelId: nivel.id,
@@ -19,7 +19,7 @@ function recopilarHistorialRetos() {
         nombreReto: reto.nombre,
         estrellas: reto.estrellas,
         puntos: Number.isNaN(puntos) ? null : puntos,
-        fecha: localStorage.getItem(`dq_fecha_nivel${nivel.id}_reto${numeroReto}`) || null,
+        fecha: localStorage.getItem(claveReto("fecha", nivel.id, numeroReto)) || null,
         duracionMs: Number.isNaN(duracionMs) ? null : duracionMs,
       });
     });

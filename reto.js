@@ -19,15 +19,15 @@ const numeroRetoSolicitado = parseInt(parametrosUrl.get("reto"), 10) || 1;
 const numeroReto = Math.min(Math.max(numeroRetoSolicitado, 1), totalRetosDelNivel);
 const retoActual = nivelActual.retos[numeroReto];
 
-const CLAVE_ALMACENAMIENTO = `dq_progreso_nivel${numeroNivel}_reto${numeroReto}`;
-const CLAVE_ESTADO = `dq_estado_nivel${numeroNivel}_reto${numeroReto}`;
-const CLAVE_ESTRELLAS = `dq_estrellas_nivel${numeroNivel}_reto${numeroReto}`;
-const CLAVE_INTENTOS = `dq_intentos_nivel${numeroNivel}_reto${numeroReto}`;
-const CLAVE_USO_PISTA = `dq_usopista_nivel${numeroNivel}_reto${numeroReto}`;
-const CLAVE_RAPIDO = `dq_rapido_nivel${numeroNivel}_reto${numeroReto}`;
-const CLAVE_PUNTOS = `dq_puntos_nivel${numeroNivel}_reto${numeroReto}`;
-const CLAVE_FECHA = `dq_fecha_nivel${numeroNivel}_reto${numeroReto}`;
-const CLAVE_DURACION = `dq_duracion_nivel${numeroNivel}_reto${numeroReto}`;
+const CLAVE_ALMACENAMIENTO = claveReto("progreso", numeroNivel, numeroReto);
+const CLAVE_ESTADO = claveReto("estado", numeroNivel, numeroReto);
+const CLAVE_ESTRELLAS = claveReto("estrellas", numeroNivel, numeroReto);
+const CLAVE_INTENTOS = claveReto("intentos", numeroNivel, numeroReto);
+const CLAVE_USO_PISTA = claveReto("usopista", numeroNivel, numeroReto);
+const CLAVE_RAPIDO = claveReto("rapido", numeroNivel, numeroReto);
+const CLAVE_PUNTOS = claveReto("puntos", numeroNivel, numeroReto);
+const CLAVE_FECHA = claveReto("fecha", numeroNivel, numeroReto);
+const CLAVE_DURACION = claveReto("duracion", numeroNivel, numeroReto);
 
 // Para el catálogo de medallas (RF-009): solo se registran intentos, pistas
 // y velocidad la primera vez que se completa el reto, no en revisitas.
@@ -231,6 +231,7 @@ const contenedorMedallasNuevas = document.getElementById("medallasNuevas");
 
 let retoYaCompletado = false;
 let temporizadorCompletitud = null;
+let hypeMascotaMostrado = false;
 
 function actualizarPanelValidacion(codigo) {
   const resultados = retoActual.criterios.map((criterio) => ({
@@ -250,6 +251,12 @@ function actualizarPanelValidacion(codigo) {
 
   barraCriterios.style.width = `${porcentaje}%`;
   textoCriterios.textContent = `${cumplidos} de ${resultados.length} criterios cumplidos`;
+
+  // La mascota anima al jugador la primera vez que va a medio camino.
+  if (!hypeMascotaMostrado && porcentaje >= 50 && porcentaje < 100 && typeof reaccionarMascota === "function") {
+    hypeMascotaMostrado = true;
+    reaccionarMascota("hype");
+  }
 
   manejarPosibleCompletitud(cumplidos === resultados.length);
 }
@@ -309,6 +316,10 @@ function mostrarBannerExito() {
   botonSiguiente.addEventListener("click", irAlSiguienteReto, { once: true });
 
   verificarCertificadoFase1();
+  verificarCertificadoNivel5();
+  verificarCertificadoFinal();
+
+  if (typeof reaccionarMascota === "function") reaccionarMascota("win");
 }
 
 // Al terminar el último reto del Nivel 2, si con eso se completa la Fase 1
@@ -341,6 +352,65 @@ function mostrarModalCertificadoFase1() {
 
   document.getElementById("botonCerrarModalCertificado").addEventListener("click", cerrarModal, { once: true });
   document.getElementById("botonContinuarModal").addEventListener("click", cerrarModal, { once: true });
+}
+function verificarCertificadoNivel5() {
+  if (numeroNivel !== 5 || !esUltimoReto) return;
+
+  aplicarProgresoReal();
+  const fase2Completa = [3, 4, 5].every(
+    (id) => calcularProgresoNivel(niveles.find((n) => n.id === id)).estadoGeneral === "completado"
+  );
+  const yaVioModal = localStorage.getItem("dq_certificado_nivel5_popup_mostrado") === "true";
+  if (!fase2Completa || yaVioModal) return;
+
+  localStorage.setItem("dq_certificado_nivel5_popup_mostrado", "true");
+  mostrarModalCertificadoNivel5();
+}
+
+function mostrarModalCertificadoNivel5() {
+  const modal = document.getElementById("modalCertificadoNivel5");
+  modal.classList.add("visible");
+
+  const cerrarModal = () => modal.classList.remove("visible");
+
+  document.getElementById("botonDescargarCertificadoModalNivel5").addEventListener("click", () => {
+    generarCertificadoNivel5PDF();
+    localStorage.setItem("dq_certificado_nivel5_descargado", "true");
+  }, { once: true });
+
+  document.getElementById("botonCerrarModalCertificadoNivel5").addEventListener("click", cerrarModal, { once: true });
+  document.getElementById("botonContinuarModalNivel5").addEventListener("click", cerrarModal, { once: true });
+}
+
+// Al terminar el último reto del Nivel 10, si con eso se completa el
+// programa entero, se muestra el certificado de finalización una sola vez.
+function verificarCertificadoFinal() {
+  if (numeroNivel !== 10 || !esUltimoReto) return;
+
+  aplicarProgresoReal();
+  const programaCompleto = niveles.every(
+    (n) => calcularProgresoNivel(n).estadoGeneral === "completado"
+  );
+  const yaVioModal = localStorage.getItem("dq_certificado_final_popup_mostrado") === "true";
+  if (!programaCompleto || yaVioModal) return;
+
+  localStorage.setItem("dq_certificado_final_popup_mostrado", "true");
+  mostrarModalCertificadoFinal();
+}
+
+function mostrarModalCertificadoFinal() {
+  const modal = document.getElementById("modalCertificadoFinal");
+  modal.classList.add("visible");
+
+  const cerrarModal = () => modal.classList.remove("visible");
+
+  document.getElementById("botonDescargarCertificadoModalFinal").addEventListener("click", () => {
+    generarCertificadoPDF();
+    localStorage.setItem("dq_certificado_descargado", "true");
+  }, { once: true });
+
+  document.getElementById("botonCerrarModalCertificadoFinal").addEventListener("click", cerrarModal, { once: true });
+  document.getElementById("botonContinuarModalFinal").addEventListener("click", cerrarModal, { once: true });
 }
 
 // RF-009.2: notifica de inmediato cualquier medalla recién desbloqueada.
@@ -389,6 +459,10 @@ document.querySelectorAll(".item-ayuda__boton").forEach((boton) => {
       desbloquearPistaNivel2();
     } else if (nivelPista === "3" && !pistasUsadas.nivel3) {
       pistasUsadas.nivel3 = true;
+    }
+
+    if (item.classList.contains("abierto") && typeof reaccionarMascota === "function") {
+      reaccionarMascota("think");
     }
   });
 });

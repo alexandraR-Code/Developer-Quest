@@ -5,7 +5,7 @@
   justify-content: center;
   padding: 20px;
   background:
-    radial-gradient(circle at 1px 1px, rgba(136, 30, 128, 0.07) 1px, transparent 0) 0 0 / 22px 22px,
+    var(--patron-puntos),
     linear-gradient(160deg, var(--fondo), var(--morado-claro));
 }
 
@@ -26,14 +26,6 @@
   height: auto;
   display: block;
   margin: 0 auto 50px;
-}
-
-.logo-marca--grande {
-  width: 64px;
-  height: 64px;
-  margin: 0 auto 18px;
-  font-size: 26px;
-  border-radius: 18px;
 }
 
 .tarjeta-bienvenida h1 {

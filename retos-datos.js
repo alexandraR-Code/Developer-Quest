@@ -7,6 +7,13 @@ function textoNoVacioEntre(codigo, etiquetaApertura, etiquetaCierre) {
   return coincidencia ? coincidencia[1].trim() : null;
 }
 
+// Extrae el contenido entre <style> y </style> del código del jugador; "" si no hay <style>.
+// Compartido por los criterios de validación de CSS de todos los retos.
+function contenidoEstilo(c) {
+  const m = c.match(/<style>([\s\S]*?)<\/style>/i);
+  return m ? m[1] : "";
+}
+
 const datosNiveles = {
   1: {
     nombre: "Introducción a HTML",
@@ -504,9 +511,9 @@ const datosNiveles = {
   </body>
 </html>`,
         criterios: [
-          { descripcion: "Existe un &lt;style&gt; con contenido", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && m[1].trim().length > 0); } },
-          { descripcion: "Usas la propiedad color", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /\bcolor\s*:/i.test(m[1])); } },
-          { descripcion: "Usas la propiedad background-color", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /background-color\s*:/i.test(m[1])); } },
+          { descripcion: "Existe un &lt;style&gt; con contenido", cumple: (c) => contenidoEstilo(c).trim().length > 0 },
+          { descripcion: "Usas la propiedad color", cumple: (c) => /\bcolor\s*:/i.test(contenidoEstilo(c)) },
+          { descripcion: "Usas la propiedad background-color", cumple: (c) => /background-color\s*:/i.test(contenidoEstilo(c)) },
         ],
         pistaGeneral: "Dentro de &lt;style&gt;, escribe un selector (como h1 o p) seguido de llaves { }, y dentro las propiedades color: [tu color]; y background-color: [tu color];",
         pistaCodigo: `h1 {
@@ -557,9 +564,9 @@ p {
   </body>
 </html>`,
         criterios: [
-          { descripcion: "Existe un &lt;style&gt; con contenido", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && m[1].trim().length > 0); } },
-          { descripcion: "Usas la propiedad font-family", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /font-family\s*:/i.test(m[1])); } },
-          { descripcion: "Usas la propiedad font-size", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /font-size\s*:/i.test(m[1])); } },
+          { descripcion: "Existe un &lt;style&gt; con contenido", cumple: (c) => contenidoEstilo(c).trim().length > 0 },
+          { descripcion: "Usas la propiedad font-family", cumple: (c) => /font-family\s*:/i.test(contenidoEstilo(c)) },
+          { descripcion: "Usas la propiedad font-size", cumple: (c) => /font-size\s*:/i.test(contenidoEstilo(c)) },
         ],
         pistaGeneral: "font-family cambia el tipo de letra (por ejemplo Arial) y font-size cambia el tamaño (por ejemplo 20px).",
         pistaCodigo: `p {
@@ -608,9 +615,9 @@ p {
   </body>
 </html>`,
         criterios: [
-          { descripcion: "Existe un &lt;style&gt; con contenido", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && m[1].trim().length > 0); } },
-          { descripcion: "Usas la propiedad margin", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /\bmargin\s*:/i.test(m[1])); } },
-          { descripcion: "Usas la propiedad padding", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /\bpadding\s*:/i.test(m[1])); } },
+          { descripcion: "Existe un &lt;style&gt; con contenido", cumple: (c) => contenidoEstilo(c).trim().length > 0 },
+          { descripcion: "Usas la propiedad margin", cumple: (c) => /\bmargin\s*:/i.test(contenidoEstilo(c)) },
+          { descripcion: "Usas la propiedad padding", cumple: (c) => /\bpadding\s*:/i.test(contenidoEstilo(c)) },
         ],
         pistaGeneral: "margin: [valor]px; aleja el elemento de sus vecinos. padding: [valor]px; agranda el espacio interno entre el borde y el contenido.",
         pistaCodigo: `.caja {
@@ -656,9 +663,9 @@ p {
   </body>
 </html>`,
         criterios: [
-          { descripcion: "Existe un &lt;style&gt; con contenido", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && m[1].trim().length > 0); } },
-          { descripcion: "Usas la propiedad border", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /\bborder\s*:/i.test(m[1])); } },
-          { descripcion: "Usas la propiedad box-shadow", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /box-shadow\s*:/i.test(m[1])); } },
+          { descripcion: "Existe un &lt;style&gt; con contenido", cumple: (c) => contenidoEstilo(c).trim().length > 0 },
+          { descripcion: "Usas la propiedad border", cumple: (c) => /\bborder\s*:/i.test(contenidoEstilo(c)) },
+          { descripcion: "Usas la propiedad box-shadow", cumple: (c) => /box-shadow\s*:/i.test(contenidoEstilo(c)) },
         ],
         pistaGeneral: "border: [grosor]px solid [color]; dibuja un borde. box-shadow: [x] [y] [difuminado] [color]; agrega una sombra, por ejemplo box-shadow: 2px 2px 8px gray;",
         pistaCodigo: `.tarjeta {
@@ -705,9 +712,9 @@ p {
   </body>
 </html>`,
         criterios: [
-          { descripcion: "Existe un &lt;style&gt; con contenido", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && m[1].trim().length > 0); } },
-          { descripcion: "Usas un selector de clase (.algo)", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /\.[a-zA-Z_][\w-]*\s*\{/.test(m[1])); } },
-          { descripcion: "Usas un selector de id (#algo)", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /#[a-zA-Z_][\w-]*\s*\{/.test(m[1])); } },
+          { descripcion: "Existe un &lt;style&gt; con contenido", cumple: (c) => contenidoEstilo(c).trim().length > 0 },
+          { descripcion: "Usas un selector de clase (.algo)", cumple: (c) => /\.[a-zA-Z_][\w-]*\s*\{/.test(contenidoEstilo(c)) },
+          { descripcion: "Usas un selector de id (#algo)", cumple: (c) => /#[a-zA-Z_][\w-]*\s*\{/.test(contenidoEstilo(c)) },
           { descripcion: "El HTML tiene un elemento con class y otro con id", cumple: (c) => /\sclass\s*=\s*["'][^"']+["']/i.test(c) && /\sid\s*=\s*["'][^"']+["']/i.test(c) },
         ],
         pistaGeneral: "En el CSS, .miClase { } aplica a cualquier elemento con class=\"miClase\". #miId { } aplica al elemento con id=\"miId\".",
@@ -771,10 +778,10 @@ p {
   </body>
 </html>`,
         criterios: [
-          { descripcion: "Existe un &lt;style&gt; con contenido", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && m[1].trim().length > 0); } },
-          { descripcion: "Usas display: flex", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /display\s*:\s*flex/i.test(m[1])); } },
-          { descripcion: "Usas la propiedad justify-content", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /justify-content\s*:/i.test(m[1])); } },
-          { descripcion: "Usas la propiedad align-items", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /align-items\s*:/i.test(m[1])); } },
+          { descripcion: "Existe un &lt;style&gt; con contenido", cumple: (c) => contenidoEstilo(c).trim().length > 0 },
+          { descripcion: "Usas display: flex", cumple: (c) => /display\s*:\s*flex/i.test(contenidoEstilo(c)) },
+          { descripcion: "Usas la propiedad justify-content", cumple: (c) => /justify-content\s*:/i.test(contenidoEstilo(c)) },
+          { descripcion: "Usas la propiedad align-items", cumple: (c) => /align-items\s*:/i.test(contenidoEstilo(c)) },
         ],
         pistaGeneral: "display: flex; convierte a .contenedor en un contenedor flexible. justify-content alinea horizontalmente (por ejemplo center o space-between) y align-items alinea verticalmente (por ejemplo center).",
         pistaCodigo: `.contenedor {
@@ -837,10 +844,10 @@ p {
   </body>
 </html>`,
         criterios: [
-          { descripcion: "Existe un &lt;style&gt; con contenido", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && m[1].trim().length > 0); } },
-          { descripcion: "Usas display: grid", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /display\s*:\s*grid/i.test(m[1])); } },
-          { descripcion: "Usas la propiedad grid-template-columns", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /grid-template-columns\s*:/i.test(m[1])); } },
-          { descripcion: "Usas la propiedad gap", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /\bgap\s*:/i.test(m[1])); } },
+          { descripcion: "Existe un &lt;style&gt; con contenido", cumple: (c) => contenidoEstilo(c).trim().length > 0 },
+          { descripcion: "Usas display: grid", cumple: (c) => /display\s*:\s*grid/i.test(contenidoEstilo(c)) },
+          { descripcion: "Usas la propiedad grid-template-columns", cumple: (c) => /grid-template-columns\s*:/i.test(contenidoEstilo(c)) },
+          { descripcion: "Usas la propiedad gap", cumple: (c) => /\bgap\s*:/i.test(contenidoEstilo(c)) },
         ],
         pistaGeneral: "display: grid; convierte a .cuadricula en una cuadrícula. grid-template-columns: repeat(2, 1fr); crea 2 columnas iguales. gap: [valor]px; separa las celdas.",
         pistaCodigo: `.cuadricula {
@@ -900,10 +907,10 @@ p {
   </body>
 </html>`,
         criterios: [
-          { descripcion: "Existe un &lt;style&gt; con contenido", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && m[1].trim().length > 0); } },
-          { descripcion: "Usas position: relative", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /position\s*:\s*relative/i.test(m[1])); } },
-          { descripcion: "Usas position: absolute", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /position\s*:\s*absolute/i.test(m[1])); } },
-          { descripcion: "Ubicas el elemento absoluto con top, left, right o bottom", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /\b(top|left|right|bottom)\s*:/i.test(m[1])); } },
+          { descripcion: "Existe un &lt;style&gt; con contenido", cumple: (c) => contenidoEstilo(c).trim().length > 0 },
+          { descripcion: "Usas position: relative", cumple: (c) => /position\s*:\s*relative/i.test(contenidoEstilo(c)) },
+          { descripcion: "Usas position: absolute", cumple: (c) => /position\s*:\s*absolute/i.test(contenidoEstilo(c)) },
+          { descripcion: "Ubicas el elemento absoluto con top, left, right o bottom", cumple: (c) => /\b(top|left|right|bottom)\s*:/i.test(contenidoEstilo(c)) },
         ],
         pistaGeneral: ".tarjeta necesita position: relative; para servir de referencia. .etiqueta necesita position: absolute; junto con top y/o right (por ejemplo top: 0; right: 0;) para ubicarse en una esquina.",
         pistaCodigo: `.tarjeta {
@@ -970,10 +977,10 @@ p {
   </body>
 </html>`,
         criterios: [
-          { descripcion: "Existe un &lt;style&gt; con contenido", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && m[1].trim().length > 0); } },
-          { descripcion: "Usas @media", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /@media/i.test(m[1])); } },
-          { descripcion: "La media query usa max-width o min-width", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /@media\s*\([^)]*\b(max-width|min-width)\b/i.test(m[1])); } },
-          { descripcion: "Dentro de la media query cambias al menos una propiedad", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /@media[^{]*\{\s*[^{}]+\{[^{}]*:[^{}]*\}\s*\}/i.test(m[1])); } },
+          { descripcion: "Existe un &lt;style&gt; con contenido", cumple: (c) => contenidoEstilo(c).trim().length > 0 },
+          { descripcion: "Usas @media", cumple: (c) => /@media/i.test(contenidoEstilo(c)) },
+          { descripcion: "La media query usa max-width o min-width", cumple: (c) => /@media\s*\([^)]*\b(max-width|min-width)\b/i.test(contenidoEstilo(c)) },
+          { descripcion: "Dentro de la media query cambias al menos una propiedad", cumple: (c) => /@media[^{]*\{\s*[^{}]+\{[^{}]*:[^{}]*\}\s*\}/i.test(contenidoEstilo(c)) },
         ],
         pistaGeneral: "@media (max-width: 600px) { .caja { background-color: orange; } } cambia el fondo de .caja solo cuando la pantalla mide 600px o menos.",
         pistaCodigo: `@media (max-width: 600px) {
@@ -1029,10 +1036,10 @@ p {
   </body>
 </html>`,
         criterios: [
-          { descripcion: "Existe un &lt;style&gt; con contenido", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && m[1].trim().length > 0); } },
-          { descripcion: "Usas display: flex o display: grid", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /display\s*:\s*(flex|grid)/i.test(m[1])); } },
-          { descripcion: "Usas @media con max-width o min-width", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /@media\s*\([^)]*\b(max-width|min-width)\b/i.test(m[1])); } },
-          { descripcion: "Dentro de la media query cambias flex-direction o grid-template-columns", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /@media[^{]*\{\s*[^{}]+\{[^{}]*(flex-direction|grid-template-columns)\s*:[^{}]*\}\s*\}/i.test(m[1])); } },
+          { descripcion: "Existe un &lt;style&gt; con contenido", cumple: (c) => contenidoEstilo(c).trim().length > 0 },
+          { descripcion: "Usas display: flex o display: grid", cumple: (c) => /display\s*:\s*(flex|grid)/i.test(contenidoEstilo(c)) },
+          { descripcion: "Usas @media con max-width o min-width", cumple: (c) => /@media\s*\([^)]*\b(max-width|min-width)\b/i.test(contenidoEstilo(c)) },
+          { descripcion: "Dentro de la media query cambias flex-direction o grid-template-columns", cumple: (c) => /@media[^{]*\{\s*[^{}]+\{[^{}]*(flex-direction|grid-template-columns)\s*:[^{}]*\}\s*\}/i.test(contenidoEstilo(c)) },
         ],
         pistaGeneral: "Usa display: flex (o grid) para el layout normal, y dentro de @media (max-width: ...) cambia flex-direction a column (o grid-template-columns a una sola columna) para pantallas angostas.",
         pistaCodigo: `.contenedor {
@@ -2421,8 +2428,8 @@ guardar.addEventListener("click", function () {
 </html>`,
         criterios: [
           { descripcion: "Tiene las etiquetas semánticas header, main y footer", cumple: (c) => /<header[\s>]/i.test(c) && /<main[\s>]/i.test(c) && /<footer[\s>]/i.test(c) },
-          { descripcion: "Tiene CSS dentro de una etiqueta style con al menos 3 reglas", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && (m[1].match(/\{[^}]+\}/g) || []).length >= 3); } },
-          { descripcion: "El CSS aplica al menos un color (color o background-color)", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && /(color|background-color)\s*:/i.test(m[1])); } },
+          { descripcion: "Tiene CSS dentro de una etiqueta style con al menos 3 reglas", cumple: (c) => (contenidoEstilo(c).match(/\{[^}]+\}/g) || []).length >= 3 },
+          { descripcion: "El CSS aplica al menos un color (color o background-color)", cumple: (c) => /(color|background-color)\s*:/i.test(contenidoEstilo(c)) },
           { descripcion: "El main tiene contenido (al menos un elemento HTML dentro)", cumple: (c) => { const m = c.match(/<main[^>]*>([\s\S]*?)<\/main>/i); return !!(m && /<[a-z]/i.test(m[1])); } },
         ],
         pistaGeneral: "Pon tu &lt;header&gt; con el nombre del proyecto, en &lt;main&gt; el contenido central (inputs, botones, listas), y en &lt;footer&gt; tu nombre como autora. Dentro de &lt;style&gt; escribe al menos 3 reglas CSS.",
@@ -2700,7 +2707,7 @@ mensajeError.textContent = "";
 </html>`,
         criterios: [
           { descripcion: "Tiene estructura semántica completa: header, main y footer con contenido", cumple: (c) => { const h = c.match(/<header[^>]*>([\s\S]*?)<\/header>/i); const m = c.match(/<main[^>]*>([\s\S]*?)<\/main>/i); const f = c.match(/<footer[^>]*>([\s\S]*?)<\/footer>/i); return !!(h && h[1].trim() && m && m[1].trim() && f && f[1].trim()); } },
-          { descripcion: "Tiene CSS con al menos 4 reglas de estilo propias", cumple: (c) => { const m = c.match(/<style>([\s\S]*?)<\/style>/i); return !!(m && (m[1].match(/\{[^}]+\}/g) || []).length >= 4); } },
+          { descripcion: "Tiene CSS con al menos 4 reglas de estilo propias", cumple: (c) => (contenidoEstilo(c).match(/\{[^}]+\}/g) || []).length >= 4 },
           { descripcion: "Tiene JavaScript con addEventListener y modificación del DOM", cumple: (c) => /addEventListener\s*\(/.test(c) && /\.(textContent|innerHTML|appendChild|classList)\s*[=(]/.test(c) },
           { descripcion: "Tiene validación: un if que controla el flujo según los datos del usuario", cumple: (c) => /\bif\s*\(/.test(c) && (/\.value/.test(c) || /\.length/.test(c) || /\.trim\s*\(\s*\)/.test(c)) },
         ],

@@ -80,6 +80,14 @@ function nombresRetosVacios(nombres) {
   return nombres.map((nombre) => ({ nombre, estado: "no-iniciado", estrellas: 0 }));
 }
 
+// Nombre de la clave de localStorage para un dato de un reto puntual (ej.
+// "estado", "estrellas", "puntos"...). Compartida por niveles-datos.js,
+// reto.js, perfil-datos.js y medallas-datos.js para que todas generen
+// exactamente la misma clave para el mismo dato.
+function claveReto(sufijo, idNivel, numeroReto) {
+  return `dq_${sufijo}_nivel${idNivel}_reto${numeroReto}`;
+}
+
 // Regla de negocio RN-001: un nivel se desbloquea cuando el anterior llega al 80%.
 function calcularProgresoNivel(nivel) {
   const retosCompletados = nivel.retos.filter((r) => r.estado === "completado").length;
@@ -110,11 +118,11 @@ function aplicarProgresoReal() {
   niveles.forEach((nivel) => {
     nivel.retos.forEach((reto, indice) => {
       const numeroReto = indice + 1;
-      const estadoGuardado = localStorage.getItem(`dq_estado_nivel${nivel.id}_reto${numeroReto}`);
+      const estadoGuardado = localStorage.getItem(claveReto("estado", nivel.id, numeroReto));
       if (!estadoGuardado) return;
 
       reto.estado = estadoGuardado;
-      const estrellasGuardadas = localStorage.getItem(`dq_estrellas_nivel${nivel.id}_reto${numeroReto}`);
+      const estrellasGuardadas = localStorage.getItem(claveReto("estrellas", nivel.id, numeroReto));
       if (estrellasGuardadas) reto.estrellas = parseInt(estrellasGuardadas, 10);
     });
   });

@@ -8,10 +8,6 @@
 
 const CLAVE_MEDALLAS_DESBLOQUEADAS = "dq_medallas_desbloqueadas";
 
-function totalRetos() {
-  return niveles.reduce((suma, nivel) => suma + nivel.retos.length, 0);
-}
-
 function totalRetosCompletados() {
   return niveles.reduce((suma, nivel) => suma + nivel.retos.filter((r) => r.estado === "completado").length, 0);
 }
@@ -34,7 +30,7 @@ function recorrerClavesPorReto(sufijoClave) {
   niveles.forEach((nivel) => {
     nivel.retos.forEach((_, indice) => {
       const numeroReto = indice + 1;
-      valores.push(localStorage.getItem(`dq_${sufijoClave}_nivel${nivel.id}_reto${numeroReto}`));
+      valores.push(localStorage.getItem(claveReto(sufijoClave, nivel.id, numeroReto)));
     });
   });
   return valores;
@@ -51,7 +47,7 @@ function contarRetosRapidos() {
 function nivelCompletadoSinPistas(idNivel) {
   const nivel = niveles.find((n) => n.id === idNivel);
   if (!nivel || calcularProgresoNivel(nivel).estadoGeneral !== "completado") return false;
-  return nivel.retos.every((_, indice) => localStorage.getItem(`dq_usopista_nivel${idNivel}_reto${indice + 1}`) !== "true");
+  return nivel.retos.every((_, indice) => localStorage.getItem(claveReto("usopista", idNivel, indice + 1)) !== "true");
 }
 
 const CATALOGO_MEDALLAS = [

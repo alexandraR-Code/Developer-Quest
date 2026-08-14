@@ -44,6 +44,9 @@
   --peligro: #b04848;
   --peligro-hover-fondo: #fbeaea;
   --estrella-vacia: #ddd6dc;
+
+  /* Capa de puntitos usada como fondo en varias pantallas (body, bienvenida) */
+  --patron-puntos: radial-gradient(circle at 1px 1px, rgba(136, 30, 128, 0.07) 1px, transparent 0) 0 0 / 22px 22px;
 }
 
 /* ===== TEMA OSCURO (RF-016.1), activado desde Configuración ===== */
@@ -78,7 +81,7 @@
 body {
   font-family: var(--fuente-texto);
   background:
-    radial-gradient(circle at 1px 1px, rgba(136, 30, 128, 0.07) 1px, transparent 0) 0 0 / 22px 22px,
+    var(--patron-puntos),
     var(--fondo);
   color: var(--texto);
 }
@@ -113,12 +116,6 @@ button {
   align-items: center;
   gap: 8px;
   color: var(--morado-oscuro-texto);
-}
-
-.panel__encabezado {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 
 .texto-vacio {
